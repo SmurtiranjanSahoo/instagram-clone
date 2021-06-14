@@ -218,8 +218,8 @@ input:not(:focus):valid ~ .floating-label {
 }
 .signup-tc {
   width: 268px;
-  height: 32px;
-  margin: 8px 40px;
+  /* height: 32px; */
+  margin: -22px 40px;
   color: #8e8e8e;
   font-size: 12px;
   text-align: center;

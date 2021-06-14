@@ -67,16 +67,16 @@ const Signup = () => {
                   <span className="floating-label">Password</span>
                 </span>
               </div>
-              <button style={{ height: "30px" }} className="login-button">
+              <button disabled className="login-button">
                 Sign up
               </button>
-              <div className="signup-tc">
-                By signing up, you agree to our{" "}
-                <span className="signup-tc-bold"> Terms</span> ,
-                <span className="signup-tc-bold"> Data Policy</span> and{" "}
-                <span className="signup-tc-bold"> Cookies Policy</span> .
-              </div>
             </form>
+            <div className="signup-tc">
+              By signing up, you agree to our{" "}
+              <span className="signup-tc-bold"> Terms</span> ,
+              <span className="signup-tc-bold"> Data Policy</span> and{" "}
+              <span className="signup-tc-bold"> Cookies Policy</span> .
+            </div>
           </div>
           <div className="login-card-2">
             <div className="login-card-2-text">
