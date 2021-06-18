@@ -5,7 +5,9 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <h1>Home</h1>
+      <div style={{ background: "#fafafa", width: "100vw", height: "100vh" }}>
+        {/* <h1>Home</h1> */}
+      </div>
     </div>
   );
 };

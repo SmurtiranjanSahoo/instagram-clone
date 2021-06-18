@@ -12,9 +12,11 @@ import likeS from "../Images/like-select.svg";
 import InstaLogo from "../Images/Instagram-written-logo.svg";
 
 import { BiSearch } from "react-icons/bi";
+import { MdClear } from "react-icons/md";
 
 const Header = () => {
-  const [searchtext, setSearchtext] = useState("Search");
+  const [searchtext, setSearchtext] = useState("");
+  const [searchIcon, setSearchIcon] = useState("hidden");
 
   return (
     <div className="header-wrapper">
@@ -34,19 +36,59 @@ const Header = () => {
               onChange={(e) => {
                 setSearchtext(e.target.value);
               }}
-              // onBlur={searchtext ? (value = "") : searchtext}
+              onBlur={(e) => {
+                e.target.value = "";
+              }}
+              onFocus={(e) => {
+                e.target.value = searchtext;
+                setSearchIcon("visible");
+              }}
+              onBlurCapture={() => {
+                setSearchIcon("hidden");
+              }}
             />
+            <span
+              className="search-clear"
+              style={{
+                position: "absolute",
+                margin: "7px 0 0 -22px",
+              }}
+              onClick={() => {
+                setSearchtext("");
+              }}
+            >
+              <div
+                style={{
+                  width: "14px",
+                  height: "14px",
+                  backgroundColor: "#c7c7c7",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  visibility: searchIcon,
+                }}
+              >
+                <MdClear
+                  style={{
+                    color: "#ffffff",
+                    width: "12px",
+                    height: "12px",
+                  }}
+                />
+              </div>
+            </span>
             <span className="floating-searchicon">
               <BiSearch
                 style={{
-                  margin: "4px 5px 0 -10px",
+                  margin: "4px 5px 0 -3px",
                   height: "13px",
                   width: "13px",
                 }}
               />
             </span>
             <span
-              style={{ fontSize: "14px", marginLeft: "7px" }}
+              style={{ fontSize: "14px", marginLeft: "13.5px" }}
               className="floating-searchlabel"
             >
               {searchtext ? searchtext : "Search"}
