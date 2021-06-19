@@ -5,10 +5,19 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <div style={{ background: "#fafafa", width: "100vw", height: "100vh" }}>
-        {/* <h1>Home</h1> */}
-      </div>
+      {/* <div
+        style={{
+          marginTop: "54px",
+          background: "#fafafa",
+          width: "100vw",
+          height: "100vh",
+          overflowY: "scroll",
+        }}
+      > */}
+      <div style={{ marginTop: "54px" }}></div>
+      {/* <h1>Home</h1> */}
     </div>
+    // </div>
   );
 };
 
