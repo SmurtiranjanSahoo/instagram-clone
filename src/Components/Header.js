@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
+import onClickOutside from "react-onclickoutside";
 // svg
 import homeS from "../Images/home-select.svg";
 import home from "../Images/home.svg";
@@ -26,6 +27,7 @@ const Header = () => {
   const profileDrowndown = () => {
     return (
       <div
+        className="profile-drowndown-container"
         style={{
           width: "975px",
           // background: "#000",
@@ -35,6 +37,7 @@ const Header = () => {
         }}
       >
         <div
+          className="profile-drowndown"
           style={{
             width: "230px",
             height: "194px",
@@ -50,6 +53,7 @@ const Header = () => {
           }}
         >
           <div
+            className="profile-drowndown-tip"
             style={{
               width: "13.8px",
               height: "13.8px",
@@ -66,36 +70,59 @@ const Header = () => {
               // zIndex: "-1",
             }}
           ></div>
-          <div className="profile-drowndown-sec">
+          <Link
+            style={{ textDecoration: "none", color: "#262626" }}
+            to="/profile"
+            className="profile-drowndown-sec profile-drowndown-sec1"
+          >
             <img style={{ marginRight: "12px" }} src={Profile} alt="profile" />
             Profile
-          </div>
-          <div className="profile-drowndown-sec">
+          </Link>
+
+          <Link
+            style={{ textDecoration: "none", color: "#262626" }}
+            to="/profile"
+            className="profile-drowndown-sec"
+          >
             <img style={{ marginRight: "12px" }} src={Saved} alt="saved" />{" "}
             Saved
-          </div>
-          <div className="profile-drowndown-sec">
+          </Link>
+          <Link
+            style={{ textDecoration: "none", color: "#262626" }}
+            to="/profile"
+            className="profile-drowndown-sec"
+          >
             <img
               style={{ marginRight: "12px" }}
               src={Settings}
               alt="settings"
             />{" "}
             Settings
-          </div>
-          <div
-            style={{ marginBottom: "4px" }}
+          </Link>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "#262626",
+              marginBottom: "4px",
+            }}
+            to="/profile"
             className="profile-drowndown-sec"
           >
             <img style={{ marginRight: "12px" }} src={Switch} alt="switch" />{" "}
             Switch Accounts
-          </div>
+          </Link>
           <hr />
-          <div
-            style={{ marginBottom: "4px" }}
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "#262626",
+              marginBottom: "4px",
+            }}
+            to="/profile"
             className="profile-drowndown-sec"
           >
             Log Out
-          </div>
+          </Link>
         </div>
       </div>
     );
