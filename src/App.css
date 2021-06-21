@@ -502,7 +502,7 @@ hr {
 /* profile post */
 .profile-post-container {
   width: 935px;
-  background-color: #565656;
+  /* background-color: #565656; */
   display: flex;
   flex-wrap: wrap;
 }
@@ -518,3 +518,21 @@ hr {
   background-color: #262626;
   margin: 0 28px 28px 28px;
 }
+.profile-post-margin:hover,
+.profile-post:hover {
+  opacity: 0.8;
+  /* display: flex; */
+}
+
+/* .profile-post-likecount {
+  width: 100px;
+  height: 100px;
+  background-color: #0095f6;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  
+} */

@@ -4,6 +4,7 @@ import ProfileInfo from "../Components/ProfileInfo";
 import ProfileHighlight from "../Components/ProfileHighlight";
 import ProfileNav from "../Components/ProfileNav";
 import ProfilePost from "../Components/ProfilePost";
+import Footer from "../Components/Footer";
 
 const Profile = () => {
   return (
@@ -31,6 +32,7 @@ const Profile = () => {
           <ProfilePost className={"profile-post-margin"} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

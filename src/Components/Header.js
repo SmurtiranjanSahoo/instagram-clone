@@ -31,9 +31,12 @@ const Header = () => {
         style={{
           width: "975px",
           // background: "#000",
+          marginTop: "53px",
           marginLeft: "auto",
           marginRight: "auto",
-          // position: "relative",
+          position: "absolute",
+          left: 50,
+          right: 50,
         }}
       >
         <div
@@ -41,7 +44,6 @@ const Header = () => {
           style={{
             width: "230px",
             height: "194px",
-            marginTop: "53px",
             marginLeft: "auto",
             backgroundColor: "#ffffff",
             // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
