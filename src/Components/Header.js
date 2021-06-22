@@ -35,8 +35,8 @@ const Header = () => {
           marginLeft: "auto",
           marginRight: "auto",
           position: "absolute",
-          left: 50,
-          right: 50,
+          left: 0,
+          right: 0,
         }}
       >
         <div
