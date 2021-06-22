@@ -83,7 +83,7 @@ const Header = () => {
 
           <Link
             style={{ textDecoration: "none", color: "#262626" }}
-            to="/profile"
+            to="profile/saved"
             className="profile-drowndown-sec"
           >
             <img style={{ marginRight: "12px" }} src={Saved} alt="saved" />{" "}
@@ -91,7 +91,7 @@ const Header = () => {
           </Link>
           <Link
             style={{ textDecoration: "none", color: "#262626" }}
-            to="/profile"
+            to=""
             className="profile-drowndown-sec"
           >
             <img
@@ -107,7 +107,7 @@ const Header = () => {
               color: "#262626",
               marginBottom: "4px",
             }}
-            to="/profile"
+            to=""
             className="profile-drowndown-sec"
           >
             <img style={{ marginRight: "12px" }} src={Switch} alt="switch" />{" "}
@@ -120,7 +120,7 @@ const Header = () => {
               color: "#262626",
               marginBottom: "4px",
             }}
-            to="/profile"
+            to=""
             className="profile-drowndown-sec"
           >
             Log Out

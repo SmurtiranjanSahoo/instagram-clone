@@ -1,9 +1,12 @@
 import React from "react";
+//components
 import Header from "../Components/Header";
 import ProfileInfo from "../Components/ProfileInfo";
 import ProfileHighlight from "../Components/ProfileHighlight";
 import ProfileNav from "../Components/ProfileNav";
 import Footer from "../Components/Footer";
+import ProfilePost from "../Components/ProfilePost";
+//svg
 import savedImgS from "../Images/saved.svg";
 
 const ProfileSaved = () => {
@@ -23,6 +26,22 @@ const ProfileSaved = () => {
           borderSaved="1px solid #000"
           marginSaved="-1px"
         />
+        <div className="profile-saved-text">
+          <p>Only you can see what you've saved</p>
+        </div>
+        <div className="profile-post-container">
+          <ProfilePost />
+          <ProfilePost className={"profile-post-margin"} />
+          <ProfilePost />
+          <ProfilePost />
+          <ProfilePost className={"profile-post-margin"} />
+          <ProfilePost />
+          <ProfilePost />
+          <ProfilePost className={"profile-post-margin"} />
+          <ProfilePost />
+          <ProfilePost />
+          <ProfilePost className={"profile-post-margin"} />
+        </div>
       </div>
       <Footer />
     </div>

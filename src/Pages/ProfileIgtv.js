@@ -8,7 +8,12 @@ import igtvImgS from "../Images/igtv.svg";
 
 const ProfileIgtv = () => {
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div
+      style={{
+        overflowX: "hidden",
+        overflowY: "scroll",
+      }}
+    >
       <Header />
       <div className="profile-container" style={{ marginTop: "54px" }}>
         <ProfileInfo />
@@ -23,6 +28,9 @@ const ProfileIgtv = () => {
           borderIgtv="1px solid #000"
           marginIgtv="-1px"
         />
+        <div className="profile-igtv">
+          <h2>Videos</h2> <button>Upload</button>
+        </div>
       </div>
       <Footer />
     </div>

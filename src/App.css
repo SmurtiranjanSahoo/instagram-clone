@@ -548,3 +548,38 @@ hr {
   font-size: 16px;
   font-weight: 600;
 }
+/* Profile Saved */
+.profile-saved-text {
+  width: 935px;
+  height: 62px;
+  /* background-color: #0095f6; */
+}
+.profile-saved-text p {
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-top: 30px;
+}
+.profile-igtv {
+  width: 935px;
+  height: 46px;
+  display: flex;
+  justify-content: space-between;
+  /* background-color: #262626; */
+}
+.profile-igtv h2 {
+  font-size: 14px;
+  color: #8e8e8e;
+  font-weight: 500;
+}
+.profile-igtv button {
+  width: 97.89px;
+  height: 30px;
+  padding: 5px 9px;
+  font-size: 14px;
+  font-weight: 550;
+  color: #ffffff;
+  background-color: #0095f6;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+}
