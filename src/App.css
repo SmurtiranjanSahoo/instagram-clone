@@ -521,7 +521,7 @@ hr {
 }
 .profile-post-margin:hover,
 .profile-post:hover {
-  opacity: 0.8;
+  opacity: 0.95;
 }
 .profile-post-likecount {
   width: 100%;

@@ -5,9 +5,9 @@ import ProfileHighlight from "../Components/ProfileHighlight";
 import ProfileNav from "../Components/ProfileNav";
 import ProfilePost from "../Components/ProfilePost";
 import Footer from "../Components/Footer";
-import postsImgS from "../Images/posts.svg";
+import taggedImgS from "../Images/tagged.svg";
 
-const Profile = () => {
+const ProfileTagged = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
@@ -19,10 +19,10 @@ const Profile = () => {
           <ProfileHighlight text="Thoughts" />
         </div>
         <ProfileNav
-          imgPosts={postsImgS}
-          textPosts="#262626"
-          borderPosts="1px solid #000"
-          marginPosts="-1px"
+          imgTagged={taggedImgS}
+          textTagged="#262626"
+          borderTagged="1px solid #000"
+          marginTagged="-1px"
         />
         <div className="profile-post-container">
           <ProfilePost />
@@ -43,4 +43,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileTagged;
