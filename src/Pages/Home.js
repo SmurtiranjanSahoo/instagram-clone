@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../Components/Header";
+import homeS from "../Images/home-select.svg";
 
 const Home = () => {
   return (
     <div>
-      <Header />
+      <Header imgHome={homeS} />
       {/* <div
         style={{
           marginTop: "54px",

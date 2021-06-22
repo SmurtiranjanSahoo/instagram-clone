@@ -9,6 +9,8 @@ import PageNotFound from "./Pages/PageNotFound";
 import ProfileIgtv from "./Pages/ProfileIgtv";
 import ProfileSaved from "./Pages/ProfileSaved";
 import ProfileTagged from "./Pages/ProfileTagged";
+import DirectInbox from "./Pages/DirectInbox";
+import Explore from "./Pages/Explore";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
         <Route exact path="/profile/channel" component={ProfileIgtv} />
         <Route exact path="/profile/saved" component={ProfileSaved} />
         <Route exact path="/profile/tagged" component={ProfileTagged} />
+        <Route exact path="/direct/inbox" component={DirectInbox} />
+        <Route exact path="/explore" component={Explore} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </Router>

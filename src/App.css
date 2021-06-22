@@ -304,7 +304,7 @@ input:not(:focus):valid ~ .floating-label {
 } */
 .header-icon-container {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   flex-direction: row;
   width: 222px;
   height: 22px;
@@ -318,6 +318,7 @@ input:not(:focus):valid ~ .floating-label {
   width: 22px;
   border: 1px solid #282828;
   border-radius: 50%;
+  cursor: pointer;
 }
 /* .header-profile-img:hover {
   height: 28px;

@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
 // svg
-import homeS from "../Images/home-select.svg";
 import home from "../Images/home.svg";
 import message from "../Images/message.svg";
-import messageS from "../Images/message-select.svg";
 import explore from "../Images/explore.svg";
-import exploreS from "../Images/explore-select.svg";
 import like from "../Images/like.svg";
 import likeS from "../Images/like-select.svg";
 import InstaLogo from "../Images/Instagram-written-logo.svg";
@@ -19,11 +16,73 @@ import Profile from "../Images/profile.svg";
 import { BiSearch } from "react-icons/bi";
 import { MdClear } from "react-icons/md";
 
-const Header = () => {
+const Header = ({
+  imgHome = home,
+  imgMessage = message,
+  imgExplore = explore,
+}) => {
   const [searchtext, setSearchtext] = useState("");
   const [searchIcon, setSearchIcon] = useState("hidden");
   const [showProfileDropD, setShowProfileDropD] = useState(false);
+  const [showLikeDropD, setShowLikeDropD] = useState(false);
+  const [likeIcon, setlikeIcon] = useState(like);
 
+  // Like DropDown
+  const likeDrowndown = () => {
+    return (
+      <div
+        className="like-drowndown-container"
+        style={{
+          width: "955px",
+          // background: "#000",
+          marginTop: "53px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          zIndex: "2",
+        }}
+      >
+        <div
+          className="profile-drowndown"
+          style={{
+            width: "500px",
+            height: "362px",
+            marginLeft: "auto",
+            backgroundColor: "#ffffff",
+            // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+            boxShadow: "0 0 5px 1px rgb(0 0 0 / 10%)",
+            borderRadius: "6px",
+            position: "relative",
+            // zIndex: "-4",
+            // transition: "height .2s ease-in-out",
+          }}
+        >
+          <div
+            className="profile-drowndown-tip"
+            style={{
+              width: "13.8px",
+              height: "13.8px",
+              border: "none",
+              backgroundColor: "#ffffff",
+              // boxShadow: "0 0 5px 1px rgb(0 0 0 / 10%)",
+              boxShadow: "-3px -3px 5px 0px rgb(0 0 0 / 10%)",
+              transform: "rotate(45deg)",
+              WebkitTransform: "rotate(45deg)",
+              position: "absolute",
+              right: "0",
+              top: "-7px",
+              right: "58px",
+              // zIndex: "2",
+            }}
+          ></div>
+        </div>
+      </div>
+    );
+  };
+
+  // Profile DropDown
   const profileDrowndown = () => {
     return (
       <div
@@ -37,6 +96,7 @@ const Header = () => {
           position: "absolute",
           left: 0,
           right: 0,
+          zIndex: "2",
         }}
       >
         <div
@@ -69,7 +129,7 @@ const Header = () => {
               right: "0",
               top: "-7px",
               right: "25px",
-              // zIndex: "-1",
+              // zIndex: "2",
             }}
           ></div>
           <Link
@@ -209,10 +269,25 @@ const Header = () => {
             </span>
           </div>
           <div className="header-icon-container">
-            <img src={homeS} alt="home icon" />
-            <img src={message} alt="message icon" />
-            <img src={explore} alt="explore icon" />
-            <img src={like} alt="like icon" />
+            <Link to="/">
+              <img src={imgHome} alt="home icon" />
+            </Link>
+            <Link to="/direct/inbox">
+              <img src={imgMessage} alt="message icon" />
+            </Link>
+            <Link to="/explore">
+              <img src={imgExplore} alt="explore icon" />
+            </Link>
+
+            <img
+              onClick={() => {
+                showLikeDropD ? setlikeIcon(like) : setlikeIcon(likeS);
+                setShowLikeDropD(!showLikeDropD);
+              }}
+              src={likeIcon}
+              alt="like icon"
+            />
+
             <div
               onClick={() => {
                 setShowProfileDropD(!showProfileDropD);
@@ -222,6 +297,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {showLikeDropD ? likeDrowndown() : <></>}
       {showProfileDropD ? profileDrowndown() : <></>}
     </div>
   );
