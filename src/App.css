@@ -251,7 +251,8 @@ input:not(:focus):valid ~ .floating-label {
 }
 .header-logo {
   margin-right: 257px;
-  margin-top: 12px;
+  margin-top: auto;
+  margin-bottom: 5px;
 }
 
 .header-search input {
@@ -310,13 +311,25 @@ input:not(:focus):valid ~ .floating-label {
   height: 22px;
   padding-left: 24px;
 }
-.header-icon-container img {
+.header-icon-container-img {
   margin-right: 22px;
 }
-.header-profile-img {
+
+/* user image border */
+/* .header-profile-img {
+  height: 28px;
+  width: 28px;
+  border: 1px solid #282828;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+} */
+.header-profile-img img {
   height: 22px;
   width: 22px;
-  border: 1px solid #282828;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -583,4 +596,82 @@ hr {
   border: none;
   outline: none;
   border-radius: 4px;
+}
+
+/* home page */
+.home-wrapper {
+  width: 935px;
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 30px;
+  height: 835px; /*temp */
+  /* background-color: #262626; */
+}
+.home-left {
+  width: 614px;
+  margin-right: 28px;
+  height: 835px;
+  background-color: #0095f6;
+}
+.home-right {
+  width: 293px;
+  height: 840px;
+  /* background-color: #00376b; */
+}
+.home-right-user-profile {
+  width: 100%;
+  height: 56px;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  display: flex;
+}
+.home-right-user-profile img {
+  width: 56px;
+  height: 56px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+.home-right-user-profile div {
+  width: 187.53px;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.home-right-suggestion {
+  width: 100%;
+  height: 291px;
+  border: 1px solid #fafafa;
+  margin-bottom: 12px;
+}
+.home-right-suggestion-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 4px 0;
+}
+.home-right-copyright {
+  width: 100%;
+  height: 106px;
+  padding-bottom: 38px;
+}
+.home-right-copyright ul {
+  font-size: 11px;
+  color: #c7c7c7;
+  margin-bottom: 16px;
+}
+.home-right-copyright ul a {
+  color: #c7c7c7;
+  text-decoration: none;
+}
+.home-right-copyright ul a::after {
+  content: "\2022";
+  margin: 0 2px;
+}
+.home-right-copyright div {
+  font-size: 11px;
+  color: #c7c7c7;
 }

@@ -12,6 +12,7 @@ import Saved from "../Images/saved.svg";
 import Settings from "../Images/settings.svg";
 import Switch from "../Images/switch.svg";
 import Profile from "../Images/profile.svg";
+import userImg from "../Images/profileimg.jpg";
 
 import { BiSearch } from "react-icons/bi";
 import { MdClear } from "react-icons/md";
@@ -269,17 +270,18 @@ const Header = ({
             </span>
           </div>
           <div className="header-icon-container">
-            <Link to="/">
+            <Link to="/" className="header-icon-container-img">
               <img src={imgHome} alt="home icon" />
             </Link>
-            <Link to="/direct/inbox">
+            <Link to="/direct/inbox" className="header-icon-container-img">
               <img src={imgMessage} alt="message icon" />
             </Link>
-            <Link to="/explore">
+            <Link to="/explore" className="header-icon-container-img">
               <img src={imgExplore} alt="explore icon" />
             </Link>
 
             <img
+              className="header-icon-container-img"
               onClick={() => {
                 showLikeDropD ? setlikeIcon(like) : setlikeIcon(likeS);
                 setShowLikeDropD(!showLikeDropD);
@@ -293,7 +295,13 @@ const Header = ({
                 setShowProfileDropD(!showProfileDropD);
               }}
               className="header-profile-img"
-            ></div>
+            >
+              <img
+                className="header-icon-container-profile"
+                src={userImg}
+                alt="User image"
+              />
+            </div>
           </div>
         </div>
       </div>
