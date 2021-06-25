@@ -686,6 +686,24 @@ hr {
   background-color: #ffffff;
   border: 1px solid #dbdbdb;
   border-radius: 3px;
+  overflow-x: scroll;
+  position: relative;
+}
+.story-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.story-prev {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  border-radius: 50%;
+}
+.story-next {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  border-radius: 50%;
+  right: 0;
 }
 .story-wrapper li {
   width: 10px;
@@ -696,11 +714,11 @@ hr {
 .story-container {
   width: 80px;
   height: 100%;
-}
-.story-it {
-  width: 115px;
-  height: 100%;
-  padding: 10px 15px;
+  padding: 0 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 .story-outline {
   width: 66px;
@@ -709,16 +727,31 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #e6e6e6;
+  background-image: linear-gradient(
+    45deg,
+    #ffa95f 5%,
+    #f99c4a 15%,
+    #f47838 30%,
+    #e75157 45%,
+    #d92d7a 70%,
+    #cc2a92 80%,
+    #c32e92 95%
+  );
 }
 .story-outline img {
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
+  box-sizing: border-box;
+  /* border: 5px solid #ffffff; */
 }
 .story-username {
   font-size: 12px;
   text-align: center;
   font-weight: 600;
   color: #262626;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px;
 }
