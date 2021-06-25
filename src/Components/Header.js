@@ -36,12 +36,13 @@ const Header = ({
         style={{
           width: "955px",
           // background: "#000",
-          marginTop: "53px",
+          // marginTop: "53px",
           marginLeft: "auto",
           marginRight: "auto",
           position: "absolute",
           left: 0,
           right: 0,
+          top: "53px",
           zIndex: "2",
         }}
       >
@@ -91,12 +92,13 @@ const Header = ({
         style={{
           width: "975px",
           // background: "#000",
-          marginTop: "53px",
+          // marginTop: "53px",
           marginLeft: "auto",
           marginRight: "auto",
           position: "absolute",
           left: 0,
           right: 0,
+          top: "53px",
           zIndex: "2",
         }}
       >

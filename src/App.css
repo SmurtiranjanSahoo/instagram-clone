@@ -613,7 +613,7 @@ hr {
   width: 614px;
   margin-right: 28px;
   height: 835px;
-  background-color: #0095f6;
+  /* background-color: #0095f6; */
 }
 .home-right {
   width: 293px;
@@ -674,4 +674,51 @@ hr {
 .home-right-copyright div {
   font-size: 11px;
   color: #c7c7c7;
+}
+
+/* story container */
+.story-wrapper {
+  width: 100%;
+  height: 118px;
+  padding: 16px 0;
+  margin-bottom: 24px;
+  display: flex;
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+}
+.story-wrapper li {
+  width: 10px;
+  height: 100%;
+  list-style: none;
+}
+
+.story-container {
+  width: 80px;
+  height: 100%;
+}
+.story-it {
+  width: 115px;
+  height: 100%;
+  padding: 10px 15px;
+}
+.story-outline {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #e6e6e6;
+}
+.story-outline img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+.story-username {
+  font-size: 12px;
+  text-align: center;
+  font-weight: 600;
+  color: #262626;
 }
