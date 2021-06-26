@@ -19,9 +19,11 @@ const StoryContainer = () => {
       <StoryHome username="gelvix.tech" />
       <StoryHome username="gelvix.tech" />
       <StoryHome username="gelvix.tech" />
+      <StoryHome username="smurtiranjan_sahoo" />
       <StoryHome username="gelvix.tech" />
       <StoryHome username="gelvix.tech" />
       <StoryHome username="gelvix.tech" />
+      <StoryHome username="smurtiranjan_sahoo" />
       <StoryHome username="gelvix.tech" />
       <StoryHome username="gelvix.tech" />
     </div>

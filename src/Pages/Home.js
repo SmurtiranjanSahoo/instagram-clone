@@ -3,6 +3,7 @@ import React from "react";
 import Header from "../Components/Header";
 import HomeRightside from "../Components/HomeRightside";
 import StoryContainer from "../Components/StoryContainer";
+import HomePostCard from "../Components/HomePostCard";
 //images
 import homeS from "../Images/home-select.svg";
 import userImg from "../Images/profileimg.jpg";
@@ -14,6 +15,8 @@ const Home = () => {
       <div style={{ marginTop: "54px" }} className="home-wrapper">
         <div className="home-left">
           <StoryContainer />
+          <HomePostCard />
+          <HomePostCard />
         </div>
         <HomeRightside />
       </div>

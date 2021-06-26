@@ -755,3 +755,137 @@ hr {
   text-overflow: ellipsis;
   max-width: 70px;
 }
+
+/* post card home */
+.post-card-container {
+  width: 614px;
+  margin: 0 0 60px;
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+}
+.post-card-header {
+  width: 100%;
+  height: 60px;
+  padding: 16px;
+  display: flex;
+}
+.post-card-header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.post-card-header-innerdiv {
+  width: 536px;
+  height: 28px;
+  margin-left: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.post-card-header-innerdiv a {
+  text-decoration: none;
+  color: #262626;
+  font-size: 14px;
+  font-weight: 500;
+}
+.post-card-header-innerdiv button {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: none;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+.post-card-img {
+  width: 100%;
+  overflow: hidden;
+}
+.post-card-img img {
+  width: 100%;
+}
+.post-card-icons {
+  width: 100%;
+  height: 40px;
+  margin-top: 4px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.post-card-icons button {
+  width: 40;
+  height: 40;
+  padding: 8px;
+  background: none;
+  border: none;
+  outline: none;
+}
+.post-card-like-v {
+  width: 100%;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+.post-card-like-v span {
+  color: #262626;
+  font-size: 14px;
+  font-weight: 500;
+}
+.post-card-comment-sec {
+  width: 100%;
+  padding: 0 16px;
+}
+.post-card-caption,
+.post-recent-comment {
+  width: 100%;
+  font-size: 14px;
+  color: #262626;
+}
+.post-card-caption span,
+.post-recent-comment span {
+  font-weight: 500;
+}
+.post-card-comment-sec a {
+  font-size: 14px;
+  color: #8e8e8e;
+  text-decoration: none;
+}
+.post-card-upload-time {
+  width: 100%;
+  height: 19px;
+  margin: 0 0 4px;
+  padding-left: 16px;
+  font-size: 10px;
+  color: #8e8e8e;
+  line-height: 18px;
+}
+.post-card-add-comment {
+  width: 100%;
+  height: 56px;
+  margin-top: 4px;
+  padding: 0 16px;
+  border-top: 1px solid #efefef;
+  display: flex;
+  align-items: center;
+}
+.post-card-add-comment form {
+  width: 582px;
+  height: 40px;
+  display: flex;
+}
+.post-card-add-comment-button {
+  width: 40px;
+  height: 40px;
+  padding: 8px 16px 8px 0;
+  background: none;
+  border: none;
+  outline: none;
+}
+.post-card-add-comment form input {
+  width: 514.83px;
+  background: none;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+}
