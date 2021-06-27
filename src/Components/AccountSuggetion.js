@@ -21,6 +21,7 @@ const AccountSuggetion = ({
           height: "32px",
           borderRadius: "50%",
           marginRight: "15px",
+          marginLeft: "5px",
         }}
         src={userImg}
         alt="user image"

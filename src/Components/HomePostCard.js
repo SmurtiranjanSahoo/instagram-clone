@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import userImg from "../Images/profileimg.jpg";
 import messageImg from "../Images/message.svg";
 import optionsImg from "../Images/PostCard/options.svg";
@@ -11,6 +11,9 @@ import savedImgS from "../Images/PostCard/savedS.svg";
 import emojiImg from "../Images/PostCard/emoji.svg";
 
 const HomePostCard = () => {
+  const [like, setLike] = useState("false");
+  const [saved, setSaved] = useState("false");
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -34,8 +37,12 @@ const HomePostCard = () => {
       </div>
       <div className="post-card-icons">
         <div>
-          <button>
-            <img src={likeImg} alt="like" />
+          <button
+            onClick={() => {
+              setLike(!like);
+            }}
+          >
+            <img src={like ? likeImg : likeImgS} alt="like" />
           </button>
           <button>
             <img src={commentImg} alt="comment" />
@@ -44,8 +51,12 @@ const HomePostCard = () => {
             <img src={shareImg} alt="Share" />
           </button>
         </div>
-        <button>
-          <img src={savedImg} alt="save button" />
+        <button
+          onClick={() => {
+            setSaved(!saved);
+          }}
+        >
+          <img src={saved ? savedImg : savedImgS} alt="save button" />
         </button>
       </div>
       <div className="post-card-like-v">

@@ -1,6 +1,7 @@
 import React from "react";
 //components
 import Header from "../Components/Header";
+import Footer from "../Components/Footer";
 import HomeRightside from "../Components/HomeRightside";
 import StoryContainer from "../Components/StoryContainer";
 import HomePostCard from "../Components/HomePostCard";
@@ -16,18 +17,15 @@ const Home = () => {
       <div style={{ marginTop: "54px" }} className="home-wrapper">
         <div className="home-left">
           <StoryContainer />
-          <ul style={{ listStyle: "none" }}>
+          <div>
             {a.map((i) => {
-              return (
-                <li>
-                  <HomePostCard />
-                </li>
-              );
+              return <HomePostCard />;
             })}
-          </ul>
+          </div>
         </div>
         <HomeRightside />
       </div>
+      {/* <Footer /> */}
     </div>
   );
 };

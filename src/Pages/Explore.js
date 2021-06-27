@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "../Components/Header";
 import exploreS from "../Images/explore-select.svg";
 //component
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
 import ProfilePost from "../Components/ProfilePost";
 
 const Explore = () => {
@@ -24,6 +25,7 @@ const Explore = () => {
           })}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
