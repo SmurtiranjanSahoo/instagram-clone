@@ -759,7 +759,7 @@ hr {
 /* post card home */
 .post-card-container {
   width: 614px;
-  margin: 0 0 60px;
+  margin-bottom: 60px;
   background-color: #ffffff;
   border: 1px solid #dbdbdb;
   border-radius: 3px;
@@ -888,4 +888,16 @@ hr {
   overflow-y: auto;
   border: none;
   outline: none;
+}
+
+/* explore page */
+.explore-post-wrapper {
+  margin-top: 53px;
+  width: 975px;
+  padding: 30px 20px 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

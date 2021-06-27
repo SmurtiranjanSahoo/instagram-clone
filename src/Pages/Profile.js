@@ -8,6 +8,9 @@ import Footer from "../Components/Footer";
 import postsImgS from "../Images/posts.svg";
 
 const Profile = () => {
+  const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
+  var j = 1;
+
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
@@ -25,17 +28,14 @@ const Profile = () => {
           marginPosts="-1px"
         />
         <div className="profile-post-container">
-          <ProfilePost />
-          <ProfilePost className={"profile-post-margin"} />
-          <ProfilePost />
-          <ProfilePost />
-          <ProfilePost className={"profile-post-margin"} />
-          <ProfilePost />
-          <ProfilePost />
-          <ProfilePost className={"profile-post-margin"} />
-          <ProfilePost />
-          <ProfilePost />
-          <ProfilePost className={"profile-post-margin"} />
+          {arr.map((x, i) => {
+            if (j === i) {
+              j = j + 3;
+              return <ProfilePost className={"profile-post-margin"} />;
+            } else {
+              return <ProfilePost />;
+            }
+          })}
         </div>
       </div>
       <Footer />
