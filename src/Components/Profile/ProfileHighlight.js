@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileImg from "../Images/profileimg.jpg";
+import ProfileImg from "../../Images/profileimg.jpg";
 
 const ProfileHighlight = ({ text, img = ProfileImg }) => {
   return (

@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 //svg
-import postsImg from "../Images/posts-grey.svg";
-import igtvImg from "../Images/igtv-grey.svg";
-import savedImg from "../Images/saved-grey.svg";
-import taggedImg from "../Images/tagged-grey.svg";
+import postsImg from "../../Images/posts-grey.svg";
+import igtvImg from "../../Images/igtv-grey.svg";
+import savedImg from "../../Images/saved-grey.svg";
+import taggedImg from "../../Images/tagged-grey.svg";
 
 const ProfileNav = ({
   imgPosts = postsImg,

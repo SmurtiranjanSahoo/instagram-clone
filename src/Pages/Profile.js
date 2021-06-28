@@ -1,13 +1,20 @@
-import React from "react";
-import Header from "../Components/Header";
-import ProfileInfo from "../Components/ProfileInfo";
-import ProfileHighlight from "../Components/ProfileHighlight";
-import ProfileNav from "../Components/ProfileNav";
-import ProfilePost from "../Components/ProfilePost";
-import Footer from "../Components/Footer";
+import React, { useState } from "react";
+import { Link, withRouter } from "react-router-dom";
+
+//images
 import postsImgS from "../Images/posts.svg";
+//component
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
+import ProfileInfo from "../Components/Profile/ProfileInfo";
+import ProfileHighlight from "../Components/Profile/ProfileHighlight";
+import ProfileNav from "../Components/Profile/ProfileNav";
+import ProfilePost from "../Components/Profile/ProfilePost";
+import PostModal from "../Components/PostModal/PostModal";
 
 const Profile = () => {
+  const [showPostModal, setShowPostModal] = useState(false);
+
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;
 
@@ -33,14 +40,31 @@ const Profile = () => {
               j = j + 3;
               return <ProfilePost className={"profile-post-margin"} />;
             } else {
-              return <ProfilePost />;
+              return (
+                // <div
+                //   onClick={() => {
+                //     setShowPostModal(!showPostModal);
+                //   }}
+                // >
+                // </div>
+                <Link
+                  to={{
+                    pathname: "/modal/1",
+                    state: { modal: true },
+                  }}
+                >
+                  <ProfilePost />
+                </Link>
+              );
             }
           })}
         </div>
       </div>
       <Footer />
+
+      {showPostModal ? <PostModal /> : <></>}
     </div>
   );
 };
 
-export default Profile;
+export default withRouter(Profile);

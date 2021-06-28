@@ -146,7 +146,7 @@ const Header = ({
 
           <Link
             style={{ textDecoration: "none", color: "#262626" }}
-            to="profile/saved"
+            to="/profile/saved"
             className="profile-drowndown-sec"
           >
             <img style={{ marginRight: "12px" }} src={Saved} alt="saved" />{" "}

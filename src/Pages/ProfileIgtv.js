@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "../Components/Header";
-import ProfileInfo from "../Components/ProfileInfo";
-import ProfileHighlight from "../Components/ProfileHighlight";
-import ProfileNav from "../Components/ProfileNav";
+import ProfileInfo from "../Components/Profile/ProfileInfo";
+import ProfileHighlight from "../Components/Profile/ProfileHighlight";
+import ProfileNav from "../Components/Profile/ProfileNav";
 import Footer from "../Components/Footer";
 import igtvImgS from "../Images/igtv.svg";
 

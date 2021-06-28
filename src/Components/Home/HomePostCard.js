@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import userImg from "../Images/profileimg.jpg";
-import messageImg from "../Images/message.svg";
-import optionsImg from "../Images/PostCard/options.svg";
-import likeImg from "../Images/PostCard/like.svg";
-import likeImgS from "../Images/PostCard/likeS.svg";
-import commentImg from "../Images/PostCard/comment.svg";
-import shareImg from "../Images/PostCard/share.svg";
-import savedImg from "../Images/PostCard/saved.svg";
-import savedImgS from "../Images/PostCard/savedS.svg";
-import emojiImg from "../Images/PostCard/emoji.svg";
+
+//images
+import userImg from "../../Images/profileimg.jpg";
+import optionsImg from "../../Images/PostCard/options.svg";
+import likeImg from "../../Images/PostCard/like.svg";
+import likeImgS from "../../Images/PostCard/likeS.svg";
+import commentImg from "../../Images/PostCard/comment.svg";
+import shareImg from "../../Images/PostCard/share.svg";
+import savedImg from "../../Images/PostCard/saved.svg";
+import savedImgS from "../../Images/PostCard/savedS.svg";
+import emojiImg from "../../Images/PostCard/emoji.svg";
 
 const HomePostCard = () => {
   const [like, setLike] = useState("false");

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SettingIcon from "../Images/settings.svg";
-import ProfileImg from "../Images/profileimg.jpg";
+import SettingIcon from "../../Images/settings.svg";
+import ProfileImg from "../../Images/profileimg.jpg";
 
 const ProfileInfo = () => {
   return (

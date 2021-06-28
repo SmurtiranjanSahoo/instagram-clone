@@ -1,5 +1,5 @@
 import React from "react";
-import userImg from "../Images/profileimg.jpg";
+import userImg from "../../Images/profileimg.jpg";
 import AccountSuggetion from "./AccountSuggetion";
 const HomeRightside = () => {
   return (

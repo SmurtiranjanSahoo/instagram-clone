@@ -1,11 +1,11 @@
 import React from "react";
 //components
 import Header from "../Components/Header";
-import ProfileInfo from "../Components/ProfileInfo";
-import ProfileHighlight from "../Components/ProfileHighlight";
-import ProfileNav from "../Components/ProfileNav";
 import Footer from "../Components/Footer";
-import ProfilePost from "../Components/ProfilePost";
+import ProfileInfo from "../Components/Profile/ProfileInfo";
+import ProfileHighlight from "../Components/Profile/ProfileHighlight";
+import ProfileNav from "../Components/Profile/ProfileNav";
+import ProfilePost from "../Components/Profile/ProfilePost";
 //svg
 import savedImgS from "../Images/saved.svg";
 

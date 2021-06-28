@@ -2,9 +2,9 @@ import React from "react";
 //components
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import HomeRightside from "../Components/HomeRightside";
-import StoryContainer from "../Components/StoryContainer";
-import HomePostCard from "../Components/HomePostCard";
+import HomeRightside from "../Components/Home/HomeRightside";
+import StoryContainer from "../Components/Home/StoryContainer";
+import HomePostCard from "../Components/Home/HomePostCard";
 //images
 import homeS from "../Images/home-select.svg";
 import userImg from "../Images/profileimg.jpg";

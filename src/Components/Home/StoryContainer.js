@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import StoryHome from "./StoryHome";
-import StoryNavImg from "../Images/story-nav.png";
+import StoryNavImg from "../../Images/story-nav.png";
 
 const StoryContainer = () => {
   const [prevBtn, setPrevBtn] = useState("hidden");
