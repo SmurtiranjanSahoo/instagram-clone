@@ -49,7 +49,7 @@ const Profile = () => {
                 // </div>
                 <Link
                   to={{
-                    pathname: "/modal/1",
+                    pathname: "/p/1",
                     state: { modal: true },
                   }}
                 >

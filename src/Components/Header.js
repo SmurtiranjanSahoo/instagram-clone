@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
 // svg
@@ -28,15 +28,19 @@ const Header = ({
   const [showLikeDropD, setShowLikeDropD] = useState(false);
   const [likeIcon, setlikeIcon] = useState(like);
 
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    setInnerWidth(window.innerWidth);
+  });
+
   // Like DropDown
   const likeDrowndown = () => {
     return (
       <div
         className="like-drowndown-container"
         style={{
-          width: "955px",
-          // background: "#000",
-          // marginTop: "53px",
+          width: innerWidth <= 975 ? innerWidth : "975px",
           marginLeft: "auto",
           marginRight: "auto",
           position: "fixed",
@@ -47,11 +51,12 @@ const Header = ({
         }}
       >
         <div
-          className="profile-drowndown"
+          className="like-drowndown"
           style={{
             width: "500px",
             height: "362px",
             marginLeft: "auto",
+            marginRight: "10px",
             backgroundColor: "#ffffff",
             // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
             boxShadow: "0 0 5px 1px rgb(0 0 0 / 10%)",
@@ -62,7 +67,7 @@ const Header = ({
           }}
         >
           <div
-            className="profile-drowndown-tip"
+            className="like-drowndown-tip"
             style={{
               width: "13.8px",
               height: "13.8px",
@@ -90,16 +95,7 @@ const Header = ({
       <div
         className="profile-drowndown-container"
         style={{
-          width: "975px",
-          // background: "#000",
-          // marginTop: "53px",
-          marginLeft: "auto",
-          marginRight: "auto",
-          position: "fixed",
-          left: 0,
-          right: 0,
-          top: "53px",
-          zIndex: "2",
+          width: innerWidth <= 975 ? innerWidth : "975px",
         }}
       >
         <div
@@ -196,7 +192,12 @@ const Header = ({
   return (
     <div>
       <div className="header-wrapper">
-        <div className="header-container">
+        <div
+          className="header-container"
+          style={{
+            width: innerWidth <= 975 ? innerWidth : "975px",
+          }}
+        >
           <div className="header-logo">
             <img
               src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
@@ -271,38 +272,40 @@ const Header = ({
               </span>
             </span>
           </div>
-          <div className="header-icon-container">
-            <Link to="/" className="header-icon-container-img">
-              <img src={imgHome} alt="home icon" />
-            </Link>
-            <Link to="/direct/inbox" className="header-icon-container-img">
-              <img src={imgMessage} alt="message icon" />
-            </Link>
-            <Link to="/explore" className="header-icon-container-img">
-              <img src={imgExplore} alt="explore icon" />
-            </Link>
+          <div className="header-icon-wrapper">
+            <div className="header-icon-container">
+              <Link to="/" className="header-icon-container-img">
+                <img src={imgHome} alt="home icon" />
+              </Link>
+              <Link to="/direct/inbox" className="header-icon-container-img">
+                <img src={imgMessage} alt="message icon" />
+              </Link>
+              <Link to="/explore" className="header-icon-container-img">
+                <img src={imgExplore} alt="explore icon" />
+              </Link>
 
-            <img
-              className="header-icon-container-img"
-              onClick={() => {
-                showLikeDropD ? setlikeIcon(like) : setlikeIcon(likeS);
-                setShowLikeDropD(!showLikeDropD);
-              }}
-              src={likeIcon}
-              alt="like icon"
-            />
-
-            <div
-              onClick={() => {
-                setShowProfileDropD(!showProfileDropD);
-              }}
-              className="header-profile-img"
-            >
               <img
-                className="header-icon-container-profile"
-                src={userImg}
-                alt="User image"
+                className="header-icon-container-img"
+                onClick={() => {
+                  showLikeDropD ? setlikeIcon(like) : setlikeIcon(likeS);
+                  setShowLikeDropD(!showLikeDropD);
+                }}
+                src={likeIcon}
+                alt="like icon"
               />
+
+              <div
+                onClick={() => {
+                  setShowProfileDropD(!showProfileDropD);
+                }}
+                className="header-profile-img"
+              >
+                <img
+                  className="header-icon-container-profile"
+                  src={userImg}
+                  alt="User image"
+                />
+              </div>
             </div>
           </div>
         </div>

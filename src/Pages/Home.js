@@ -26,6 +26,12 @@ const Home = () => {
         <HomeRightside />
       </div>
       {/* <Footer /> */}
+      {/* temp message */}
+      <div className="mobile-message">
+        <h3>
+          Mobile Instagram Clone is under development, <br /> try desktop site.
+        </h3>
+      </div>
     </div>
   );
 };

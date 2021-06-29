@@ -52,13 +52,13 @@ class App extends Component {
           <Route exact path="/profile/tagged" component={ProfileTagged} />
           <Route exact path="/direct/inbox" component={DirectInbox} />
           <Route exact path="/explore" component={Explore} />
-          <Route exact path="/modal/:id">
+          <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />
           </Route>
           <Route path="*" component={PageNotFound} />
         </Switch>
         {isModal ? (
-          <Route exact path="/modal/:id">
+          <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />
           </Route>
         ) : null}

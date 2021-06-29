@@ -32,7 +32,7 @@ class PostModal extends Component {
   }
 
   render() {
-    const { id } = this.props.match.params;
+    const { postid } = this.props.match.params;
 
     if (this.props.isModal) {
       return (
