@@ -14,6 +14,7 @@ import PostModal from "../Components/PostModal/PostModal";
 
 const Profile = () => {
   const [showPostModal, setShowPostModal] = useState(false);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;
@@ -21,8 +22,14 @@ const Profile = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
-      <div className="profile-container" style={{ marginTop: "54px" }}>
-        <ProfileInfo />
+      <div
+        className="profile-container"
+        style={{
+          marginTop: "54px",
+          width: innerWidth <= 975 ? innerWidth : "975px",
+        }}
+      >
+        <ProfileInfo width={innerWidth <= 935 ? innerWidth - 40 : "935px"} />
         <div className="highlight-wrapper">
           <li></li>
           <ProfileHighlight text="Me" />
@@ -38,7 +45,17 @@ const Profile = () => {
           {arr.map((x, i) => {
             if (j === i) {
               j = j + 3;
-              return <ProfilePost className={"profile-post-margin"} />;
+              return (
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={{
+                    pathname: "/p/1",
+                    state: { modal: true },
+                  }}
+                >
+                  <ProfilePost className={"profile-post-margin"} />
+                </Link>
+              );
             } else {
               return (
                 // <div
@@ -48,6 +65,7 @@ const Profile = () => {
                 // >
                 // </div>
                 <Link
+                  style={{ textDecoration: "none" }}
                   to={{
                     pathname: "/p/1",
                     state: { modal: true },

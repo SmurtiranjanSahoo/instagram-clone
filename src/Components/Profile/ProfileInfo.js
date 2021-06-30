@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ width }) => {
   return (
-    <div className="profile-info-container">
+    <div
+      style={{
+        width: width,
+      }}
+      className="profile-info-container"
+    >
       <div className="profile-img">
         <img src={ProfileImg} alt="profile image" />
       </div>
