@@ -207,7 +207,8 @@
   width: 100%;
   max-height: 600px;
   height: 100%;
-  margin: 40px 0;
+  margin-bottom: 40px;
+  margin-top: 94px;
   background-color: #ffffff;
   display: flex;
   flex-direction: row;

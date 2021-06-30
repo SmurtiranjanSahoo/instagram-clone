@@ -1,8 +1,7 @@
 import React, { useState, Component } from "react";
+import "./postModal.css";
 import { withRouter } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import "./postModal.css";
-import ReactDOM from "react-dom";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -14,6 +13,8 @@ import savedImg from "../../Images/PostCard/saved.svg";
 import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 import closeBtn from "../../Images/PostModal/closeBtn.svg";
+//components
+import Header from "../Header";
 
 class PostModal extends Component {
   constructor() {
@@ -144,111 +145,96 @@ class PostModal extends Component {
       );
     } else {
       return (
-        <div
-          // ref={this.modalRef}
-          className="post-no-modal-wrapper"
-          // onClick={() => this.props.history.goBack()}
-        >
-          <div
-            // role="button"
-            className="post-no-modal-container"
-            // onClick={(e) => {
-            //   // e.preventDefault();
-            //   // e.stopPropagation();
-            //   // e.nativeEvent.stopImmediatePropagation();
-            // }}
-          >
-            <div className="post-image">
-              <img src={userImg} alt="" />
-            </div>
-            <div className="post-info">
-              <div className="post-header">
-                <img src={userImg} alt="user profile" />
-                <div className="post-header-innerdiv">
-                  <a href="">marvelstudios</a>
-                  <button>
-                    <img
-                      style={{ width: "16px", height: "16px" }}
-                      src={optionsImg}
-                      alt="option"
-                    />
-                  </button>
-                </div>
+        <div>
+          <Header />
+          <div className="post-no-modal-wrapper">
+            <div className="post-no-modal-container">
+              <div className="post-image">
+                <img src={userImg} alt="" />
               </div>
-              <div className="post-comment-container">
-                <div className="user-caption">
-                  <div>
-                    <img src={userImg} alt="user image" />
-                  </div>
-                  <div className="user-caption-innerDiv">
-                    <span>marvelstudios </span>
-                    Prepare to meet your match 👊 Tickets and pre-orders are
-                    available now for Marvel Studios' @Black.Widow. Experience
-                    it
-                  </div>
-                </div>
-              </div>
-              <div className="keep-in-bottom">
-                <div className="post-icons">
-                  <div>
-                    <button
-                      style={{ paddingLeft: "0px" }}
-                      //   onClick={() => {
-                      //     setLike(!like);
-                      //   }}
-                    >
-                      <img src={likeImgS} alt="like" />
-                    </button>
+              <div className="post-info">
+                <div className="post-header">
+                  <img src={userImg} alt="user profile" />
+                  <div className="post-header-innerdiv">
+                    <a href="">marvelstudios</a>
                     <button>
-                      <img src={commentImg} alt="comment" />
-                    </button>
-                    <button>
-                      <img src={shareImg} alt="Share" />
+                      <img
+                        style={{ width: "16px", height: "16px" }}
+                        src={optionsImg}
+                        alt="option"
+                      />
                     </button>
                   </div>
-                  <button
-                    style={{ paddingRight: "0px" }}
-                    onClick={() => {
-                      // setSaved(!saved);
-                      console.log("clicked");
-                    }}
-                  >
-                    <img src={savedImgS} alt="save button" />
-                  </button>
                 </div>
-                <div className="post-like-v">
-                  <span>
-                    <span>3003389 </span>likes
-                  </span>
+                <div className="post-comment-container">
+                  <div className="user-caption">
+                    <div>
+                      <img src={userImg} alt="user image" />
+                    </div>
+                    <div className="user-caption-innerDiv">
+                      <span>marvelstudios </span>
+                      Prepare to meet your match 👊 Tickets and pre-orders are
+                      available now for Marvel Studios' @Black.Widow. Experience
+                      it
+                    </div>
+                  </div>
                 </div>
-                <div className="post-upload-time">59 MINUTES AGO</div>
-                <div className="post-add-comment">
-                  <form>
-                    <button className="post-add-comment-button">
-                      <img src={emojiImg} alt="emoji" />
-                    </button>
-                    <input type="text" placeholder="Add a comment..." />
+                <div className="keep-in-bottom">
+                  <div className="post-icons">
+                    <div>
+                      <button
+                        style={{ paddingLeft: "0px" }}
+                        //   onClick={() => {
+                        //     setLike(!like);
+                        //   }}
+                      >
+                        <img src={likeImgS} alt="like" />
+                      </button>
+                      <button>
+                        <img src={commentImg} alt="comment" />
+                      </button>
+                      <button>
+                        <img src={shareImg} alt="Share" />
+                      </button>
+                    </div>
                     <button
-                      style={{
-                        color: "#0095f6",
-                        fontWeight: "600",
-                        background: "none",
-                        outline: "none",
-                        border: "none",
+                      style={{ paddingRight: "0px" }}
+                      onClick={() => {
+                        // setSaved(!saved);
+                        console.log("clicked");
                       }}
                     >
-                      Post
+                      <img src={savedImgS} alt="save button" />
                     </button>
-                  </form>
+                  </div>
+                  <div className="post-like-v">
+                    <span>
+                      <span>3003389 </span>likes
+                    </span>
+                  </div>
+                  <div className="post-upload-time">59 MINUTES AGO</div>
+                  <div className="post-add-comment">
+                    <form>
+                      <button className="post-add-comment-button">
+                        <img src={emojiImg} alt="emoji" />
+                      </button>
+                      <input type="text" placeholder="Add a comment..." />
+                      <button
+                        style={{
+                          color: "#0095f6",
+                          fontWeight: "600",
+                          background: "none",
+                          outline: "none",
+                          border: "none",
+                        }}
+                      >
+                        Post
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {/* buttons */}
-          <div className="post-modal-closeBtn">
-            <button>
-              <img src={closeBtn} alt="close button" />
-            </button>
           </div>
         </div>
       );
