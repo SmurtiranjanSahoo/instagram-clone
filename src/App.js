@@ -6,6 +6,7 @@ import {
   Route,
   withRouter,
 } from "react-router-dom";
+//components
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Home from "./Pages/Home";
@@ -16,8 +17,8 @@ import ProfileSaved from "./Pages/ProfileSaved";
 import ProfileTagged from "./Pages/ProfileTagged";
 import DirectInbox from "./Pages/DirectInbox";
 import Explore from "./Pages/Explore";
+import StoryPlay from "./Pages/StoryPlay";
 import PostModal from "./Components/PostModal/PostModal";
-import { render } from "@testing-library/react";
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,8 @@ class App extends Component {
           <Route exact path="/profile/tagged" component={ProfileTagged} />
           <Route exact path="/direct/inbox" component={DirectInbox} />
           <Route exact path="/explore" component={Explore} />
+          <Route exact path="/stories" component={StoryPlay} />
+
           <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />
           </Route>

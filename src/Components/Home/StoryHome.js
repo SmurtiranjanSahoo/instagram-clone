@@ -3,12 +3,7 @@ import ProfileImg from "../../Images/profileimg.jpg";
 
 const StoryHome = ({ username, img = ProfileImg }) => {
   return (
-    <div
-      // onClick={() => {
-      //   console.log("clicked");
-      // }}
-      className="story-container"
-    >
+    <div className="story-container">
       <div className="story-outline">
         <div
           style={{

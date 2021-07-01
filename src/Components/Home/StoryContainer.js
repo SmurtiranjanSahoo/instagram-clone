@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import StoryHome from "./StoryHome";
 import StoryNavImg from "../../Images/story-nav.png";
+import { Link } from "react-router-dom";
 
 const StoryContainer = () => {
   const [prevBtn, setPrevBtn] = useState("hidden");
@@ -23,13 +24,16 @@ const StoryContainer = () => {
           if (j === i) {
             j = j + 3;
             return (
-              <>
+              <Link style={{ textDecoration: "none" }} to="/stories">
                 <StoryHome username="smurtiranjan_sahoo" />
-                <StoryHome username="gelvix.tech" />
-              </>
+              </Link>
             );
           } else {
-            return <StoryHome username="trtechlesson" />;
+            return (
+              <Link style={{ textDecoration: "none" }} to="/stories">
+                <StoryHome username="trtechlesson" />
+              </Link>
+            );
           }
         })}
       </div>
