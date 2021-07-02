@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <div style={{ width: "100%" }}>
       <Header ImgHome={HomeS} />
-      <div style={{ marginTop: "54px" }} className="home-wrapper">
+      <div className="home-wrapper">
         <div className="home-left">
           <StoryContainer />
           <div>
@@ -26,12 +26,6 @@ const Home = () => {
         <HomeRightside />
       </div>
       {/* <Footer /> */}
-      {/* temp message */}
-      <div className="mobile-message">
-        <h3>
-          Mobile Instagram Clone is under development, <br /> try desktop site.
-        </h3>
-      </div>
     </div>
   );
 };
