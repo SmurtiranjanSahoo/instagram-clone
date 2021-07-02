@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //svg
 import postsImg from "../../Images/posts-grey.svg";
@@ -24,8 +24,25 @@ const ProfileNav = ({
   borderTagged,
   marginTagged,
 }) => {
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      setInnerWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", updateWindowDimensions);
+
+    return () => window.removeEventListener("resize", updateWindowDimensions);
+  }, []);
+
   return (
-    <div className="profile-nav-container">
+    <div
+      className="profile-nav-container"
+      style={{
+        width: innerWidth < 975 ? innerWidth - 40 : "935px",
+      }}
+    >
       <Link
         to="/profile"
         style={{

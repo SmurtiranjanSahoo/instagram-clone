@@ -35,6 +35,7 @@
   background: none;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 .story-header {
   width: 100%;

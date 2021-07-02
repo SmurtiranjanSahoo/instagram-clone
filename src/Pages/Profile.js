@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 //images
@@ -19,6 +19,16 @@ const Profile = () => {
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;
 
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      setInnerWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", updateWindowDimensions);
+
+    return () => window.removeEventListener("resize", updateWindowDimensions);
+  }, []);
+
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
@@ -26,10 +36,15 @@ const Profile = () => {
         className="profile-container"
         style={{
           marginTop: "54px",
-          width: innerWidth <= 975 ? innerWidth : "975px",
+          width: innerWidth < 975 ? innerWidth : "975px",
         }}
       >
-        <ProfileInfo width={innerWidth <= 935 ? innerWidth - 40 : "935px"} />
+        <ProfileInfo
+          width={innerWidth < 975 ? innerWidth - 40 : "935px"}
+          imgWidth={
+            innerWidth < 975 ? 291.67 - (975 - innerWidth) * 0.334 : "291.67px"
+          }
+        />
         <div className="highlight-wrapper">
           <li></li>
           <ProfileHighlight text="Me" />
@@ -41,7 +56,12 @@ const Profile = () => {
           borderPosts="1px solid #000"
           marginPosts="-1px"
         />
-        <div className="profile-post-container">
+        <div
+          className="profile-post-container"
+          style={{
+            width: innerWidth < 975 ? innerWidth - 40 : "935px",
+          }}
+        >
           {arr.map((x, i) => {
             if (j === i) {
               j = j + 3;

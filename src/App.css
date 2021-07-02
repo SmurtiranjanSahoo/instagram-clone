@@ -393,7 +393,7 @@ hr {
   color: #262626;
 }
 .profile-img {
-  min-width: 216.67px;
+  width: 216.67px;
   max-width: 291.67px;
   width: 100%;
   height: 170px;
