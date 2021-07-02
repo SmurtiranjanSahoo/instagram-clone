@@ -6,14 +6,14 @@ import HomeRightside from "../Components/Home/HomeRightside";
 import StoryContainer from "../Components/Home/StoryContainer";
 import HomePostCard from "../Components/Home/HomePostCard";
 //images
-import homeS from "../Images/home-select.svg";
+import { ReactComponent as HomeS } from "../Images/home-select.svg";
 import userImg from "../Images/profileimg.jpg";
 
 const Home = () => {
   const a = [1, 1, 1, 1, 1];
   return (
     <div>
-      <Header imgHome={homeS} />
+      <Header ImgHome={HomeS} />
       <div style={{ marginTop: "54px" }} className="home-wrapper">
         <div className="home-left">
           <StoryContainer />

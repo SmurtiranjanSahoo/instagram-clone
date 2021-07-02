@@ -4,7 +4,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProfilePost from "../Components/Profile/ProfilePost";
 //images
-import exploreS from "../Images/explore-select.svg";
+import { ReactComponent as ExploreS } from "../Images/explore-select.svg";
 
 const Explore = () => {
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
@@ -12,7 +12,7 @@ const Explore = () => {
 
   return (
     <div>
-      <Header imgExplore={exploreS} />
+      <Header ImgExplore={ExploreS} />
 
       <div className="explore-post-wrapper">
         <div className="profile-post-container">

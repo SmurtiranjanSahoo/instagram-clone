@@ -2,32 +2,31 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
 // svg
-import home from "../Images/home.svg";
-import message from "../Images/message.svg";
-import explore from "../Images/explore.svg";
-import like from "../Images/like.svg";
-import likeS from "../Images/like-select.svg";
+import { ReactComponent as Home } from "../Images/home.svg";
+import { ReactComponent as Message } from "../Images/message.svg";
+import { ReactComponent as Explore } from "../Images/explore.svg";
+import { ReactComponent as Like } from "../Images/like.svg";
+import { ReactComponent as LikeS } from "../Images/like-select.svg";
 import InstaLogo from "../Images/Instagram-written-logo.svg";
-import Saved from "../Images/saved.svg";
-import Settings from "../Images/settings.svg";
-import Switch from "../Images/switch.svg";
-import Profile from "../Images/profile.svg";
+import { ReactComponent as Saved } from "../Images/saved.svg";
+import { ReactComponent as Settings } from "../Images/settings.svg";
+import { ReactComponent as Switch } from "../Images/switch.svg";
+import { ReactComponent as Profile } from "../Images/profile.svg";
 import userImg from "../Images/profileimg.jpg";
 
 import { BiSearch } from "react-icons/bi";
 import { MdClear } from "react-icons/md";
 
 const Header = ({
-  imgHome = home,
-  imgMessage = message,
-  imgExplore = explore,
+  ImgHome = Home,
+  ImgMessage = Message,
+  ImgExplore = Explore,
 }) => {
   const [searchtext, setSearchtext] = useState("");
   const [searchIcon, setSearchIcon] = useState("hidden");
   const [showProfileDropD, setShowProfileDropD] = useState(false);
   const [showLikeDropD, setShowLikeDropD] = useState(false);
-  const [likeIcon, setlikeIcon] = useState(like);
-
+  const [likeIcon, setlikeIcon] = useState(Like);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -93,6 +92,9 @@ const Header = ({
   const profileDrowndown = () => {
     return (
       <div
+        // onClick={() => {
+        //   console.log("clicked");
+        // }}
         className="profile-drowndown-container"
         style={{
           width: innerWidth <= 975 ? innerWidth : "975px",
@@ -136,7 +138,7 @@ const Header = ({
             to="/profile"
             className="profile-drowndown-sec profile-drowndown-sec1"
           >
-            <img style={{ marginRight: "12px" }} src={Profile} alt="profile" />
+            <Profile style={{ marginRight: "12px" }} />
             Profile
           </Link>
 
@@ -145,7 +147,7 @@ const Header = ({
             to="/profile/saved"
             className="profile-drowndown-sec"
           >
-            <img style={{ marginRight: "12px" }} src={Saved} alt="saved" />{" "}
+            <Saved style={{ marginRight: "12px" }} />
             Saved
           </Link>
           <Link
@@ -153,11 +155,7 @@ const Header = ({
             to=""
             className="profile-drowndown-sec"
           >
-            <img
-              style={{ marginRight: "12px" }}
-              src={Settings}
-              alt="settings"
-            />{" "}
+            <Settings style={{ marginRight: "12px" }} />
             Settings
           </Link>
           <Link
@@ -169,7 +167,7 @@ const Header = ({
             to=""
             className="profile-drowndown-sec"
           >
-            <img style={{ marginRight: "12px" }} src={Switch} alt="switch" />{" "}
+            <Switch style={{ marginRight: "12px" }} />
             Switch Accounts
           </Link>
           <hr />
@@ -275,24 +273,32 @@ const Header = ({
           <div className="header-icon-wrapper">
             <div className="header-icon-container">
               <Link to="/" className="header-icon-container-img">
-                <img src={imgHome} alt="home icon" />
+                <ImgHome />
               </Link>
               <Link to="/direct/inbox" className="header-icon-container-img">
-                <img src={imgMessage} alt="message icon" />
+                <ImgMessage />
               </Link>
               <Link to="/explore" className="header-icon-container-img">
-                <img src={imgExplore} alt="explore icon" />
+                <ImgExplore />
               </Link>
 
-              <img
-                className="header-icon-container-img"
-                onClick={() => {
-                  showLikeDropD ? setlikeIcon(like) : setlikeIcon(likeS);
-                  setShowLikeDropD(!showLikeDropD);
-                }}
-                src={likeIcon}
-                alt="like icon"
-              />
+              {showLikeDropD ? (
+                <LikeS
+                  className="header-icon-container-img"
+                  onClick={() => {
+                    showLikeDropD ? setlikeIcon(Like) : setlikeIcon(LikeS);
+                    setShowLikeDropD(!showLikeDropD);
+                  }}
+                />
+              ) : (
+                <Like
+                  className="header-icon-container-img"
+                  onClick={() => {
+                    showLikeDropD ? setlikeIcon(Like) : setlikeIcon(LikeS);
+                    setShowLikeDropD(!showLikeDropD);
+                  }}
+                />
+              )}
 
               <div
                 onClick={() => {
