@@ -375,12 +375,15 @@ hr {
 /* 
 .profile-drowndown-tip:hover {
 } */
-
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+}
 .profile-container {
   width: 975px;
   padding: 30px 20px 0;
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -952,6 +955,13 @@ hr {
   flex-direction: column;
   align-items: center;
 }
+.explore-post-wrapper {
+  width: 935px;
+  /* background-color: #565656; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 .mobile-message {
   display: none;
@@ -966,6 +976,7 @@ hr {
 
   .home-left {
     margin-right: 0px;
+    width: 600px;
   }
   .home-right {
     display: none;

@@ -32,70 +32,74 @@ const Profile = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
-      <div
-        className="profile-container"
-        style={{
-          marginTop: "54px",
-          width: innerWidth < 975 ? innerWidth : "975px",
-        }}
-      >
-        <ProfileInfo
-          width={innerWidth < 975 ? innerWidth - 40 : "935px"}
-          imgWidth={
-            innerWidth < 975 ? 291.67 - (975 - innerWidth) * 0.334 : "291.67px"
-          }
-        />
-        <div className="highlight-wrapper">
-          <li></li>
-          <ProfileHighlight text="Me" />
-          <ProfileHighlight text="Thoughts" />
-        </div>
-        <ProfileNav
-          imgPosts={postsImgS}
-          textPosts="#262626"
-          borderPosts="1px solid #000"
-          marginPosts="-1px"
-        />
+      <div className="profile-wrapper">
         <div
-          className="profile-post-container"
+          className="profile-container"
           style={{
-            width: innerWidth < 975 ? innerWidth - 40 : "935px",
+            marginTop: "54px",
+            width: innerWidth < 975 ? innerWidth : "975px",
           }}
         >
-          {arr.map((x, i) => {
-            if (j === i) {
-              j = j + 3;
-              return (
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to={{
-                    pathname: "/p/1",
-                    state: { modal: true },
-                  }}
-                >
-                  <ProfilePost className={"profile-post-margin"} />
-                </Link>
-              );
-            } else {
-              return (
-                // <div
-                //   onClick={() => {
-                //     setShowPostModal(!showPostModal);
-                //   }}
-                // >
-                // </div>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to={{
-                    pathname: "/p/1",
-                    state: { modal: true },
-                  }}
-                >
-                  <ProfilePost />
-                </Link>
-              );
+          <ProfileInfo
+            width={innerWidth < 975 ? innerWidth - 40 : "935px"}
+            imgWidth={
+              innerWidth < 975
+                ? 291.67 - (975 - innerWidth) * 0.334
+                : "291.67px"
             }
-          })}
+          />
+          <div className="highlight-wrapper">
+            <li></li>
+            <ProfileHighlight text="Me" />
+            <ProfileHighlight text="Thoughts" />
+          </div>
+          <ProfileNav
+            imgPosts={postsImgS}
+            textPosts="#262626"
+            borderPosts="1px solid #000"
+            marginPosts="-1px"
+          />
+          <div
+            className="profile-post-container"
+            style={{
+              width: innerWidth < 975 ? innerWidth - 40 : "935px",
+            }}
+          >
+            {arr.map((x, i) => {
+              if (j === i) {
+                j = j + 3;
+                return (
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={{
+                      pathname: "/p/1",
+                      state: { modal: true },
+                    }}
+                  >
+                    <ProfilePost className={"profile-post-margin"} />
+                  </Link>
+                );
+              } else {
+                return (
+                  // <div
+                  //   onClick={() => {
+                  //     setShowPostModal(!showPostModal);
+                  //   }}
+                  // >
+                  // </div>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={{
+                      pathname: "/p/1",
+                      state: { modal: true },
+                    }}
+                  >
+                    <ProfilePost />
+                  </Link>
+                );
+              }
+            })}
+          </div>
         </div>
       </div>
       <Footer />

@@ -12,7 +12,7 @@ import userImg from "../Images/profileimg.jpg";
 const Home = () => {
   const a = [1, 1, 1, 1, 1];
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <Header ImgHome={HomeS} />
       <div style={{ marginTop: "54px" }} className="home-wrapper">
         <div className="home-left">
