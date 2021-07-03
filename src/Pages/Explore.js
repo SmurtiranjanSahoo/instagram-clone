@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProfilePost from "../Components/Profile/ProfilePost";
+import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
+
 //images
 import { ReactComponent as ExploreS } from "../Images/explore-select.svg";
 
@@ -16,9 +18,7 @@ const Explore = () => {
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", updateWindowDimensions);
-
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
@@ -49,6 +49,7 @@ const Explore = () => {
         {/* </div> */}
       </div>
       <Footer />
+      <NavigaitionBottom ImgSearch={ExploreS} />
     </div>
   );
 };

@@ -18,6 +18,7 @@ import ProfileTagged from "./Pages/ProfileTagged";
 import DirectInbox from "./Pages/DirectInbox";
 import Explore from "./Pages/Explore";
 import StoryPlay from "./Pages/StoryPlay";
+import Activity from "./Pages/Activity";
 import PostModal from "./Components/PostModal/PostModal";
 
 class App extends Component {
@@ -54,6 +55,7 @@ class App extends Component {
           <Route exact path="/direct/inbox" component={DirectInbox} />
           <Route exact path="/explore" component={Explore} />
           <Route exact path="/stories" component={StoryPlay} />
+          <Route exact path="/accounts/activity" component={Activity} />
 
           <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />

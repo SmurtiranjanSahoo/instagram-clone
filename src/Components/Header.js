@@ -34,9 +34,7 @@ const Header = ({
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", updateWindowDimensions);
-
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
@@ -325,28 +323,6 @@ const Header = ({
       </div>
       {showLikeDropD ? likeDrowndown() : <></>}
       {showProfileDropD ? profileDrowndown() : <></>}
-
-      {/* Mobile header */}
-      <div
-        className="header-mobile-container"
-        style={{
-          width: innerWidth < 735 ? innerWidth : "735px",
-        }}
-      >
-        <Link to="/" className="header-icon-container-img">
-          <CameraImg />
-        </Link>
-        <div className="header-logo">
-          <img
-            src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png"
-            style={{ height: "29px", width: "103px" }}
-            alt="home icon"
-          />
-        </div>
-        <Link to="/direct/inbox" className="header-icon-container-img">
-          <ImgMessage style={{ width: "24px", height: "24px" }} />
-        </Link>
-      </div>
     </div>
   );
 };
