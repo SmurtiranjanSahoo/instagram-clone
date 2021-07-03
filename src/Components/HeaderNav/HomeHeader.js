@@ -17,7 +17,7 @@ const HomeHeader = () => {
   }, []);
 
   return (
-    <div className="header-wrapper">
+    <div className="header-wrapper-m">
       <div
         className="header-mobile-container"
         style={{

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 //component
 import Header from "../Components/Header";
+import Searchbar from "../Components/HeaderNav/Searchbar/Searchbar";
 import Footer from "../Components/Footer";
 import ProfilePost from "../Components/Profile/ProfilePost";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
@@ -25,7 +26,7 @@ const Explore = () => {
   return (
     <div>
       <Header ImgExplore={ExploreS} />
-
+      <Searchbar innerWidth={innerWidth} />
       <div
         className="explore-post-wrapper"
         style={{

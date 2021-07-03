@@ -241,6 +241,17 @@ input:not(:focus):valid ~ .floating-label {
   top: 0;
   background-color: #ffffff;
 }
+.header-wrapper-m {
+  height: 44px;
+  width: 100%;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  background-color: #ffffff;
+}
 .header-desktop-container {
   width: 975px;
   height: 54px;
@@ -1002,11 +1013,9 @@ hr {
 }
 @media screen and (max-width: 735px) {
   .header-wrapper {
-    height: 44px;
-  }
-  .header-desktop-container {
     display: none;
   }
+
   .header-mobile-container {
     width: 735px;
     height: 44px;
