@@ -11,6 +11,7 @@ import ProfileHighlight from "../Components/Profile/ProfileHighlight";
 import ProfileNav from "../Components/Profile/ProfileNav";
 import ProfilePost from "../Components/Profile/ProfilePost";
 import PostModal from "../Components/PostModal/PostModal";
+import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 
 const Profile = () => {
   const [showPostModal, setShowPostModal] = useState(false);
@@ -102,6 +103,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      <NavigaitionBottom />
       <Footer />
 
       {showPostModal ? <PostModal /> : <></>}
