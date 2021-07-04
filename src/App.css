@@ -1054,7 +1054,16 @@ hr {
     padding: 0;
   }
   .explore-post-wrapper {
-    margin: 0;
+    margin: 46px 0;
     padding: 0;
+  }
+  .profile-post {
+    margin: 0 0px 2px 0;
+  }
+  .profile-post-margin {
+    margin: 0 2px 2px 2px;
+  }
+  .footer-wrapper {
+    display: none;
   }
 }

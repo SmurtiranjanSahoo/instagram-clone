@@ -24,8 +24,22 @@ const ProfilePost = ({
       <div
         className={className}
         style={{
-          width: width < 975 ? 293 - (975 - width) * 0.334 : "293px",
-          height: width < 975 ? 293 - (975 - width) * 0.334 : "293px",
+          width:
+            width < 975
+              ? width <= 735
+                ? width <= 505
+                  ? 243.66 - (735 - width) * 0.3335
+                  : 243.66 - (735 - width) * 0.334
+                : 293 - (975 - width) * 0.334
+              : "293px",
+          height:
+            width < 975
+              ? width <= 735
+                ? width <= 505
+                  ? 243.66 - (735 - width) * 0.3335
+                  : 243.66 - (735 - width) * 0.334
+                : 293 - (975 - width) * 0.334
+              : "293px",
         }}
       >
         <div className="profile-post-likecount">

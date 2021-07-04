@@ -3,6 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div
+      className="footer-wrapper"
       style={{
         height: "110px",
         width: "100%",
