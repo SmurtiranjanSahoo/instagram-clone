@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //components
 import Header from "../Components/Header";
 import HomeHeader from "../Components/HeaderNav/HomeHeader";
@@ -12,17 +12,27 @@ import { ReactComponent as HomeS } from "../Images/home-select.svg";
 import userImg from "../Images/profileimg.jpg";
 
 const Home = () => {
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const a = [1, 1, 1, 1, 1];
+
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      setInnerWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", updateWindowDimensions);
+    return () => window.removeEventListener("resize", updateWindowDimensions);
+  }, []);
+
   return (
     <div style={{ width: "100%", overflowX: "hidden" }}>
       <Header ImgHome={HomeS} />
       <HomeHeader />
       <div className="home-wrapper">
         <div className="home-left">
-          <StoryContainer />
+          <StoryContainer innerWidth={innerWidth} />
           <div>
             {a.map((i) => {
-              return <HomePostCard />;
+              return <HomePostCard innerWidth={innerWidth} />;
             })}
           </div>
         </div>

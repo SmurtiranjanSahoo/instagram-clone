@@ -3,7 +3,7 @@ import StoryHome from "./StoryHome";
 import StoryNavImg from "../../Images/story-nav.png";
 import { Link } from "react-router-dom";
 
-const StoryContainer = () => {
+const StoryContainer = ({ innerWidth }) => {
   const [prevBtn, setPrevBtn] = useState("hidden");
   const [nextBtn, setNextBtn] = useState("visible");
 
@@ -15,7 +15,13 @@ const StoryContainer = () => {
 
   return (
     <>
-      <div ref={storyWrapper} className="story-wrapper">
+      <div
+        ref={storyWrapper}
+        className="story-wrapper"
+        style={{
+          width: innerWidth < 600 ? innerWidth : "600px",
+        }}
+      >
         <div className="story-wrapper-li">
           <li></li>
         </div>

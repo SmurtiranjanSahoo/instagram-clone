@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+//components
 import ActivityHeader from "../Components/HeaderNav/ActivityHeader";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
+//image
+import { ReactComponent as LikeS } from "../Images/like-select.svg";
 
 const Activity = () => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -17,7 +20,7 @@ const Activity = () => {
     <div style={{ width: "100%", overflowX: "hidden" }}>
       <ActivityHeader innerWidth={innerWidth} />
       <div className="home-wrapper"></div>
-      <NavigaitionBottom />
+      <NavigaitionBottom ImgLike={LikeS} />
     </div>
   );
 };

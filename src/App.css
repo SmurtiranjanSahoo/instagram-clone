@@ -1035,23 +1035,14 @@ hr {
     height: 32px;
     margin: 0;
   }
-  /* .story-wrapper {
-    width: 100%;
-    height: 105px;
-    padding: 10px 0;
-    margin-bottom: 0;
-    background-color: #fafafa;
-    border: none;
-    border-bottom: 1px solid #dbdbdb;
-  } */
   .story-wrapper {
     height: 105px;
     padding: 10px 0;
-    /* margin-bottom: 0; */
   }
   .home-wrapper {
-    margin-top: 64px;
     padding: 0;
+    margin-top: 64px;
+    margin-bottom: 44px;
   }
   .explore-post-wrapper {
     margin: 46px 0;
@@ -1065,5 +1056,33 @@ hr {
   }
   .footer-wrapper {
     display: none;
+  }
+
+  .post-card-container {
+    margin-bottom: 15px;
+  }
+  .post-card-add-comment {
+    display: none;
+  }
+  .story-wrapper-button-prev {
+    display: none;
+  }
+  .story-wrapper-button-next {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .home-wrapper {
+    margin-top: 44px;
+    padding: 0;
+  }
+  .story-wrapper {
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  .post-card-container {
+    border: none;
   }
 }

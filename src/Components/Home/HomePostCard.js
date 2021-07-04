@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //images
 import userImg from "../../Images/profileimg.jpg";
@@ -11,15 +11,21 @@ import savedImg from "../../Images/PostCard/saved.svg";
 import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 
-const HomePostCard = () => {
+const HomePostCard = ({ innerWidth }) => {
   const [like, setLike] = useState("false");
   const [saved, setSaved] = useState("false");
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
   return (
-    <div className="post-card-container">
+    <div
+      className="post-card-container"
+      style={{
+        width: innerWidth < 600 ? innerWidth : "600px",
+      }}
+    >
       <div className="post-card-header">
         <img src={userImg} alt="user profile" />
         <div className="post-card-header-innerdiv">
