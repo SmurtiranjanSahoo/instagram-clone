@@ -59,7 +59,12 @@ const Profile = () => {
           <div
             className="profile-post-container"
             style={{
-              width: innerWidth < 975 ? innerWidth - 40 : "935px",
+              width:
+                innerWidth < 975
+                  ? innerWidth <= 735
+                    ? innerWidth
+                    : innerWidth - 40
+                  : "935px",
             }}
           >
             {arr.map((x, i) => {

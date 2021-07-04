@@ -5,9 +5,9 @@
   display: flex;
   justify-content: space-evenly;
   border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
 }
 .innerDiv {
+  min-width: 141.52px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,4 +21,10 @@
   font-size: 14px;
   color: #262626;
   font-weight: 500;
+}
+
+@media screen and (min-width: 735px) {
+  .wrapper {
+    display: none;
+  }
 }
