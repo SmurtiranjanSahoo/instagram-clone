@@ -39,18 +39,10 @@ const Profile = () => {
         <div
           className="profile-container"
           style={{
-            marginTop: "54px",
             width: innerWidth < 975 ? innerWidth : "975px",
           }}
         >
-          <ProfileInfo
-            width={innerWidth < 975 ? innerWidth - 40 : "935px"}
-            imgWidth={
-              innerWidth < 975
-                ? 291.67 - (975 - innerWidth) * 0.334
-                : "291.67px"
-            }
-          />
+          <ProfileInfo innerWidth={innerWidth} imgWidth={innerWidth} />
           <div className="highlight-wrapper">
             <li></li>
             <ProfileHighlight text="Me" />

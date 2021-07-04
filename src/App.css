@@ -394,6 +394,7 @@ hr {
 .profile-container {
   width: 975px;
   padding: 30px 20px 0;
+  margin-top: 54px;
   /* margin-left: auto;
   margin-right: auto; */
   display: flex;
@@ -975,7 +976,8 @@ hr {
   flex-wrap: wrap;
 }
 
-.header-mobile-container {
+.header-mobile-container,
+.profile-name-m {
   display: none;
 }
 @media screen and (max-width: 999px) {
@@ -1070,6 +1072,115 @@ hr {
   .story-wrapper-button-next {
     display: none;
   }
+  .profile-container {
+    padding: 0;
+    margin-top: 44px;
+  }
+  .profile-info-container {
+    height: 77px;
+    margin: 16px 16px 24px;
+  }
+  .profile-img {
+    height: 77px;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .profile-img img {
+    margin-left: 5px;
+    width: 77px;
+    height: 77px;
+  }
+  .profile-info {
+    height: 77px;
+  }
+  .profile-username {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profile-username h2 {
+    line-height: 25px;
+    max-width: 185px;
+  }
+  .profile-username span {
+    width: 100%;
+    margin: 10px 0 0 0;
+    text-align: center;
+  }
+  .profile-username img {
+    display: none;
+  }
+  .profile-info-pff {
+    display: none;
+  }
+  .profile-info-pff span {
+    font-size: 16px;
+  }
+  .profile-name {
+    display: none;
+  }
+  .profile-name-m {
+    height: 81px;
+    width: 100%;
+    display: unset;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px 21px;
+  }
+  .profile-name-m h1 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+  .profile-name-m span {
+    font-size: 14px;
+    color: #8e8e8e;
+    line-height: 20px;
+  }
+  .profile-name-m a {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #00376b;
+    text-decoration: none;
+  }
+  /* highlight container */
+  .highlight-wrapper {
+    width: 100%;
+    height: 88px;
+    margin-bottom: 20px;
+  }
+  .highlight-wrapper li {
+    width: 5px;
+    height: 100%;
+    list-style: none;
+  }
+
+  .highlight-container {
+    width: 72.5px;
+    height: 87px;
+  }
+  .highlight-it {
+    width: 64px;
+    height: 100%;
+    padding: 0px;
+  }
+  .highlight-outline {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #e6e6e6;
+  }
+  .highlight-outline img {
+    width: 56px;
+    height: 56px;
+  }
+  .highlight-text {
+    width: 65px;
+    height: 26px;
+    padding: 8px 0 0;
+    font-size: 12px;
+    font-weight: 400;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -1084,5 +1195,13 @@ hr {
   }
   .post-card-container {
     border: none;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .profile-username h2 {
+    line-height: 25px;
+    max-width: 185px;
+    font-size: 22px;
   }
 }
