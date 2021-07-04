@@ -8,7 +8,8 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProfileInfo from "../Components/Profile/ProfileInfo";
 import ProfileHighlight from "../Components/Profile/ProfileHighlight";
-import ProfileNav from "../Components/Profile/ProfileNav";
+import ProfileNav from "../Components/Profile/ProfileNav/ProfileNav";
+import ProfileNavM from "../Components/Profile/ProfileNav/ProfileNavM";
 import ProfilePost from "../Components/Profile/ProfilePost";
 import FollowInfo from "../Components/Profile/FollowInfo/FollowInfo";
 import PostModal from "../Components/PostModal/PostModal";
@@ -49,13 +50,14 @@ const Profile = () => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
-          <FollowInfo />
+          <FollowInfo innerWidth={innerWidth} />
           <ProfileNav
             imgPosts={postsImgS}
             textPosts="#262626"
             borderPosts="1px solid #000"
             marginPosts="-1px"
           />
+          <ProfileNavM innerWidth={innerWidth} SelectPost="#0095f6" />
           <div
             className="profile-post-container"
             style={{

@@ -7,7 +7,6 @@
   border-top: 1px solid #dbdbdb;
 }
 .innerDiv {
-  min-width: 141.52px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,7 +22,7 @@
   font-weight: 500;
 }
 
-@media screen and (min-width: 735px) {
+@media screen and (min-width: 736px) {
   .wrapper {
     display: none;
   }

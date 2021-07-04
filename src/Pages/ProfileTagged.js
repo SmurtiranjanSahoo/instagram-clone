@@ -4,7 +4,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProfileInfo from "../Components/Profile/ProfileInfo";
 import ProfileHighlight from "../Components/Profile/ProfileHighlight";
-import ProfileNav from "../Components/Profile/ProfileNav";
+import ProfileNav from "../Components/Profile/ProfileNav/ProfileNav";
 import ProfilePost from "../Components/Profile/ProfilePost";
 //images
 import taggedImgS from "../Images/tagged.svg";
