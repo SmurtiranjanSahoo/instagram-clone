@@ -12,6 +12,7 @@ import ProfileNav from "../Components/Profile/ProfileNav";
 import ProfilePost from "../Components/Profile/ProfilePost";
 import PostModal from "../Components/PostModal/PostModal";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
+import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 
 const Profile = () => {
   const [showPostModal, setShowPostModal] = useState(false);
@@ -33,6 +34,7 @@ const Profile = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
+      <ProfileHeader innerWidth={innerWidth} />
       <div className="profile-wrapper">
         <div
           className="profile-container"
