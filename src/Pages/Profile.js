@@ -10,6 +10,7 @@ import ProfileInfo from "../Components/Profile/ProfileInfo";
 import ProfileHighlight from "../Components/Profile/ProfileHighlight";
 import ProfileNav from "../Components/Profile/ProfileNav";
 import ProfilePost from "../Components/Profile/ProfilePost";
+import FollowInfo from "../Components/Profile/FollowInfo/FollowInfo";
 import PostModal from "../Components/PostModal/PostModal";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
@@ -48,6 +49,7 @@ const Profile = () => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
+          <FollowInfo />
           <ProfileNav
             imgPosts={postsImgS}
             textPosts="#262626"

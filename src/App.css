@@ -490,6 +490,10 @@ hr {
   height: 130px;
   display: flex;
   margin-bottom: 50px;
+  overflow-x: auto;
+}
+.highlight-wrapper::-webkit-scrollbar {
+  display: none;
 }
 .highlight-wrapper li {
   width: 24px;
@@ -528,6 +532,9 @@ hr {
   text-align: center;
   font-weight: 600;
   color: #262626;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .profile-nav-container {
   width: 100%;
