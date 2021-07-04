@@ -1194,6 +1194,19 @@ hr {
   .profile-nav-container {
     display: none;
   }
+  .profile-igtv {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .profile-saved-text {
+    height: 46px;
+    display: flex;
+    align-items: center;
+  }
+  .profile-saved-text p {
+    margin: 0;
+    margin-left: 20px;
+  }
 }
 
 @media screen and (max-width: 640px) {
