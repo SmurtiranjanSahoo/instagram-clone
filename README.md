@@ -2,6 +2,6 @@
 Instagram Clone with working features in MERN Stack
 
 ## Demo
-https://instagram-tr.netlify.app/
+https://instagram-tr.vercel.app/
 
 PS : Not Completed, Still working on it
