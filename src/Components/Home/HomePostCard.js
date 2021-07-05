@@ -23,7 +23,12 @@ const HomePostCard = ({ innerWidth }) => {
     <div
       className="post-card-container"
       style={{
-        width: innerWidth < 600 ? innerWidth : "600px",
+        width:
+          innerWidth < 1000
+            ? innerWidth < 600
+              ? innerWidth
+              : "600px"
+            : "614px",
       }}
     >
       <div className="post-card-header">

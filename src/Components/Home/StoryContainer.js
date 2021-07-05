@@ -19,7 +19,12 @@ const StoryContainer = ({ innerWidth }) => {
         ref={storyWrapper}
         className="story-wrapper"
         style={{
-          width: innerWidth < 600 ? innerWidth : "600px",
+          width:
+            innerWidth < 1000
+              ? innerWidth < 600
+                ? innerWidth
+                : "600px"
+              : "614px",
         }}
       >
         <div className="story-wrapper-li">

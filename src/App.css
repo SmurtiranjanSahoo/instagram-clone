@@ -1217,6 +1217,7 @@ hr {
   .story-wrapper {
     margin-bottom: 0;
     border: none;
+    background-color: #fafafa;
     border-bottom: 1px solid #dbdbdb;
   }
   .post-card-container {
