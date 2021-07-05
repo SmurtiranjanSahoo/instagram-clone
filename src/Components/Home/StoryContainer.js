@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import StoryHome from "./StoryHome";
+import AddStory from "./AddStory/AddStory";
 import StoryNavImg from "../../Images/story-nav.png";
 import { Link } from "react-router-dom";
 
@@ -30,6 +31,7 @@ const StoryContainer = ({ innerWidth }) => {
         <div className="story-wrapper-li">
           <li></li>
         </div>
+        <AddStory />
 
         {arr.map((x, i) => {
           if (j === i) {

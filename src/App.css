@@ -822,7 +822,7 @@ hr {
 .story-username {
   font-size: 12px;
   text-align: center;
-  font-weight: 600;
+  /* font-weight: 600; */
   color: #262626;
   /* white-space: nowrap; */
   overflow: hidden;
@@ -1050,7 +1050,7 @@ hr {
   }
   .home-wrapper {
     padding: 0;
-    margin-top: 64px;
+    margin-top: 68px;
     margin-bottom: 44px;
   }
   .explore-post-wrapper {
