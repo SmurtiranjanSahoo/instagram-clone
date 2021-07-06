@@ -872,6 +872,7 @@ hr {
   outline: none;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .post-card-img {
   width: 100%;
