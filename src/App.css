@@ -898,9 +898,7 @@ hr {
   outline: none;
   cursor: pointer;
 }
-.post-card-icons button:nth-child(1) {
-  padding-left: 0;
-}
+
 .post-card-like-v {
   width: 100%;
   padding: 0 16px;
@@ -1056,6 +1054,7 @@ hr {
     padding: 0;
     margin-top: 68px;
     margin-bottom: 44px;
+    background-color: #ffffff;
   }
   .explore-post-wrapper {
     margin: 46px 0;
@@ -1076,6 +1075,13 @@ hr {
 
   .post-card-container {
     margin-bottom: 15px;
+  }
+  .post-card-caption {
+    margin-bottom: 3px;
+  }
+  .post-recent-comment {
+    margin-top: 3px;
+    margin-bottom: 8px;
   }
   .post-card-add-comment {
     display: none;

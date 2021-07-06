@@ -54,6 +54,7 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
         <div className="post-card-icons">
           <div>
             <button
+              style={{ paddingLeft: "0px" }}
               onClick={() => {
                 setLike(!like);
               }}
