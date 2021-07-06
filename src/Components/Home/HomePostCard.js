@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 //images
 import userImg from "../../Images/profileimg.jpg";
@@ -59,9 +60,11 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
             >
               <img src={like ? likeImg : likeImgS} alt="like" />
             </button>
-            <button>
-              <img src={commentImg} alt="comment" />
-            </button>
+            <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
+              <button>
+                <img src={commentImg} alt="comment" />
+              </button>
+            </Link>
             <button>
               <img src={shareImg} alt="Share" />
             </button>
@@ -85,7 +88,9 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
             Prepare to meet your match 👊 Tickets and pre-orders are available
             now for Marvel Studios' @Black.Widow. Experience it
           </div>
-          <a href="">View all 230 comments</a>
+          <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
+            View all 230 comments
+          </Link>
           <div className="post-recent-comment">
             <span>tamuna_samadashvili </span>
             Wonderful 🙌
