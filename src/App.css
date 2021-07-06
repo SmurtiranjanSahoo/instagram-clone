@@ -898,6 +898,9 @@ hr {
   outline: none;
   cursor: pointer;
 }
+.post-card-icons button:nth-child(1) {
+  padding-left: 0;
+}
 .post-card-like-v {
   width: 100%;
   padding: 0 16px;
