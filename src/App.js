@@ -20,6 +20,7 @@ import Explore from "./Pages/Explore";
 import StoryPlay from "./Pages/StoryPlay";
 import Activity from "./Pages/Activity";
 import PostModal from "./Components/PostModal/PostModal";
+import Comments from "./Pages/Comments";
 
 class App extends Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class App extends Component {
           <Route exact path="/explore" component={Explore} />
           <Route exact path="/stories" component={StoryPlay} />
           <Route exact path="/accounts/activity" component={Activity} />
+          <Route exact path="/p/comments" component={Comments} />
 
           <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />
