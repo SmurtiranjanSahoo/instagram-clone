@@ -77,7 +77,7 @@ const ProfileTagged = () => {
                     style={{ textDecoration: "none" }}
                     to={{
                       pathname: "/p/1",
-                      state: { modal: true },
+                      state: { modal: innerWidth <= 735 ? false : true },
                     }}
                   >
                     <ProfilePost className={"profile-post-margin"} />
@@ -89,7 +89,7 @@ const ProfileTagged = () => {
                     style={{ textDecoration: "none" }}
                     to={{
                       pathname: "/p/1",
-                      state: { modal: true },
+                      state: { modal: innerWidth <= 735 ? false : true },
                     }}
                   >
                     <ProfilePost />

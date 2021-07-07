@@ -546,12 +546,14 @@ hr {
   height: 293px;
   background-color: #262626;
   margin: 0 0px 28px 0;
+  /* position: relative; */
 }
 .profile-post-margin {
   width: 293px;
   height: 293px;
   background-color: #262626;
   margin: 0 28px 28px 28px;
+  /* position: relative; */
 }
 .profile-post-margin:hover,
 .profile-post:hover {
@@ -561,6 +563,7 @@ hr {
   width: 100%;
   height: 100%;
   opacity: 0;
+  /* position: absolute; */
 }
 .profile-post-likecount:hover {
   opacity: 1;
@@ -1196,7 +1199,7 @@ hr {
     margin: 0;
     margin-left: 20px;
   }
-  .profile-post-likecount:hover {
+  .profile-post-likecount {
     display: none;
   }
 }

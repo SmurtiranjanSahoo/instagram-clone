@@ -19,7 +19,18 @@ const Activity = () => {
   return (
     <div style={{ width: "100%", overflowX: "hidden" }}>
       <ActivityHeader innerWidth={innerWidth} />
-      <div className="home-wrapper"></div>
+
+      <div
+        style={{
+          marginTop: "204px",
+          textAlign: "center",
+          color: "#262626",
+          fontWeight: "500",
+        }}
+      >
+        <p>No activity to show</p>
+      </div>
+
       <NavigaitionBottom ImgLike={LikeS} />
     </div>
   );

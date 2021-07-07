@@ -30,9 +30,9 @@ class PostModal extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  updateWindowDimensions = () => {
+  updateWindowDimensions() {
     this.setState({ innerWidth: window.innerWidth });
-  };
+  }
 
   componentDidMount() {
     const { isModal } = this.props;

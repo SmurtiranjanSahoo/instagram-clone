@@ -40,13 +40,18 @@ const Explore = () => {
             j = j + 3;
             return (
               <Link to="/p/1">
-                <ProfilePost className={"profile-post-margin"} />
+                <ProfilePost
+                  // imgUrl="https://source.unsplash.com/random"
+                  className={"profile-post-margin"}
+                />
               </Link>
             );
           } else {
             return (
               <Link to="/p/1">
-                <ProfilePost />
+                <ProfilePost
+                //  imgUrl="https://source.unsplash.com/random"
+                />
               </Link>
             );
           }
