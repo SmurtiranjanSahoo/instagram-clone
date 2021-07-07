@@ -13,9 +13,9 @@ const PostHeader = ({ innerWidth }) => {
           paddingTop: "0px",
         }}
       >
-        <Link to="/" style={{ height: "24px" }}>
+        <div onClick={() => window.history.back()} style={{ height: "24px" }}>
           <BackImg style={{ transform: "rotate(-90deg)" }} />
-        </Link>
+        </div>
         <h1
           style={{
             fontSize: "16px",

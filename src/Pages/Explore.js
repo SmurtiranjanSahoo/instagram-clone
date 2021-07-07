@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 //component
 import Header from "../Components/Header";
 import Searchbar from "../Components/HeaderNav/Searchbar/Searchbar";
@@ -34,21 +35,22 @@ const Explore = () => {
           width: innerWidth < 975 ? innerWidth : "975px",
         }}
       >
-        {/* <div
-          style={{
-            width: innerWidth < 975 ? innerWidth : "975px",
-          }}
-          className="profile-post-container"
-        > */}
         {arr.map((x, i) => {
           if (j === i) {
             j = j + 3;
-            return <ProfilePost className={"profile-post-margin"} />;
+            return (
+              <Link to="/p/1">
+                <ProfilePost className={"profile-post-margin"} />
+              </Link>
+            );
           } else {
-            return <ProfilePost />;
+            return (
+              <Link to="/p/1">
+                <ProfilePost />
+              </Link>
+            );
           }
         })}
-        {/* </div> */}
       </div>
       <Footer />
       <NavigaitionBottom ImgSearch={SearchS} />
