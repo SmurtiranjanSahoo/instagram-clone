@@ -15,22 +15,38 @@ import emojiImg from "../../Images/PostCard/emoji.svg";
 import closeBtn from "../../Images/PostModal/closeBtn.svg";
 //components
 import Header from "../Header";
+import PostPage from "../GenericComponents/PostPage";
+import NavigaitionBottom from "../NavigationBottom/NavigaitionBottom";
+import PostHeader from "../HeaderNav/PostHeader";
+import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
 
 class PostModal extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.modalRef = React.createRef();
+    this.postMRef = React.createRef();
+
+    this.state = { innerWidth: window.innerWidth, option: false };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
+
+  updateWindowDimensions = () => {
+    this.setState({ innerWidth: window.innerWidth });
+  };
+
   componentDidMount() {
     const { isModal } = this.props;
 
     if (isModal) {
       disableBodyScroll(this.modalRef.current);
     }
+
+    window.addEventListener("resize", this.updateWindowDimensions);
   }
 
   componentWillUnmount() {
     enableBodyScroll(this.modalRef.current);
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
   render() {
@@ -41,6 +57,11 @@ class PostModal extends Component {
         <div
           ref={this.modalRef}
           className="post-modal-wrapper"
+          style={{
+            width: this.state.innerWidth,
+            padding: "40px 20px",
+            margin: "0 0 16px 0",
+          }}
           onClick={() => this.props.history.goBack()}
         >
           <div
@@ -57,8 +78,13 @@ class PostModal extends Component {
               <div className="post-header">
                 <img src={userImg} alt="user profile" />
                 <div className="post-header-innerdiv">
-                  <a href="">marvelstudios</a>
-                  <button>
+                  <a href="/">marvelstudios</a>
+                  <button
+                    onClick={() => {
+                      this.setState({ option: !this.state.option });
+                      disableBodyScroll(this.postMRef);
+                    }}
+                  >
                     <img
                       style={{ width: "16px", height: "16px" }}
                       src={optionsImg}
@@ -141,13 +167,55 @@ class PostModal extends Component {
               <img src={closeBtn} alt="close button" />
             </button>
           </div>
+          {this.state.option ? (
+            <PostOptionModal
+              setCloseModal={() => {
+                this.setState({ option: !this.state.option });
+                enableBodyScroll(this.postMRef);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       );
     } else {
-      return (
+      return this.state.innerWidth <= 735 ? (
         <div>
           <Header />
-          <div className="post-no-modal-wrapper">
+          <PostHeader innerWidth={this.state.innerWidth} />
+          <div ref={this.postMRef} style={{ margin: "44px 0" }}>
+            <PostPage
+              setOptionBtn={() => {
+                this.setState({ option: !this.state.option });
+                disableBodyScroll(this.postMRef);
+              }}
+              innerWidth={this.state.innerWidth}
+            />
+          </div>
+          <NavigaitionBottom />
+          {this.state.option ? (
+            <PostOptionModal
+              setCloseModal={() => {
+                this.setState({ option: !this.state.option });
+                enableBodyScroll(this.postMRef);
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      ) : (
+        <div>
+          <Header />
+          <div
+            className="post-no-modal-wrapper"
+            style={{
+              width: this.state.innerWidth,
+              padding: "40px 20px",
+              margin: "0 0 16px 0",
+            }}
+          >
             <div className="post-no-modal-container">
               <div className="post-image">
                 <img src={userImg} alt="" />
@@ -157,7 +225,12 @@ class PostModal extends Component {
                   <img src={userImg} alt="user profile" />
                   <div className="post-header-innerdiv">
                     <a href="">marvelstudios</a>
-                    <button>
+                    <button
+                      onClick={() => {
+                        this.setState({ option: !this.state.option });
+                        disableBodyScroll(this.postMRef);
+                      }}
+                    >
                       <img
                         style={{ width: "16px", height: "16px" }}
                         src={optionsImg}
@@ -236,6 +309,16 @@ class PostModal extends Component {
               </div>
             </div>
           </div>
+          {this.state.option ? (
+            <PostOptionModal
+              setCloseModal={() => {
+                this.setState({ option: !this.state.option });
+                enableBodyScroll(this.postMRef);
+              }}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       );
     }
