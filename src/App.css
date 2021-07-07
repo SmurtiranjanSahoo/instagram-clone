@@ -309,13 +309,7 @@ input:not(:focus):valid ~ .floating-label {
   color: #989ba1;
   left: 20px;
 }
-/* .header-search input:not(:focus):valid ~ .search-clear {
-  visibility: hidden;
-} */
 
-/* .header-search input::target-text{
- display: ;
-} */
 .header-icon-wrapper {
   max-width: 258.5px;
   width: 100%;
@@ -334,28 +328,12 @@ input:not(:focus):valid ~ .floating-label {
   margin-right: 22px;
 }
 
-/* user image border */
-/* .header-profile-img {
-  height: 28px;
-  width: 28px;
-  border: 1px solid #282828;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-self: center;
-  align-items: center;
-} */
 .header-profile-img img {
   height: 22px;
   width: 22px;
   border-radius: 50%;
   cursor: pointer;
 }
-/* .header-profile-img:hover {
-  height: 28px;
-  width: 28px;
-} */
 .profile-drowndown-container {
   width: 975px;
   margin-left: auto;
@@ -1216,6 +1194,9 @@ hr {
   .profile-saved-text p {
     margin: 0;
     margin-left: 20px;
+  }
+  .profile-post-likecount:hover {
+    display: none;
   }
 }
 
