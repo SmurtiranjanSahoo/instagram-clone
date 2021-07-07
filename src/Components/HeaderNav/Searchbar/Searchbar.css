@@ -6,7 +6,7 @@
   border: none;
   border: 1px solid #dbdbdb;
   outline: none;
-  border-radius: 3px;
+  border-radius: 6px;
   padding: 4px 12px 4px 22px;
 }
 .header-search-m input::-webkit-search-cancel-button {
@@ -19,8 +19,8 @@
   align-items: center;
 }
 
-.floating-searchlabel-m,
-.floating-searchicon-m {
+.floating-searchlabel-mx,
+.floating-searchicon-mx {
   color: #989ba1;
   position: absolute;
   pointer-events: none;
@@ -28,16 +28,38 @@
   top: calc(50% - 10px);
   font-size: 14px;
   font-weight: 400;
-  /* transition: 0.1s ease all; */
+}
+.header-search-m input:focus {
+  border: 1px solid #a6a6a6;
+}
+
+.cancel-btn {
+  width: 54px;
+  padding-left: 12px;
+  color: #262626;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+.floating-searchlabel-m,
+.floating-searchicon-m {
+  color: #989ba1;
+  position: absolute;
+  pointer-events: none;
+  left: calc(50% - 54px);
+  top: calc(50% - 10px);
+  font-size: 14px;
+  font-weight: 400;
 }
 .header-search-m input:focus ~ .floating-searchlabel-m {
-  /* font-size: 14px; */
   color: #989ba1;
-  left: 25px;
+  left: 10px;
   display: none;
-  /* margin-bottom: 5px; */
 }
 .header-search-m input:focus ~ .floating-searchicon-m {
   color: #989ba1;
-  left: 25px;
+  left: 10px;
 }
