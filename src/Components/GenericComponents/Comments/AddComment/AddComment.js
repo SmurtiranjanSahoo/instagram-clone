@@ -15,7 +15,7 @@ const AddComment = ({ innerWidth }) => {
         className="input"
       >
         <input type="text" placeholder="Add a comment..." />
-        <button>Post</button>
+        <button disabled="true">Post</button>
       </form>
     </div>
   );

@@ -8,6 +8,7 @@ import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom"
 
 //images
 import { ReactComponent as ExploreS } from "../Images/explore-select.svg";
+import { ReactComponent as SearchS } from "../Images/Header/searchS.svg";
 
 const Explore = () => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -50,7 +51,7 @@ const Explore = () => {
         {/* </div> */}
       </div>
       <Footer />
-      <NavigaitionBottom ImgSearch={ExploreS} />
+      <NavigaitionBottom ImgSearch={SearchS} />
     </div>
   );
 };
