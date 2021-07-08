@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchExplore from "../Components/HeaderNav/Searchbar/SearchExplore";
+import NavigationBottom from "../Components/NavigationBottom/NavigaitionBottom";
+import { ReactComponent as SearchS } from "../Images/Header/searchS.svg";
 
 const ExploreSearch = () => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -15,6 +17,7 @@ const ExploreSearch = () => {
   return (
     <div>
       <SearchExplore innerWidth={innerWidth} />
+      <NavigationBottom ImgSearch={SearchS} />
     </div>
   );
 };
