@@ -1005,6 +1005,10 @@ hr {
   }
 }
 @media screen and (max-width: 735px) {
+  body {
+    background-color: #ffffff;
+  }
+
   .header-wrapper {
     display: none;
   }
