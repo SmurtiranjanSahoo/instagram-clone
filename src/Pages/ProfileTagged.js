@@ -37,7 +37,7 @@ const ProfileTagged = () => {
     <div style={{ overflowX: "hidden" }}>
       <Header />
       <ProfileHeader innerWidth={innerWidth} />
-      <div className="profile-wrapper">
+      <div className="profile-wrapper" style={{ overflowY: "hidden" }}>
         <div
           className="profile-container"
           style={{
