@@ -1,7 +1,7 @@
 # instagram-clone
 Instagram Clone with working features in MERN Stack
 
-## Demo
+## Live Demo
 https://instagram-tr.vercel.app/
 
-PS : Not Completed, Still working on it
+PS : Frontend Completed, Still working on it Backend.
