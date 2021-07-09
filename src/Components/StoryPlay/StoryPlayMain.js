@@ -7,12 +7,28 @@ import playImg from "../../Images/StoryPlay/play.svg";
 import unmuteImg from "../../Images/StoryPlay/soundplay.svg";
 import userImg from "../../Images/profileimg.jpg";
 
-const StoryPlayMain = () => {
+const StoryPlayMain = ({ innerWidth }) => {
   const [pause, setPause] = useState(false);
   const [unmute, setUnmute] = useState(false);
 
   return (
-    <div className="story-play-main">
+    <div
+      className="story-play-main"
+      style={{
+        width:
+          innerWidth < 975
+            ? innerWidth < 735
+              ? innerWidth < 425
+                ? innerWidth < 375
+                  ? innerWidth < 350
+                    ? innerWidth
+                    : innerWidth - 70
+                  : innerWidth - 100
+                : "300px"
+              : "310px"
+            : "320px",
+      }}
+    >
       <div className="story-header">
         <img src={userImg} alt="user profile" />
         <div className="story-header-innerdiv">
@@ -58,6 +74,7 @@ const StoryPlayMain = () => {
           </div>
         </div>
       </div>
+      <div className="story-reply-sec"></div>
     </div>
   );
 };

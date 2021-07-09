@@ -9,7 +9,7 @@
 .story-play-container {
   /* width: 50%; */
   height: 100%;
-  padding: 30px 0;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,9 +100,19 @@
   cursor: pointer;
 }
 
-@media screen and (min-width: 735) and (max-width: 1336) {
+@media screen and (max-width: 425px) {
+  /* .story-play-main {
+    
+  } */
+  .insta-logo {
+    display: none;
+  }
+  .storyPlay-closeBtn {
+    display: none;
+  }
+}
+@media screen and (max-width: 425px) {
   .story-play-main {
-    width: 302.63px;
-    /* height: ; */
+    border-radius: 0px;
   }
 }
