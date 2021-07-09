@@ -6,6 +6,7 @@ import pauseImg from "../../Images/StoryPlay/pause.svg";
 import playImg from "../../Images/StoryPlay/play.svg";
 import unmuteImg from "../../Images/StoryPlay/soundplay.svg";
 import userImg from "../../Images/profileimg.jpg";
+import { ReactComponent as ShareImg } from "../../Images/share.svg";
 
 const StoryPlayMain = ({ innerWidth }) => {
   const [pause, setPause] = useState(false);
@@ -74,7 +75,15 @@ const StoryPlayMain = ({ innerWidth }) => {
           </div>
         </div>
       </div>
-      <div className="story-reply-sec"></div>
+      <div className="story-reply-sec">
+        <div className="reply-input">
+          <input type="text" placeholder="Send Message" />
+          <button>Send</button>
+        </div>
+        <button>
+          <ShareImg style={{ fill: "#dbdbdb" }} />
+        </button>
+      </div>
     </div>
   );
 };
