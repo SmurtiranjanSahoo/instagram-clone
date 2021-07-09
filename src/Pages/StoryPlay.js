@@ -22,7 +22,11 @@ const StoryPlay = ({ history }) => {
 
   return (
     <FullScreen handle={handle}>
-      <div className="story-play-wrapper" onLoad={handle.enter}>
+      <div
+        className="story-play-wrapper"
+        // onLoad={handle.enter}
+        // onAbort={handle.exit}
+      >
         <div className="insta-logo">
           <img
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-dark.png/ff9b85f2b7ca.png"
