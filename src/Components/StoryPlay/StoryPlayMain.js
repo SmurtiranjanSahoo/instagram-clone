@@ -20,14 +20,12 @@ const StoryPlayMain = ({ innerWidth }) => {
           innerWidth < 975
             ? innerWidth < 735
               ? innerWidth < 425
-                ? innerWidth < 375
-                  ? innerWidth < 350
-                    ? innerWidth
-                    : innerWidth - 70
-                  : innerWidth - 100
+                ? innerWidth
                 : "300px"
               : "310px"
             : "320px",
+
+        height: innerWidth < 425 ? "100%" : "600px",
       }}
     >
       <div className="story-header">

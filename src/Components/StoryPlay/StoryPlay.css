@@ -16,7 +16,8 @@
 }
 .story-play-main {
   width: 302.63px;
-  height: 100%;
+  height: 500px;
+  /* max-width: ; */
   background-color: cadetblue;
   border-radius: 5px;
   position: relative;

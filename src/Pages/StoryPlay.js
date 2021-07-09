@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../Components/StoryPlay/StoryPlay.css";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 //components
 import StoryPlayMain from "../Components/StoryPlay/StoryPlayMain";
@@ -8,6 +9,8 @@ import closeBtn from "../Images/PostModal/closeBtn.svg";
 
 const StoryPlay = ({ history }) => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  const handle = useFullScreenHandle();
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -18,31 +21,33 @@ const StoryPlay = ({ history }) => {
   }, []);
 
   return (
-    <div className="story-play-wrapper">
-      <div className="insta-logo">
-        <img
-          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-dark.png/ff9b85f2b7ca.png"
-          alt="logo"
-        />
-      </div>
-      <div
-        className="story-play-container"
-        style={{
-          padding: innerWidth <= 425 ? "0" : "20px 0",
-        }}
-      >
-        <StoryPlayMain innerWidth={innerWidth} />
-      </div>
-      <div className="storyPlay-closeBtn">
-        <button
-          onClick={() => {
-            history.goBack();
+    <FullScreen handle={handle.enter}>
+      <div className="story-play-wrapper">
+        <div className="insta-logo">
+          <img
+            src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-dark.png/ff9b85f2b7ca.png"
+            alt="logo"
+          />
+        </div>
+        <div
+          className="story-play-container"
+          style={{
+            padding: innerWidth <= 425 ? "0" : "20px 0",
           }}
         >
-          <img src={closeBtn} alt="close button" />
-        </button>
+          <StoryPlayMain innerWidth={innerWidth} />
+        </div>
+        <div className="storyPlay-closeBtn">
+          <button
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            <img src={closeBtn} alt="close button" />
+          </button>
+        </div>
       </div>
-    </div>
+    </FullScreen>
   );
 };
 
