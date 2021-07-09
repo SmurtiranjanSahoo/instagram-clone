@@ -37,19 +37,13 @@ const StoryContainer = ({ innerWidth }) => {
           if (j === i) {
             j = j + 3;
             return (
-              <Link
-                style={{ textDecoration: "none" }}
-                to={innerWidth <= 735 ? "/" : "/stories"}
-              >
+              <Link style={{ textDecoration: "none" }} to="/stories">
                 <StoryHome username="smurtiranjan_sahoo" />
               </Link>
             );
           } else {
             return (
-              <Link
-                style={{ textDecoration: "none" }}
-                to={innerWidth <= 735 ? "/" : "/stories"}
-              >
+              <Link style={{ textDecoration: "none" }} to="/stories">
                 <StoryHome username="trtechlesson" />
               </Link>
             );
