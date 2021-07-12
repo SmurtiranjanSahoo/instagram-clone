@@ -101,4 +101,4 @@ userSchema.methods = {
   },
 };
 
-module.exports = moongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
