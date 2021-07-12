@@ -27,10 +27,6 @@ app.use(cors());
 //Port
 const Port = process.env.PORT || 8000;
 
-app.get("/", (req, res) => {
-  res.send("hello my instagram backend");
-});
-
 app.listen(Port, () => {
   console.log(`Server Running on PORT ${Port}`);
 });
