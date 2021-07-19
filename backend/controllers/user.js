@@ -11,3 +11,9 @@ exports.getUserById = (req, res, next, id) => {
     next();
   });
 };
+
+exports.getUser = (req, res) => {
+  req.profile.salt = undefined;
+  req.profile.encry_password = undefined;
+  return res.json(req.profile);
+};
