@@ -10,6 +10,7 @@ const cors = require("cors");
 // My Routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const postRoutes = require("./routes/post");
 
 //DB Connection
 mongoose
@@ -30,6 +31,7 @@ app.use(cors());
 // My Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", postRoutes);
 
 //Port
 const Port = process.env.PORT || 7000;
