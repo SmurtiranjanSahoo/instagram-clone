@@ -85,3 +85,30 @@ exports.deletePost = (req, res) => {
     });
   });
 };
+
+exports.updatePost = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      return res.status(400).json({
+        error: "problem with updating",
+      });
+    }
+
+    //updation code
+    let post = req.post;
+    post = _.extend(post, fields);
+
+    //save to the DB
+    post.save((err, post) => {
+      if (err) {
+        res.status(400).json({
+          error: "Updation of post failed",
+        });
+      }
+      res.json(post);
+    });
+  });
+};
