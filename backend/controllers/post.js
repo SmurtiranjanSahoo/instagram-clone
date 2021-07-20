@@ -62,15 +62,6 @@ exports.getPost = (req, res) => {
   return res.json(req.post);
 };
 
-// middleware
-exports.photo = (req, res, next) => {
-  if (req.post.photo.data) {
-    res.set("Content-Type", req.post.photo.contentType);
-    return res.send(req.post.photo.data);
-  }
-  next();
-};
-
 exports.deletePost = (req, res) => {
   let post = req.post;
   post.remove((err, deletedPost) => {
@@ -111,4 +102,28 @@ exports.updatePost = (req, res) => {
       res.json(post);
     });
   });
+};
+
+exports.getAllPosts = (req, res) => {
+  Post.find()
+    .select("-photo")
+    .populate("postAuthor")
+    .exec((err, posts) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          error: "NO post FOUND",
+        });
+      }
+      res.json(posts);
+    });
+};
+
+// middleware
+exports.photo = (req, res, next) => {
+  if (req.post.photo.data) {
+    res.set("Content-Type", req.post.photo.contentType);
+    return res.send(req.post.photo.data);
+  }
+  next();
 };

@@ -8,6 +8,7 @@ const {
   photo,
   deletePost,
   updatePost,
+  getAllPosts,
 } = require("../controllers/post");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
@@ -24,5 +25,8 @@ router.get("/post/photo/:postId/:userId", isSignedIn, isAuthenticated, photo);
 
 router.delete("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
+
+//listing all posts
+router.get("/posts/:userId", isSignedIn, isAuthenticated, getAllPosts);
 
 module.exports = router;
