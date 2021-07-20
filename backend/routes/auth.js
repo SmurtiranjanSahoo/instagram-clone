@@ -12,7 +12,6 @@ router.post(
   check("password")
     .isLength({ min: 5 })
     .withMessage("password must be at least 5 chars long"),
-
   signup
 );
 
