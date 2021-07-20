@@ -56,3 +56,17 @@ exports.createPost = (req, res) => {
     });
   });
 };
+
+exports.getPost = (req, res) => {
+  req.post.photo = undefined;
+  return res.json(req.post);
+};
+
+// middleware
+exports.photo = (req, res, next) => {
+  if (req.post.photo.data) {
+    res.set("Content-Type", req.post.photo.contentType);
+    return res.send(req.post.photo.data);
+  }
+  next();
+};
