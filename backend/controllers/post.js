@@ -70,3 +70,18 @@ exports.photo = (req, res, next) => {
   }
   next();
 };
+
+exports.deletePost = (req, res) => {
+  let post = req.post;
+  post.remove((err, deletedPost) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Failed to delete the post",
+      });
+    }
+    res.json({
+      message: "Deletion was a success",
+      deletedPost,
+    });
+  });
+};
