@@ -143,16 +143,16 @@ const Signup = () => {
           <div className="login-card-2">
             <div className="login-card-2-text">
               Have an account?{" "}
-              <a
+              <Link
+                to="/accounts/login"
                 style={{
                   color: "#0095f6",
                   fontWeight: "600",
                   textDecoration: "none",
                 }}
-                href=""
               >
                 Log in
-              </a>
+              </Link>
             </div>
           </div>
           <DownloadBtn />
