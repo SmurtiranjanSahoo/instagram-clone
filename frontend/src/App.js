@@ -6,6 +6,7 @@ import {
   Route,
   withRouter,
 } from "react-router-dom";
+import PrivateRoute from "./auth/PrivateRoute";
 //components
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -47,19 +48,27 @@ class App extends Component {
     return (
       <div>
         <Switch location={isModal ? this.previousLocation : location}>
-          <Route exact path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
           <Route exact path="/accounts/login" component={Login} />
           <Route exact path="/accounts/emailsignup" component={Signup} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/profile/channel" component={ProfileIgtv} />
-          <Route exact path="/profile/saved" component={ProfileSaved} />
-          <Route exact path="/profile/tagged" component={ProfileTagged} />
-          <Route exact path="/direct/inbox" component={DirectInbox} />
-          <Route exact path="/explore" component={Explore} />
-          <Route exact path="/stories" component={StoryPlay} />
-          <Route exact path="/accounts/activity" component={Activity} />
-          <Route exact path="/explore/search" component={ExploreSearch} />
-          <Route exact path="/p/comments" component={Comments} />
+          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute exact path="/profile/channel" component={ProfileIgtv} />
+          <PrivateRoute exact path="/profile/saved" component={ProfileSaved} />
+          <PrivateRoute
+            exact
+            path="/profile/tagged"
+            component={ProfileTagged}
+          />
+          <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
+          <PrivateRoute exact path="/explore" component={Explore} />
+          <PrivateRoute exact path="/stories" component={StoryPlay} />
+          <PrivateRoute exact path="/accounts/activity" component={Activity} />
+          <PrivateRoute
+            exact
+            path="/explore/search"
+            component={ExploreSearch}
+          />
+          <PrivateRoute exact path="/p/comments" component={Comments} />
 
           <Route exact path="/p/:postid">
             <PostModal isModal={isModal} />
