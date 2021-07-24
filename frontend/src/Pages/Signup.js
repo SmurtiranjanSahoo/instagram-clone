@@ -1,10 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { signup } from "../auth/auth";
+
+//images
 import InstaLogo from "../Images/Instagram-written-logo.svg";
 import FbLogo from "../Images/facebook logo_icon.svg";
+//components
 import DownloadBtn from "../Components/DownloadBtn";
 import Footer from "../Components/Footer";
 
 const Signup = () => {
+  const [values, setValues] = useState({
+    name: "test1",
+    email: "test1@gmail.com",
+    username: "test1",
+    password: "test1@gmail.com",
+    error: "",
+    success: false,
+  });
+
+  const { name, email, username, password, error, success } = values;
+
+  const handleChange = (val) => (e) => {
+    setValues({ ...values, error: false, [val]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setValues({ ...values, error: false });
+    signup({ name, email, username, password }).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error, success: false });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          email: "",
+          username: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
+  };
+
   return (
     <div
       style={{
@@ -42,34 +82,56 @@ const Signup = () => {
               <div className="login-or">OR</div>
               <div className="login-or-line"></div>
             </div>
-            <form className="login-form">
+            <form onSubmit={onSubmit} className="login-form">
               <div className="input-div">
                 <span className="blocking-span">
-                  <input type="text" className=" login-input" required />
+                  <input
+                    value={email}
+                    onChange={handleChange("email")}
+                    type="email"
+                    className=" login-input"
+                    required
+                  />
                   <span className="floating-label">Mobile Number or Email</span>
                 </span>
               </div>
               <div className="input-div">
                 <span className="blocking-span">
-                  <input type="text" className=" login-input" required />
+                  <input
+                    value={name}
+                    onChange={handleChange("name")}
+                    type="text"
+                    className=" login-input"
+                    required
+                  />
                   <span className="floating-label">Full Name</span>
                 </span>
               </div>
               <div className="input-div">
                 <span className="blocking-span">
-                  <input type="text" className=" login-input" required />
+                  <input
+                    value={username}
+                    onChange={handleChange("username")}
+                    type="text"
+                    className=" login-input"
+                    required
+                  />
                   <span className="floating-label">Username</span>
                 </span>
               </div>
               <div className="input-div">
                 <span className="blocking-span">
-                  <input type="password" className=" login-input" required />
+                  <input
+                    value={password}
+                    onChange={handleChange("password")}
+                    type="password"
+                    className=" login-input"
+                    required
+                  />
                   <span className="floating-label">Password</span>
                 </span>
               </div>
-              <button disabled className="login-button">
-                Sign up
-              </button>
+              <button className="login-button">Sign up</button>
             </form>
             <div className="signup-tc">
               By signing up, you agree to our{" "}
