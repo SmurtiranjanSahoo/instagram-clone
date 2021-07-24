@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
+import { signout } from "../auth/auth";
 // svg
 import { ReactComponent as Home } from "../Images/home.svg";
 import { ReactComponent as Message } from "../Images/message.svg";
 import { ReactComponent as Explore } from "../Images/explore.svg";
 import { ReactComponent as Like } from "../Images/like.svg";
 import { ReactComponent as LikeS } from "../Images/like-select.svg";
-import InstaLogo from "../Images/Instagram-written-logo.svg";
 import { ReactComponent as Saved } from "../Images/saved.svg";
 import { ReactComponent as Settings } from "../Images/settings.svg";
 import { ReactComponent as Switch } from "../Images/switch.svg";
 import { ReactComponent as Profile } from "../Images/profile.svg";
-import { ReactComponent as CameraImg } from "../Images/Header/camera.svg";
 import userImg from "../Images/profileimg.jpg";
 
 import { BiSearch } from "react-icons/bi";
@@ -22,6 +21,7 @@ const Header = ({
   ImgHome = Home,
   ImgMessage = Message,
   ImgExplore = Explore,
+  history,
 }) => {
   const [searchtext, setSearchtext] = useState("");
   const [searchIcon, setSearchIcon] = useState("hidden");
@@ -177,6 +177,11 @@ const Header = ({
           </Link>
           <hr />
           <Link
+            onClick={() => {
+              signout(() => {
+                history.push("/accounts/login");
+              });
+            }}
             style={{
               textDecoration: "none",
               color: "#262626",
@@ -327,4 +332,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export default withRouter(Header);
