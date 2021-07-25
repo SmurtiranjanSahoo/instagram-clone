@@ -1,11 +1,6 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter,
-} from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
 //components
 import Login from "./Pages/Login";
@@ -24,110 +19,110 @@ import PostModal from "./Components/PostModal/PostModal";
 import Comments from "./Pages/Comments";
 import ExploreSearch from "./Pages/ExploreSearch";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.previousLocation = this.props.location;
-  }
-
-  componentWillUpdate() {
-    let { location } = this.props;
-
+const App = ({ location }) => {
+  const [previousLocation, setPreviousLocation] = useState(location);
+  useEffect(() => {
     if (!(location.state && location.state.modal)) {
-      this.previousLocation = location;
+      setPreviousLocation(location);
     }
-  }
+  }, []);
 
-  render() {
-    const { location } = this.props;
-    const isModal =
-      location.state &&
-      location.state.modal &&
-      this.previousLocation !== location;
+  const isModal =
+    location.state && location.state.modal && previousLocation !== location;
 
-    return (
-      <div>
-        <Switch location={isModal ? this.previousLocation : location}>
-          <PrivateRoute exact path="/" component={Home} />
-          <Route exact path="/accounts/login" component={Login} />
-          <Route exact path="/accounts/emailsignup" component={Signup} />
-          <PrivateRoute exact path="/profile" component={Profile} />
-          <PrivateRoute exact path="/profile/channel" component={ProfileIgtv} />
-          <PrivateRoute exact path="/profile/saved" component={ProfileSaved} />
-          <PrivateRoute
-            exact
-            path="/profile/tagged"
-            component={ProfileTagged}
-          />
-          <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
-          <PrivateRoute exact path="/explore" component={Explore} />
-          <PrivateRoute exact path="/stories" component={StoryPlay} />
-          <PrivateRoute exact path="/accounts/activity" component={Activity} />
-          <PrivateRoute
-            exact
-            path="/explore/search"
-            component={ExploreSearch}
-          />
-          <PrivateRoute exact path="/p/comments" component={Comments} />
+  return (
+    <div>
+      <Switch location={isModal ? previousLocation : location}>
+        <PrivateRoute exact path="/" component={Home} />
+        <Route exact path="/accounts/login" component={Login} />
+        <Route exact path="/accounts/emailsignup" component={Signup} />
+        <PrivateRoute exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/profile/channel" component={ProfileIgtv} />
+        <PrivateRoute exact path="/profile/saved" component={ProfileSaved} />
+        <PrivateRoute exact path="/profile/tagged" component={ProfileTagged} />
+        <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
+        <PrivateRoute exact path="/explore" component={Explore} />
+        <PrivateRoute exact path="/stories" component={StoryPlay} />
+        <PrivateRoute exact path="/accounts/activity" component={Activity} />
+        <PrivateRoute exact path="/explore/search" component={ExploreSearch} />
+        <PrivateRoute exact path="/p/comments" component={Comments} />
 
-          <Route exact path="/p/:postid">
-            <PostModal isModal={isModal} />
-          </Route>
-          <Route path="*" component={PageNotFound} />
-        </Switch>
-        {isModal ? (
-          <Route exact path="/p/:postid">
-            <PostModal isModal={isModal} />
-          </Route>
-        ) : null}
-      </div>
-    );
-  }
-}
+        <Route exact path="/p/:postid">
+          <PostModal isModal={isModal} />
+        </Route>
+        <Route path="*" component={PageNotFound} />
+      </Switch>
+      {isModal ? (
+        <Route exact path="/p/:postid">
+          <PostModal isModal={isModal} />
+        </Route>
+      ) : null}
+    </div>
+  );
+};
 
 export default withRouter(App);
 
-// const App = () => {
-
-//   const [previousLocation, setPreviousLocation] = useState(location)
-//   useEffect(() => {
-//     const { location } = this.props;
-//   if (!(location.state && location.state.modal)) {
-//     previousLocation = this.props.location;
+//* class based approach
+// class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.previousLocation = this.props.location;
 //   }
 
-//   }, [])
+//   componentWillUpdate() {
+//     let { location } = this.props;
+
+//     if (!(location.state && location.state.modal)) {
+//       this.previousLocation = location;
+//     }
+//   }
 
 //   render() {
 //     const { location } = this.props;
-//     const isModal = (
+//     const isModal =
 //       location.state &&
 //       location.state.modal &&
-//       previousLocation !== location
+//       this.previousLocation !== location;
 
+//     return (
+//       <div>
+//         <Switch location={isModal ? this.previousLocation : location}>
+//           <PrivateRoute exact path="/" component={Home} />
+//           <Route exact path="/accounts/login" component={Login} />
+//           <Route exact path="/accounts/emailsignup" component={Signup} />
+//           <PrivateRoute exact path="/profile" component={Profile} />
+//           <PrivateRoute exact path="/profile/channel" component={ProfileIgtv} />
+//           <PrivateRoute exact path="/profile/saved" component={ProfileSaved} />
+//           <PrivateRoute
+//             exact
+//             path="/profile/tagged"
+//             component={ProfileTagged}
+//           />
+//           <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
+//           <PrivateRoute exact path="/explore" component={Explore} />
+//           <PrivateRoute exact path="/stories" component={StoryPlay} />
+//           <PrivateRoute exact path="/accounts/activity" component={Activity} />
+//           <PrivateRoute
+//             exact
+//             path="/explore/search"
+//             component={ExploreSearch}
+//           />
+//           <PrivateRoute exact path="/p/comments" component={Comments} />
+
+//           <Route exact path="/p/:postid">
+//             <PostModal isModal={isModal} />
+//           </Route>
+//           <Route path="*" component={PageNotFound} />
+//         </Switch>
+//         {isModal ? (
+//           <Route exact path="/p/:postid">
+//             <PostModal isModal={isModal} />
+//           </Route>
+//         ) : null}
+//       </div>
+//     );
 //   }
+// }
 
-//   return (
-//     <Router>
-//       <Switch location={isModal ? previousLocation : location}>
-//         <Route exact path="/" component={Home} />
-//         <Route exact path="/accounts/login" component={Login} />
-//         <Route exact path="/accounts/emailsignup" component={Signup} />
-//         <Route exact path="/profile" component={Profile} />
-//         <Route exact path="/profile/channel" component={ProfileIgtv} />
-//         <Route exact path="/profile/saved" component={ProfileSaved} />
-//         <Route exact path="/profile/tagged" component={ProfileTagged} />
-//         <Route exact path="/direct/inbox" component={DirectInbox} />
-//         <Route exact path="/explore" component={Explore} />
-//         <Route exact path="/modal/:id" component={PostModal}/>
-//         <Route path="*" component={PageNotFound} />
-//       </Switch>
-//       {isModal
-//         ? <Route exact path="/modal/:id" component={PostModal} />
-//         : null}
-//     </Router>
-
-//   );
-// };
-
-// export default App;
+// export default withRouter(App);
