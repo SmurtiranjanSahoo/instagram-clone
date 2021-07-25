@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
-
+//context
+import { userContext } from "../Context/userContext";
 //images
 import postsImgS from "../Images/posts.svg";
 //component
@@ -19,6 +20,10 @@ import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 const Profile = () => {
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  const UserContext = useContext(userContext);
+  // console.log(UserContext.user.user);
+  const { followers, followings, posts } = UserContext.user.user;
 
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;
@@ -50,7 +55,12 @@ const Profile = () => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
-          <FollowInfo innerWidth={innerWidth} />
+          <FollowInfo
+            followers={followers.length}
+            following={followings.length}
+            posts={posts.length}
+            innerWidth={innerWidth}
+          />
           <ProfileNav
             imgPosts={postsImgS}
             textPosts="#262626"

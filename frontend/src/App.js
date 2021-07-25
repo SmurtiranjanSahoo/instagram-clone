@@ -29,8 +29,8 @@ const App = ({ location }) => {
     if (!(location.state && location.state.modal)) {
       setPreviousLocation(location);
     }
-    setUser(localStorage.getItem("jwt"));
-    console.log(user);
+    setUser(JSON.parse(localStorage.getItem("jwt")));
+    // console.log(JSON.parse(user));
   }, []);
 
   const isModal =

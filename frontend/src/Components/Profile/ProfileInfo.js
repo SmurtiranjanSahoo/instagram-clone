@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
+//context
+import { userContext } from "../../Context/userContext";
 
 const ProfileInfo = ({ innerWidth, imgWidth }) => {
+  const UserContext = useContext(userContext);
+  // console.log(UserContext.user.user);
+  const { name, followers, followings, posts, username } =
+    UserContext.user.user;
+
   return (
     <div>
       <div
@@ -45,7 +52,7 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
                 whiteSpace: "nowrap",
               }}
             >
-              smurtiranjan_sahoo
+              {username}
             </h2>
             <span>
               <Link style={{ textDecoration: "none", color: "#262626" }}>
@@ -56,17 +63,19 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
           </div>
           <ul className="profile-info-pff">
             <span style={{ marginRight: "40px" }}>
-              <span style={{ fontWeight: "600" }}>29</span> posts
+              <span style={{ fontWeight: "600" }}>{posts.length}</span> posts
             </span>
             <span style={{ marginRight: "40px" }}>
-              <span style={{ fontWeight: "600" }}>7205</span> followers
+              <span style={{ fontWeight: "600" }}>{followers.length}</span>{" "}
+              followers
             </span>
             <span>
-              <span style={{ fontWeight: "600" }}>37</span> following
+              <span style={{ fontWeight: "600" }}>{followings.length}</span>{" "}
+              following
             </span>
           </ul>
           <div className="profile-name">
-            <h1>Smurtiranjan Sahoo</h1>
+            <h1>{name}</h1>
             <span>Video Creator</span>
             <div className="profile-bio"></div>
             <a href="">youtube.com/trtechlesson</a>
@@ -74,7 +83,7 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
         </section>
       </div>
       <div className="profile-name-m">
-        <h1>Smurtiranjan Sahoo</h1>
+        <h1>{name}</h1>
         <span>Video Creator</span>
         <div className="profile-bio"></div>
         <a href="">youtube.com/trtechlesson</a>
