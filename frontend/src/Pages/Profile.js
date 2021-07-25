@@ -23,7 +23,7 @@ const Profile = () => {
 
   const UserContext = useContext(userContext);
   // console.log(UserContext.user.user);
-  const { followers, followings, posts } = UserContext.user.user;
+  const { followers, followings, posts, username } = UserContext.user.user;
 
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;
@@ -41,7 +41,7 @@ const Profile = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
-      <ProfileHeader innerWidth={innerWidth} />
+      <ProfileHeader username={username} innerWidth={innerWidth} />
       <div className="profile-wrapper" style={{ overflowY: "hidden" }}>
         <div
           className="profile-container"

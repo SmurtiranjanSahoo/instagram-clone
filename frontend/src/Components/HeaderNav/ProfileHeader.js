@@ -4,7 +4,7 @@ import React from "react";
 import { ReactComponent as GearImg } from "../../Images/Header/gear.svg";
 import { ReactComponent as PeopleImg } from "../../Images/Header/people.svg";
 
-const ProfileHeader = ({ innerWidth }) => {
+const ProfileHeader = ({ innerWidth, username }) => {
   return (
     <div className="header-wrapper-m">
       <div
@@ -26,7 +26,7 @@ const ProfileHeader = ({ innerWidth }) => {
             lineHeight: "18px",
           }}
         >
-          smurtiranjan_sahoo
+          {username}
         </h1>
         <div style={{ height: "24px" }}>
           <PeopleImg />
