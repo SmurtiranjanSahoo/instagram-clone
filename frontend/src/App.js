@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Switch, Route, withRouter } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
+
+//context
+import { userContext } from "./Context/userContext";
 //components
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -21,17 +24,20 @@ import ExploreSearch from "./Pages/ExploreSearch";
 
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
+  const [user, setUser] = useState();
   useEffect(() => {
     if (!(location.state && location.state.modal)) {
       setPreviousLocation(location);
     }
+    setUser(localStorage.getItem("jwt"));
+    console.log(user);
   }, []);
 
   const isModal =
     location.state && location.state.modal && previousLocation !== location;
 
   return (
-    <div>
+    <userContext.Provider value={{ user }}>
       <Switch location={isModal ? previousLocation : location}>
         <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/accounts/login" component={Login} />
@@ -57,7 +63,7 @@ const App = ({ location }) => {
           <PostModal isModal={isModal} />
         </Route>
       ) : null}
-    </div>
+    </userContext.Provider>
   );
 };
 
