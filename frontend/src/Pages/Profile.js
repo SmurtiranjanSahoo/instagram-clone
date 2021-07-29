@@ -22,8 +22,8 @@ const Profile = () => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   const UserContext = useContext(userContext);
-  // console.log(UserContext.user.user);
-  const { followers, followings, posts, username } = UserContext.user.user;
+  // console.log(UserContext.currentUser);
+  const { followers, followings, posts, username } = UserContext.currentUser;
 
   const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
   var j = 1;

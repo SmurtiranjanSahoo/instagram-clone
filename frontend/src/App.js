@@ -27,13 +27,13 @@ import CreatePost from "./Pages/CreatePost";
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
   const [currentUser, setCurrentUser] = useState();
-  const { user } = isAutheticated();
-  // console.log(user);
+  // console.log(currentUser);
 
   useEffect(() => {
     if (!(location.state && location.state.modal)) {
       setPreviousLocation(location);
     }
+    const { user } = isAutheticated();
     setCurrentUser(user);
   }, []);
 

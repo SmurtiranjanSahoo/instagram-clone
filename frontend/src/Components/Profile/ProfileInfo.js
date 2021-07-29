@@ -7,9 +7,9 @@ import { userContext } from "../../Context/userContext";
 
 const ProfileInfo = ({ innerWidth, imgWidth }) => {
   const UserContext = useContext(userContext);
-  // console.log(UserContext.user.user);
+  // console.log(UserContext.currentUser);
   const { name, followers, followings, posts, username } =
-    UserContext.user.user;
+    UserContext.currentUser;
 
   return (
     <div>
