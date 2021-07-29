@@ -21,6 +21,7 @@ import Activity from "./Pages/Activity";
 import PostModal from "./Components/PostModal/PostModal";
 import Comments from "./Pages/Comments";
 import ExploreSearch from "./Pages/ExploreSearch";
+import CreatePost from "./Pages/CreatePost";
 
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
@@ -52,6 +53,7 @@ const App = ({ location }) => {
         <PrivateRoute exact path="/accounts/activity" component={Activity} />
         <PrivateRoute exact path="/explore/search" component={ExploreSearch} />
         <PrivateRoute exact path="/p/comments" component={Comments} />
+        <PrivateRoute exact path="/create" component={CreatePost} />
 
         <Route exact path="/p/:postid">
           <PostModal isModal={isModal} />
