@@ -50,6 +50,7 @@ const Profile = () => {
           }}
         >
           <ProfileInfo innerWidth={innerWidth} imgWidth={innerWidth} />
+          {/* //todo highlight */}
           <div className="highlight-wrapper">
             <li></li>
             <ProfileHighlight text="Me" />
