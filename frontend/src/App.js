@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Switch, Route, withRouter } from "react-router-dom";
 import PrivateRoute from "./auth/PrivateRoute";
+import { isAutheticated } from "./auth/auth";
 
 //context
 import { userContext } from "./Context/userContext";
@@ -25,20 +26,22 @@ import CreatePost from "./Pages/CreatePost";
 
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
-  const [user, setUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
+  const { user } = isAutheticated();
+  // console.log(user);
+
   useEffect(() => {
     if (!(location.state && location.state.modal)) {
       setPreviousLocation(location);
     }
-    setUser(JSON.parse(localStorage.getItem("jwt")));
-    // console.log(JSON.parse(user));
+    setCurrentUser(user);
   }, []);
 
   const isModal =
     location.state && location.state.modal && previousLocation !== location;
 
   return (
-    <userContext.Provider value={{ user }}>
+    <userContext.Provider value={{ currentUser }}>
       <Switch location={isModal ? previousLocation : location}>
         <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/accounts/login" component={Login} />
