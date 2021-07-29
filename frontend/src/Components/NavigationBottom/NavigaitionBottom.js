@@ -14,6 +14,7 @@ const NavigaitionBottom = ({
   ImgSearch = Search,
 }) => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -38,9 +39,24 @@ const NavigaitionBottom = ({
       >
         <ImgSearch />
       </Link>
-      <Link style={{ width: innerWidth / 5 }} to="/" className="navigation-img">
+      <div
+        // to="/create"
+        style={{ width: innerWidth / 5 }}
+        className="navigation-img"
+      >
+        <input
+          onClick={() => {
+            console.log("clicked");
+          }}
+          type="file"
+          name="photo"
+          accept="image/*"
+          onChange={(e) => {
+            setPhoto(e.target.files[0]);
+          }}
+        />
         <NewPost />
-      </Link>
+      </div>
       <Link
         style={{ width: innerWidth / 5 }}
         to="/accounts/activity"

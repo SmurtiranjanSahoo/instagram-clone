@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //images
 import { ReactComponent as BackImg } from "../../Images/Header/back.svg";
 
-const CreatePostHeader = ({ innerWidth }) => {
+const CreatePostHeader = ({ innerWidth, submit }) => {
   return (
     <div className="header-wrapper-m">
       <div
@@ -28,7 +28,10 @@ const CreatePostHeader = ({ innerWidth }) => {
         >
           New Post
         </h1>
-        <div style={{ height: "24px", color: "#0095ef", fontWeight: "600" }}>
+        <div
+          onClick={submit}
+          style={{ height: "24px", color: "#0095ef", fontWeight: "600" }}
+        >
           Share
         </div>
       </div>
