@@ -39,12 +39,12 @@ const NavigaitionBottom = ({
       >
         <ImgSearch />
       </Link>
-      <div
-        // to="/create"
+      <Link
+        to="/create"
         style={{ width: innerWidth / 5 }}
         className="navigation-img"
       >
-        <input
+        {/* <input
           onClick={() => {
             console.log("clicked");
           }}
@@ -54,9 +54,9 @@ const NavigaitionBottom = ({
           onChange={(e) => {
             setPhoto(e.target.files[0]);
           }}
-        />
+        /> */}
         <NewPost />
-      </div>
+      </Link>
       <Link
         style={{ width: innerWidth / 5 }}
         to="/accounts/activity"
