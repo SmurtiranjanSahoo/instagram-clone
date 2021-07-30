@@ -15,3 +15,26 @@ export const createPost = (userId, token, post) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getAllPosts = (userId, token) => {
+  return fetch(`${API}/posts/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getPost = (postId) => {
+  return fetch(`${API}/post/${postId}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
