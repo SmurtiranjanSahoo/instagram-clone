@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getPost } from "../../helper/apicalls";
+import ImageHelper from "../../helper/ImageHelper";
 
 //images
 import userImg from "../../Images/profileimg.jpg";
@@ -12,13 +14,27 @@ import savedImg from "../../Images/PostCard/saved.svg";
 import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 
-const PostPage = ({ innerWidth, setOptionBtn }) => {
+const PostPage = ({ innerWidth, setOptionBtn, postId }) => {
   const [like, setLike] = useState("false");
   const [saved, setSaved] = useState("false");
+  const [postObj, setPostObj] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  const getPostdata = () => {
+    getPost(postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setPostObj(data);
+      }
+    });
+  };
+  useEffect(() => {
+    getPostdata();
+  });
 
   return (
     <div
@@ -35,7 +51,7 @@ const PostPage = ({ innerWidth, setOptionBtn }) => {
       <div className="post-card-header">
         <img src={userImg} alt="user profile" />
         <div className="post-card-header-innerdiv" style={{ width: "100%" }}>
-          <a href="">marvelstudios</a>
+          <a href="">{postObj.postAuthor?.username}</a>
           <button onClick={setOptionBtn}>
             <img
               style={{ width: "16px", height: "16px" }}
@@ -46,7 +62,7 @@ const PostPage = ({ innerWidth, setOptionBtn }) => {
         </div>
       </div>
       <div className="post-card-img">
-        <img src={userImg} alt="post image" />
+        <ImageHelper post={postObj} />
       </div>
       <div className="post-card-icons">
         <div>
@@ -77,14 +93,13 @@ const PostPage = ({ innerWidth, setOptionBtn }) => {
       </div>
       <div className="post-card-like-v">
         <span>
-          <span>3003389 </span>likes
+          <span>{postObj.likes?.length} </span>likes
         </span>
       </div>
       <div className="post-card-comment-sec">
         <div className="post-card-caption">
-          <span>marvelstudios </span>
-          Prepare to meet your match 👊 Tickets and pre-orders are available now
-          for Marvel Studios' @Black.Widow. Experience it
+          <span>{postObj.postAuthor?.username} </span>
+          {postObj.caption}
         </div>
         <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
           View all 230 comments
@@ -95,25 +110,6 @@ const PostPage = ({ innerWidth, setOptionBtn }) => {
         </div>
       </div>
       <div className="post-card-upload-time">59 MINUTES AGO</div>
-      <div className="post-card-add-comment">
-        <form onSubmit={handleSubmit}>
-          <button className="post-card-add-comment-button">
-            <img src={emojiImg} alt="emoji" />
-          </button>
-          <input type="text" placeholder="Add a comment..." />
-          <button
-            style={{
-              color: "#0095f6",
-              fontWeight: "600",
-              background: "none",
-              outline: "none",
-              border: "none",
-            }}
-          >
-            Post
-          </button>
-        </form>
-      </div>
     </div>
   );
 };
