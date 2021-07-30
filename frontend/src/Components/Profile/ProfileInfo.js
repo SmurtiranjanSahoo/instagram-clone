@@ -55,7 +55,7 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
               {username}
             </h2>
             <span>
-              <Link style={{ textDecoration: "none", color: "#262626" }}>
+              <Link to="/" style={{ textDecoration: "none", color: "#262626" }}>
                 Edit Profile
               </Link>
             </span>
