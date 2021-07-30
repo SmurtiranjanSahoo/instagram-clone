@@ -20,8 +20,8 @@ router.param("postId", getPostById);
 //Actual Routes
 router.post("/post/create/:userId", isSignedIn, isAuthenticated, createPost);
 
-router.get("/post/:postId/:userId", isSignedIn, isAuthenticated, getPost);
-router.get("/post/photo/:postId/:userId", isSignedIn, isAuthenticated, photo);
+router.get("/post/:postId", getPost);
+router.get("/post/photo/:postId", photo);
 
 router.delete("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
