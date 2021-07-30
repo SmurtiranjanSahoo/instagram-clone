@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { IoHeartSharp } from "react-icons/all";
 import { RiChat3Fill } from "react-icons/ri";
 import Img from "../../Images/profileimg.jpg";
-
+import ImageHelper from "../../helper/ImageHelper";
 const ProfilePost = ({
   className = "profile-post",
   likecount = "277",
   commentcount = "80",
   imgUrl = Img,
+  post,
 }) => {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -44,11 +45,7 @@ const ProfilePost = ({
               : "293px",
         }}
       >
-        <img
-          style={{ width: "100%", height: "100%" }}
-          src={imgUrl}
-          alt="random"
-        />
+        <ImageHelper post={post} />
         <div className="profile-post-likecount">
           <span style={{ marginRight: "30px" }}>
             <IoHeartSharp
