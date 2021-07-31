@@ -4,7 +4,12 @@ import "./PostOptionModal.css";
 const PostOptionModal = ({ setCloseModal }) => {
   return (
     <div className="modal-wrapper">
-      <div className="modal">
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className="modal"
+      >
         <button>Report</button>
         <button>Unfollow</button>
         <button>Go to post</button>
