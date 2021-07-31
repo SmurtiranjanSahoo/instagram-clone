@@ -13,12 +13,13 @@
   max-width: 935px;
   width: 100%;
   max-height: 600px;
-  height: 100%;
-  margin: 20px 0 40px 0;
+  /* height: 100%; */
+  /* margin: 60px 0 40px 0; */
+  margin: 30px auto;
   position: relative;
-  top: 50%;
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
   background-color: #ffffff;
   display: flex;
   flex-direction: row;
@@ -26,6 +27,7 @@
 
 .post-image {
   width: calc(100% - 335px);
+  max-height: 600px;
   height: 100%;
   /* align-items: stretch; */
 }

@@ -3,6 +3,7 @@ import "./postModal.css";
 import { withRouter, useParams } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { getPost } from "../../helper/apicalls";
+import ImageHelper from "../../helper/ImageHelper";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -73,7 +74,10 @@ const PostModal = ({ history, isModal }) => {
           padding: "40px 20px",
           margin: "0 0 16px 0",
         }}
-        onClick={() => history.goBack()}
+        onClick={() => {
+          history.goBack();
+          enableBodyScroll(postMRef);
+        }}
       >
         <div
           role="button"
@@ -83,13 +87,13 @@ const PostModal = ({ history, isModal }) => {
           }}
         >
           <div className="post-image">
-            <img src={userImg} alt="" />
+            <ImageHelper post={postObj} />
           </div>
           <div className="post-info">
             <div className="post-header">
               <img src={userImg} alt="user profile" />
               <div className="post-header-innerdiv">
-                <a href="/">marvelstudios</a>
+                <a href="/">{postObj.postAuthor?.username}</a>
                 <button
                   onClick={() => {
                     setOption(!option);
@@ -110,9 +114,8 @@ const PostModal = ({ history, isModal }) => {
                   <img src={userImg} alt="user image" />
                 </div>
                 <div className="user-caption-innerDiv">
-                  <span>marvelstudios </span>
-                  Prepare to meet your match 👊 Tickets and pre-orders are
-                  available now for Marvel Studios' @Black.Widow. Experience it
+                  <span>{postObj.postAuthor?.username} </span>
+                  {postObj.caption}
                 </div>
               </div>
             </div>
@@ -125,7 +128,7 @@ const PostModal = ({ history, isModal }) => {
                       setLike(!like);
                     }}
                   >
-                    <img src={likeImgS} alt="like" />
+                    <img src={like ? likeImgS : likeImg} alt="like" />
                   </button>
                   <button>
                     <img src={commentImg} alt="comment" />
@@ -140,12 +143,12 @@ const PostModal = ({ history, isModal }) => {
                     setSaved(!saved);
                   }}
                 >
-                  <img src={savedImgS} alt="save button" />
+                  <img src={saved ? savedImgS : savedImg} alt="save button" />
                 </button>
               </div>
               <div className="post-like-v">
                 <span>
-                  <span>3003389 </span>likes
+                  <span>{postObj.likes?.length} </span>likes
                 </span>
               </div>
               <div className="post-upload-time">59 MINUTES AGO</div>
@@ -181,7 +184,6 @@ const PostModal = ({ history, isModal }) => {
           <PostOptionModal
             setCloseModal={() => {
               setOption(!option);
-              enableBodyScroll(postMRef);
             }}
           />
         ) : (
@@ -229,13 +231,13 @@ const PostModal = ({ history, isModal }) => {
         >
           <div className="post-no-modal-container">
             <div className="post-image">
-              <img src={userImg} alt="" />
+              <ImageHelper post={postObj} />
             </div>
             <div className="post-info">
               <div className="post-header">
                 <img src={userImg} alt="user profile" />
                 <div className="post-header-innerdiv">
-                  <a href="">marvelstudios</a>
+                  <a href="">{postObj.postAuthor?.username}</a>
                   <button
                     onClick={() => {
                       setOption(!option);
@@ -256,10 +258,8 @@ const PostModal = ({ history, isModal }) => {
                     <img src={userImg} alt="user image" />
                   </div>
                   <div className="user-caption-innerDiv">
-                    <span>marvelstudios </span>
-                    Prepare to meet your match 👊 Tickets and pre-orders are
-                    available now for Marvel Studios' @Black.Widow. Experience
-                    it
+                    <span>{postObj.postAuthor?.username} </span>
+                    {postObj.caption}
                   </div>
                 </div>
               </div>
@@ -272,7 +272,7 @@ const PostModal = ({ history, isModal }) => {
                         setLike(!like);
                       }}
                     >
-                      <img src={likeImgS} alt="like" />
+                      <img src={like ? likeImgS : likeImg} alt="like" />
                     </button>
                     <button>
                       <img src={commentImg} alt="comment" />
@@ -287,12 +287,12 @@ const PostModal = ({ history, isModal }) => {
                       setSaved(!saved);
                     }}
                   >
-                    <img src={savedImgS} alt="save button" />
+                    <img src={saved ? savedImgS : savedImg} alt="save button" />
                   </button>
                 </div>
                 <div className="post-like-v">
                   <span>
-                    <span>3003389 </span>likes
+                    <span>{postObj.likes?.length} </span>likes
                   </span>
                 </div>
                 <div className="post-upload-time">59 MINUTES AGO</div>
