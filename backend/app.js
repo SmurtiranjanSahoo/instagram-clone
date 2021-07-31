@@ -32,6 +32,11 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", postRoutes);
+app.get("/", (req, res) => {
+  res.json({
+    message: "Its Working",
+  });
+});
 
 //Port
 const Port = process.env.PORT || 7000;
