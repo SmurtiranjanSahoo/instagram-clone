@@ -1,7 +1,9 @@
 import React from "react";
 import "./PostOptionModal.css";
+import { isAutheticated } from "../../../auth/auth";
 
-const PostOptionModal = ({ setCloseModal }) => {
+const PostOptionModal = ({ setCloseModal, userid }) => {
+  const { user } = isAutheticated();
   return (
     <div className="modal-wrapper">
       <div
@@ -10,8 +12,17 @@ const PostOptionModal = ({ setCloseModal }) => {
         }}
         className="modal"
       >
-        <button>Report</button>
-        <button>Unfollow</button>
+        {userid === user._id ? (
+          <button>Delete</button>
+        ) : (
+          <>
+            <button>Report</button>
+            <button style={{ color: "#ed4956", fontWeight: "700" }}>
+              Unfollow
+            </button>
+          </>
+        )}
+
         <button>Go to post</button>
         <button>Share to...</button>
         <button>Copy Link</button>

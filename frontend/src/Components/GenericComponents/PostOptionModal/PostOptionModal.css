@@ -11,7 +11,7 @@
 }
 .modal {
   width: 400px;
-  height: 336px;
+  /* height: 336px; */
   margin: auto;
   background-color: #fff;
   border-radius: 12px;
@@ -29,8 +29,7 @@
 .modal button:nth-child(1) {
   border: none;
 }
-.modal button:nth-child(1),
-.modal button:nth-child(2) {
+.modal button:nth-child(1) {
   color: #ed4956;
   font-weight: 700;
 }
