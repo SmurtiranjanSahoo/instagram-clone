@@ -13,28 +13,26 @@ import shareImg from "../../Images/PostCard/share.svg";
 import savedImg from "../../Images/PostCard/saved.svg";
 import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
+import LoadingGif from "../../Images/loading.gif";
 
-const PostPage = ({ innerWidth, setOptionBtn, postId }) => {
+const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
   const [like, setLike] = useState("false");
   const [saved, setSaved] = useState("false");
-  const [postObj, setPostObj] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const getPostdata = () => {
-    getPost(postId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setPostObj(data);
-      }
-    });
-  };
-  useEffect(() => {
-    getPostdata();
-  });
+  if (!postObj) {
+    return (
+      <div
+        style={{
+          height: "calc(100vh - 50px)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img width="50px" height="50px" src={LoadingGif} alt="loading" />
+      </div>
+    );
+  }
 
   return (
     <div
