@@ -15,6 +15,7 @@ import savedImg from "../../Images/PostCard/saved.svg";
 import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 import closeBtn from "../../Images/PostModal/closeBtn.svg";
+import LoadingGif from "../../Images/loading.gif";
 //components
 import Header from "../Header";
 import PostPage from "../GenericComponents/PostPage";
@@ -64,7 +65,63 @@ const PostModal = ({ history, isModal }) => {
   const [like, setLike] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  if (!postObj && !isModal) {
+    return (
+      <div>
+        {innerWidth < 735 ? <PostHeader innerWidth={innerWidth} /> : <Header />}
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img width="50px" height="50px" src={LoadingGif} alt="loading" />
+        </div>
+      </div>
+    );
+  }
+
   if (isModal) {
+    if (!postObj) {
+      return (
+        <div
+          ref={modalRef}
+          className="post-modal-wrapper"
+          style={{
+            width: innerWidth,
+            padding: "40px 20px",
+            margin: "0 0 16px 0",
+          }}
+          onClick={() => {
+            history.goBack();
+            enableBodyScroll(postMRef);
+          }}
+        >
+          <div
+            role="button"
+            className="post-modal-container"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <div
+              style={{
+                height: "600px",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img width="50px" height="50px" src={LoadingGif} alt="loading" />
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div
         ref={modalRef}
@@ -198,7 +255,7 @@ const PostModal = ({ history, isModal }) => {
         <PostHeader innerWidth={innerWidth} />
         <div ref={postMRef} style={{ margin: "44px 0" }}>
           <PostPage
-            postId={postid}
+            postObj={postObj}
             setOptionBtn={() => {
               setOption(!option);
               disableBodyScroll(postMRef);
@@ -209,6 +266,7 @@ const PostModal = ({ history, isModal }) => {
         <NavigaitionBottom />
         {option ? (
           <PostOptionModal
+            userid={postObj.postAuthor?._id}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(postMRef);
