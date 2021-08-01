@@ -546,41 +546,33 @@ hr {
   height: 293px;
   background-color: #262626;
   margin: 0 0px 28px 0;
-  /* position: relative; */
+  position: relative;
 }
 .profile-post-margin {
   width: 293px;
   height: 293px;
   background-color: #262626;
   margin: 0 28px 28px 28px;
-  /* position: relative; */
-}
-.profile-post-margin:hover,
-.profile-post:hover {
-  opacity: 0.95;
+  position: relative;
 }
 .profile-post-likecount {
   width: 100%;
   height: 100%;
   opacity: 0;
-  /* position: absolute; */
+  position: absolute;
+  inset: 0;
 }
+
 .profile-post-likecount:hover {
   opacity: 1;
-  /* background-color: #0095f6; */
+  background-color: rgba(0, 0, 0, 0.3);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0; */
 }
 
 .profile-post-likecount span {
-  /* background-color: #0095f6; */
   display: flex;
   font-size: 16px;
   font-weight: 600;
@@ -589,7 +581,6 @@ hr {
 .profile-saved-text {
   width: 935px;
   height: 62px;
-  /* background-color: #0095f6; */
 }
 .profile-saved-text p {
   font-size: 12px;
