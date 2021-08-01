@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
@@ -7,9 +7,14 @@ import { userContext } from "../../Context/userContext";
 
 const ProfileInfo = ({ innerWidth, imgWidth }) => {
   const UserContext = useContext(userContext);
-  // console.log(UserContext.currentUser);
+  // console.log(UserContext);
   const { name, followers, followings, posts, username } =
     UserContext.currentUser;
+
+  useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("jwt"));
+    UserContext.getCurrentUser(user.token, user.user._id);
+  }, []);
 
   return (
     <div>
@@ -63,14 +68,14 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
           </div>
           <ul className="profile-info-pff">
             <span style={{ marginRight: "40px" }}>
-              <span style={{ fontWeight: "600" }}>{posts.length}</span> posts
+              <span style={{ fontWeight: "600" }}>{posts?.length}</span> posts
             </span>
             <span style={{ marginRight: "40px" }}>
-              <span style={{ fontWeight: "600" }}>{followers.length}</span>{" "}
+              <span style={{ fontWeight: "600" }}>{followers?.length}</span>{" "}
               followers
             </span>
             <span>
-              <span style={{ fontWeight: "600" }}>{followings.length}</span>{" "}
+              <span style={{ fontWeight: "600" }}>{followings?.length}</span>{" "}
               following
             </span>
           </ul>
