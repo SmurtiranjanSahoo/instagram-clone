@@ -38,3 +38,17 @@ export const getPost = (postId) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const deletePost = (postId, userId, token) => {
+  return fetch(`${API}/post/${postId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
