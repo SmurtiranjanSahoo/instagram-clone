@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PostOptionModal.css";
 import { isAutheticated } from "../../../auth/auth";
+import { deletePost, getAllPosts } from "../../../helper/apicalls";
+import { useHistory } from "react-router-dom";
+import { enableBodyScroll } from "body-scroll-lock";
 
-const PostOptionModal = ({ setCloseModal, userid }) => {
-  const { user } = isAutheticated();
+const PostOptionModal = ({ setCloseModal, postObj, postMRef }) => {
+  const [loading, setLoading] = useState(false);
+
+  const { user, token } = isAutheticated();
+  const history = useHistory();
+
+  const loadAllPost = async () => {
+    const { user, token } = isAutheticated();
+
+    await getAllPosts(user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        console.log(data);
+      }
+    });
+  };
+
+  const postDelete = (postId) => {
+    setLoading(true);
+    deletePost(postId, user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        loadAllPost();
+        setLoading(false);
+      }
+    });
+    history.goBack();
+    enableBodyScroll(postMRef);
+  };
+  //Todo bug profile page not refresh after del
+  // useEffect(() => {
+  //   loadAllPost()
+  // }, [])
+
   return (
     <div className="modal-wrapper">
       <div
@@ -12,8 +49,14 @@ const PostOptionModal = ({ setCloseModal, userid }) => {
         }}
         className="modal"
       >
-        {userid === user._id ? (
-          <button>Delete</button>
+        {postObj.postAuthor?._id === user._id ? (
+          <button
+            onClick={() => {
+              postDelete(postObj._id);
+            }}
+          >
+            Delete
+          </button>
         ) : (
           <>
             <button>Report</button>
