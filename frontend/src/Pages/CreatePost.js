@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { createPost } from "../helper/apicalls";
 import { isAutheticated } from "../auth/auth";
 import CreatePostHeader from "../Components/HeaderNav/CreatePostHeader";
+import { ReactComponent as Spinner } from "../Images/spinner.svg";
 
-const CreatePost = () => {
+const CreatePost = ({ history }) => {
   const { user, token } = isAutheticated();
   const initialState = {
     postAuthor: user._id,
@@ -11,14 +12,13 @@ const CreatePost = () => {
     caption: "",
     loading: false,
     error: "",
-    getaRedirect: false,
     formData: new FormData(),
     createdPost: "",
   };
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
-  const { photo, caption, loading, error, getaRedirect, formData } = values;
+  const { caption, loading, formData, photo } = values;
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -30,6 +30,9 @@ const CreatePost = () => {
 
   const handleChange = (name) => (event) => {
     const value = name === "photo" ? event.target.files[0] : event.target.value;
+    name === "photo"
+      ? setValues({ ...values, photo: value })
+      : setValues({ ...values, photo: "" });
     formData.set(name, value);
     formData.set("postAuthor", user._id);
 
@@ -45,24 +48,27 @@ const CreatePost = () => {
       } else {
         setValues({
           ...values,
-
           loading: false,
           createdPost: data.name,
           photo: "",
           caption: "",
         });
+        history.push("/profile");
       }
     });
     // console.log(...formData);
   };
 
   return (
-    <div>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
       <CreatePostHeader innerWidth={innerWidth} submit={onSubmit} />
       <div
         style={{
           width: "100%",
-          // height: "81px",
           padding: "16px",
           marginTop: "44px",
           display: "flex",
@@ -94,10 +100,7 @@ const CreatePost = () => {
             className="createPost-input"
             style={{
               width: "100%",
-              // height: "100%",
-              //temp
               marginTop: "5px",
-              //
               fontSize: "14px",
               border: "none",
               color: "#262626",
@@ -112,14 +115,36 @@ const CreatePost = () => {
             placeholder="Write a caption..."
           />
         </div>
-        <div>
-          <img
-            style={{ width: "48px", height: "48px" }}
-            src="https://avatars.githubusercontent.com/u/43810530?v=4"
-            alt=""
-          />
+        <div style={{ width: "48px", height: "48px" }}>
+          {photo !== "" ? (
+            <img
+              style={{ width: "48px", height: "48px", objectFit: "cover" }}
+              src={URL.createObjectURL(photo)}
+              alt=""
+            />
+          ) : (
+            <h2></h2>
+          )}
         </div>
       </div>
+      {loading ? (
+        <div
+          style={{
+            width: "100%",
+            height: "100vh",
+            position: "absolute",
+            inset: "0",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner width="50px" height="50px" />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
