@@ -35,3 +35,15 @@ exports.updateUser = (req, res) => {
     }
   );
 };
+
+exports.getAllUsers = (req, res) => {
+  User.find().exec((err, users) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({
+        error: "NO user FOUND",
+      });
+    }
+    res.json(users);
+  });
+};
