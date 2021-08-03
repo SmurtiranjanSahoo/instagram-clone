@@ -239,6 +239,8 @@ const PostModal = ({ history, isModal }) => {
         </div>
         {option ? (
           <PostOptionModal
+            postObj={postObj}
+            postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
             }}
@@ -266,7 +268,8 @@ const PostModal = ({ history, isModal }) => {
         <NavigaitionBottom />
         {option ? (
           <PostOptionModal
-            userid={postObj.postAuthor?._id}
+            postObj={postObj}
+            postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(postMRef);
@@ -379,6 +382,8 @@ const PostModal = ({ history, isModal }) => {
         </div>
         {option ? (
           <PostOptionModal
+            postObj={postObj}
+            postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(postMRef);
