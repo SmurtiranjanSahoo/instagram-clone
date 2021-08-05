@@ -19,21 +19,54 @@ exports.getUser = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  User.findByIdAndUpdate(
-    { _id: req.profile._id },
-    { $set: req.body },
-    { new: true, useFindAndModify: false },
-    (err, user) => {
-      if (err) {
-        return res.status(400).json({
-          error: "You are not authorized to update this user",
-        });
+  if (req.profile.saved?.includes(req.body.saved)) {
+    User.findByIdAndUpdate(
+      { _id: req.profile._id },
+      {
+        $pull: {
+          saved: req.body.saved,
+        },
+      },
+      { new: true, useFindAndModify: false },
+      (err, user) => {
+        if (err) {
+          return res.status(400).json({
+            error: "You are not authorized to update this user",
+          });
+        }
+        user.salt = undefined;
+        user.encry_password = undefined;
+        res.json(user);
       }
-      user.salt = undefined;
-      user.encry_password = undefined;
-      res.json(user);
-    }
-  );
+    );
+  } else {
+    User.findByIdAndUpdate(
+      { _id: req.profile._id },
+      {
+        $set: {
+          name: req.body.name ? req.body.name : req.profile.name,
+          email: req.body.email ? req.body.email : req.profile.email,
+          username: req.body.username
+            ? req.body.username
+            : req.profile.username,
+        },
+        $addToSet: {
+          saved: req.body.saved ? req.body.saved : req.profile.saved,
+        },
+      },
+      { new: true, useFindAndModify: false },
+      (err, user) => {
+        if (err) {
+          return res.status(400).json({
+            error: "You are not authorized to update this user",
+          });
+        }
+        user.salt = undefined;
+        user.encry_password = undefined;
+        res.json(user);
+      }
+    );
+  }
 };
 
 exports.getAllUsers = (req, res) => {
