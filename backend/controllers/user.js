@@ -18,6 +18,21 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
+exports.getUserbyUsername = (req, res) => {
+  let query = req.body.username;
+  User.find({
+    username: query,
+  }).exec((err, user) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({
+        error: "NO user FOUND",
+      });
+    }
+    res.json(user);
+  });
+};
+
 exports.updateUser = (req, res) => {
   if (req.profile.saved?.includes(req.body.saved)) {
     User.findByIdAndUpdate(
