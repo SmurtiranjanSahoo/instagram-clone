@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getPost } from "../../helper/apicalls";
+import { getPost, updatePostLikes } from "../../helper/apicalls";
+import { isAutheticated, getUser } from "../../auth/auth";
 import ImageHelper from "../../helper/ImageHelper";
 
 //images
@@ -16,8 +17,52 @@ import emojiImg from "../../Images/PostCard/emoji.svg";
 import LoadingGif from "../../Images/loading.gif";
 
 const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
-  const [like, setLike] = useState("false");
-  const [saved, setSaved] = useState("false");
+  const { user, token } = isAutheticated();
+  const [likeCount, setLikeCount] = useState([]);
+  const [like, setLike] = useState(false);
+  const [saved, setSaved] = useState(false);
+  useEffect(() => {
+    getCurrentLikes(postObj._id);
+  }, []);
+
+  const getCurrentLikes = async (postId) => {
+    await getPost(postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setLikeCount(data.likes);
+        setLike(data.likes?.includes(user._id));
+      }
+    });
+  };
+
+  const updateLike = () => {
+    if (!like === true) {
+      setLike(true);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount([...likeCount, user._id]);
+      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          getCurrentLikes(postObj._id);
+        }
+      });
+    } else {
+      setLike(false);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount(likeCount.filter((l) => l !== user._id));
+      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          getCurrentLikes(postObj._id);
+        }
+      });
+    }
+  };
 
   if (!postObj) {
     return (
@@ -67,10 +112,10 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
           <button
             style={{ paddingLeft: "0px" }}
             onClick={() => {
-              setLike(!like);
+              updateLike();
             }}
           >
-            <img src={like ? likeImg : likeImgS} alt="like" />
+            <img src={like ? likeImgS : likeImg} alt="like" />
           </button>
           <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
             <button>
@@ -86,12 +131,12 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
             setSaved(!saved);
           }}
         >
-          <img src={saved ? savedImg : savedImgS} alt="save button" />
+          <img src={saved ? savedImgS : savedImg} alt="save button" />
         </button>
       </div>
       <div className="post-card-like-v">
         <span>
-          <span>{postObj.likes?.length} </span>likes
+          <span>{likeCount.length} </span>likes
         </span>
       </div>
       <div className="post-card-comment-sec">

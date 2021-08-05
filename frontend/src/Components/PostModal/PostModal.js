@@ -2,8 +2,9 @@ import React, { useState, Component, createRef, useEffect } from "react";
 import "./postModal.css";
 import { withRouter, useParams } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { getPost } from "../../helper/apicalls";
+import { getPost, updatePostLikes } from "../../helper/apicalls";
 import ImageHelper from "../../helper/ImageHelper";
+import { isAutheticated, getUser } from "../../auth/auth";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -24,17 +25,32 @@ import PostHeader from "../HeaderNav/PostHeader";
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
 
 const PostModal = ({ history, isModal }) => {
+  const { user, token } = isAutheticated();
   const modalRef = createRef();
   const postMRef = createRef();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [option, setOption] = useState(false);
   const [postObj, setPostObj] = useState("");
+  const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState([]);
+  const [saved, setSaved] = useState(false);
 
   let { postid } = useParams();
   // console.log(postid);
 
   const updateWindowDimensions = () => {
     setInnerWidth(window.innerWidth);
+  };
+
+  const getCurrentLikes = async (postId) => {
+    await getPost(postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setLikeCount(data.likes);
+        setLike(data.likes?.includes(user._id));
+      }
+    });
   };
 
   const getPostdata = async () => {
@@ -48,8 +64,37 @@ const PostModal = ({ history, isModal }) => {
     });
   };
 
+  const updateLike = () => {
+    if (!like === true) {
+      setLike(true);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount([...likeCount, user._id]);
+      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          getCurrentLikes(postObj._id);
+        }
+      });
+    } else {
+      setLike(false);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount(likeCount.filter((l) => l !== user._id));
+      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          getCurrentLikes(postObj._id);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     getPostdata();
+    getCurrentLikes(postid);
 
     if (isModal) {
       disableBodyScroll(modalRef.current);
@@ -61,9 +106,6 @@ const PostModal = ({ history, isModal }) => {
     };
   }, []);
   // console.log(postObj);
-
-  const [like, setLike] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   if (!postObj && !isModal) {
     return (
@@ -182,7 +224,7 @@ const PostModal = ({ history, isModal }) => {
                   <button
                     style={{ paddingLeft: "0px" }}
                     onClick={() => {
-                      setLike(!like);
+                      updateLike();
                     }}
                   >
                     <img src={like ? likeImgS : likeImg} alt="like" />
@@ -205,7 +247,7 @@ const PostModal = ({ history, isModal }) => {
               </div>
               <div className="post-like-v">
                 <span>
-                  <span>{postObj.likes?.length} </span>likes
+                  <span>{likeCount.length} </span>likes
                 </span>
               </div>
               <div className="post-upload-time">59 MINUTES AGO</div>
@@ -330,7 +372,7 @@ const PostModal = ({ history, isModal }) => {
                     <button
                       style={{ paddingLeft: "0px" }}
                       onClick={() => {
-                        setLike(!like);
+                        updateLike();
                       }}
                     >
                       <img src={like ? likeImgS : likeImg} alt="like" />
@@ -353,7 +395,7 @@ const PostModal = ({ history, isModal }) => {
                 </div>
                 <div className="post-like-v">
                   <span>
-                    <span>{postObj.likes?.length} </span>likes
+                    <span>{likeCount.length} </span>likes
                   </span>
                 </div>
                 <div className="post-upload-time">59 MINUTES AGO</div>
