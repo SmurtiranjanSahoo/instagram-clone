@@ -4,7 +4,7 @@ import { withRouter, useParams } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { getPost, updatePostLikes } from "../../helper/apicalls";
 import ImageHelper from "../../helper/ImageHelper";
-import { isAutheticated, getUser } from "../../auth/auth";
+import { isAutheticated, getUser, updateUser } from "../../auth/auth";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -26,6 +26,7 @@ import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModa
 
 const PostModal = ({ history, isModal }) => {
   const { user, token } = isAutheticated();
+  let { postid } = useParams();
   const modalRef = createRef();
   const postMRef = createRef();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -33,13 +34,43 @@ const PostModal = ({ history, isModal }) => {
   const [postObj, setPostObj] = useState("");
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState([]);
-  const [saved, setSaved] = useState(false);
+  const [save, setSave] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState({
+    saved: postid,
+  });
 
-  let { postid } = useParams();
   // console.log(postid);
 
   const updateWindowDimensions = () => {
     setInnerWidth(window.innerWidth);
+  };
+
+  const getCurrentUser = async () => {
+    await getUser(token, user._id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setSave(data.saved?.includes(postid));
+      }
+    });
+  };
+
+  const updateSave = () => {
+    if (!save === true) {
+      setSave(true);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+      });
+    } else {
+      setSave(false);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+      });
+    }
   };
 
   const getCurrentLikes = async (postId) => {
@@ -95,6 +126,7 @@ const PostModal = ({ history, isModal }) => {
   useEffect(() => {
     getPostdata();
     getCurrentLikes(postid);
+    getCurrentUser();
 
     if (isModal) {
       disableBodyScroll(modalRef.current);
@@ -239,10 +271,10 @@ const PostModal = ({ history, isModal }) => {
                 <button
                   style={{ paddingRight: "0px" }}
                   onClick={() => {
-                    setSaved(!saved);
+                    updateSave();
                   }}
                 >
-                  <img src={saved ? savedImgS : savedImg} alt="save button" />
+                  <img src={save ? savedImgS : savedImg} alt="save button" />
                 </button>
               </div>
               <div className="post-like-v">
@@ -387,10 +419,10 @@ const PostModal = ({ history, isModal }) => {
                   <button
                     style={{ paddingRight: "0px" }}
                     onClick={() => {
-                      setSaved(!saved);
+                      updateSave();
                     }}
                   >
-                    <img src={saved ? savedImgS : savedImg} alt="save button" />
+                    <img src={save ? savedImgS : savedImg} alt="save button" />
                   </button>
                 </div>
                 <div className="post-like-v">

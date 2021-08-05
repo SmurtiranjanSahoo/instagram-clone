@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getPost, updatePostLikes } from "../../helper/apicalls";
-import { isAutheticated, getUser } from "../../auth/auth";
+import { isAutheticated, getUser, updateUser } from "../../auth/auth";
 import ImageHelper from "../../helper/ImageHelper";
 
 //images
@@ -20,18 +20,33 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
   const { user, token } = isAutheticated();
   const [likeCount, setLikeCount] = useState([]);
   const [like, setLike] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [save, setSave] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState({
+    saved: postObj._id,
+  });
+
   useEffect(() => {
     getCurrentLikes(postObj._id);
+    getCurrentUser();
   }, []);
+
+  const getCurrentUser = async () => {
+    await getUser(token, user._id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setSave(data.saved?.includes(postObj._id));
+      }
+    });
+  };
 
   const getCurrentLikes = async (postId) => {
     await getPost(postId).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        setLikeCount(data.likes);
         setLike(data.likes?.includes(user._id));
+        setLikeCount(data.likes);
       }
     });
   };
@@ -59,6 +74,24 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
           console.log(data.error);
         } else {
           getCurrentLikes(postObj._id);
+        }
+      });
+    }
+  };
+
+  const updateSave = () => {
+    if (!save === true) {
+      setSave(true);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+      });
+    } else {
+      setSave(false);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
         }
       });
     }
@@ -128,10 +161,10 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
         </div>
         <button
           onClick={() => {
-            setSaved(!saved);
+            updateSave();
           }}
         >
-          <img src={saved ? savedImgS : savedImg} alt="save button" />
+          <img src={save ? savedImgS : savedImg} alt="save button" />
         </button>
       </div>
       <div className="post-card-like-v">
