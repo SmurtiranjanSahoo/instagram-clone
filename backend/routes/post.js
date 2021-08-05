@@ -9,6 +9,7 @@ const {
   deletePost,
   updatePost,
   getAllPosts,
+  updatePostLikes,
 } = require("../controllers/post");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
@@ -25,6 +26,12 @@ router.get("/post/photo/:postId", photo);
 
 router.delete("/post/:postId/:userId", isSignedIn, isAuthenticated, deletePost);
 router.put("/post/:postId/:userId", isSignedIn, isAuthenticated, updatePost);
+router.put(
+  "/postlike/:postId/:userId",
+  isSignedIn,
+  isAuthenticated,
+  updatePostLikes
+);
 
 //listing all posts
 router.get("/posts/:userId", isSignedIn, isAuthenticated, getAllPosts);

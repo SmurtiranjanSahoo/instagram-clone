@@ -104,6 +104,52 @@ exports.updatePost = (req, res) => {
   });
 };
 
+exports.updatePostLikes = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+
+  const postLikeOld = req.post;
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      return res.status(400).json({
+        error: "problem with updating",
+      });
+    }
+    let postLike = req.post;
+    if (postLikeOld.likes?.includes(fields.likes)) {
+      postLike
+        .updateOne({
+          $pull: {
+            likes: fields.likes,
+          },
+        })
+        .exec((err, post) => {
+          if (err) {
+            res.status(400).json({
+              error: "Updation of post failed",
+            });
+          }
+          res.json(post);
+        });
+    } else {
+      postLike
+        .updateOne({
+          $addToSet: {
+            likes: fields.likes,
+          },
+        })
+        .exec((err, post) => {
+          if (err) {
+            res.status(400).json({
+              error: "Updation of post failed",
+            });
+          }
+          res.json(post);
+        });
+    }
+  });
+};
+
 exports.getAllPosts = (req, res) => {
   Post.find()
     .select("-photo")
