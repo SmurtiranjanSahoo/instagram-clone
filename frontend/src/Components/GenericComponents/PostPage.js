@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getPost, updatePostLikes } from "../../helper/apicalls";
+import { getPost, updatePostLikeNComment } from "../../helper/apicalls";
 import { isAutheticated, getUser, updateUser } from "../../auth/auth";
 import ImageHelper from "../../helper/ImageHelper";
 
@@ -57,25 +57,29 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount([...likeCount, user._id]);
-      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          getCurrentLikes(postObj._id);
+      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(postObj._id);
+          }
         }
-      });
+      );
     } else {
       setLike(false);
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount(likeCount.filter((l) => l !== user._id));
-      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          getCurrentLikes(postObj._id);
+      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(postObj._id);
+          }
         }
-      });
+      );
     }
   };
 

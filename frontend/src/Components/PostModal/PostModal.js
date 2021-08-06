@@ -2,7 +2,7 @@ import React, { useState, Component, createRef, useEffect } from "react";
 import "./postModal.css";
 import { withRouter, useParams } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { getPost, updatePostLikes } from "../../helper/apicalls";
+import { getPost, updatePostLikeNComment } from "../../helper/apicalls";
 import ImageHelper from "../../helper/ImageHelper";
 import { isAutheticated, getUser, updateUser } from "../../auth/auth";
 //images
@@ -101,25 +101,29 @@ const PostModal = ({ history, isModal }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount([...likeCount, user._id]);
-      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          getCurrentLikes(postObj._id);
+      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(postObj._id);
+          }
         }
-      });
+      );
     } else {
       setLike(false);
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount(likeCount.filter((l) => l !== user._id));
-      updatePostLikes(postObj._id, user._id, token, formData).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          getCurrentLikes(postObj._id);
+      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(postObj._id);
+          }
         }
-      });
+      );
     }
   };
 
