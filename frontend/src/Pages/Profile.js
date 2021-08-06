@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { getUser, isAutheticated } from "../auth/auth";
+import { Link, withRouter, useParams } from "react-router-dom";
+import { getUser, getUserByUsername, isAutheticated } from "../auth/auth";
 import { getAllPosts } from "../helper/apicalls";
 //context
 import { userContext } from "../Context/userContext";
@@ -21,13 +21,15 @@ import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom"
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 
 const Profile = () => {
+  let { profileid } = useParams();
+  const { user, token } = isAutheticated();
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [currentUser, setCurrentUser] = useState("");
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { followers, followings, posts, username } = currentUser;
+  const { followers, followings, posts, username, _id } = currentUser;
 
   var j = 1;
 
@@ -39,8 +41,7 @@ const Profile = () => {
       if (data.error) {
         console.log(data.error);
       } else {
-        setUserPosts(data.filter((data) => data.postAuthor._id === user._id));
-        // console.log(userPosts);
+        setUserPosts(data.filter((data) => data.postAuthor._id === _id));
       }
     });
     setLoading(false);
@@ -52,14 +53,23 @@ const Profile = () => {
         console.log(data.error);
       } else {
         setCurrentUser(data);
-        console.log(currentUser);
+      }
+    });
+  };
+
+  const getUserByUName = async (username) => {
+    await getUserByUsername(token, user._id, username).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setCurrentUser(data[0]);
       }
     });
   };
 
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("jwt"));
-    getCurrentUser(user.token, user.user._id);
+    // getCurrentUser(user.token, user.user._id);
+    getUserByUName({ username: profileid });
     loadAllPost();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
@@ -71,6 +81,10 @@ const Profile = () => {
       setUserPosts([]);
     };
   }, []);
+
+  useEffect(() => {
+    loadAllPost();
+  }, [_id]);
 
   if (loading) {
     return (
@@ -96,7 +110,7 @@ const Profile = () => {
   }
 
   return (
-    <userContext.Provider value={{ getCurrentUser, currentUser }}>
+    <userContext.Provider value={{ getUserByUName, currentUser }}>
       <div style={{ overflowX: "hidden" }}>
         <Header />
         <ProfileHeader username={username} innerWidth={innerWidth} />
@@ -126,7 +140,11 @@ const Profile = () => {
               borderPosts="1px solid #000"
               marginPosts="-1px"
             />
-            <ProfileNavM innerWidth={innerWidth} SelectPost="#0095f6" />
+            <ProfileNavM
+              innerWidth={innerWidth}
+              SelectPost="#0095f6"
+              currentUserId={_id}
+            />
             <div
               className="profile-post-container"
               style={{
