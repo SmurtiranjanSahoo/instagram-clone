@@ -94,6 +94,22 @@ export const getAllUsers = (token, userId) => {
     .catch((err) => console.log(err));
 };
 
+export const getUserByUsername = (token, userId, username) => {
+  return fetch(`${API}/username/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(username),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export const updateUser = (userId, token, user) => {
   return fetch(`${API}/user/${userId}`, {
     method: "PUT",
