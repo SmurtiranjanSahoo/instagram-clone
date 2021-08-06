@@ -68,7 +68,7 @@ export const updatePost = (postId, userId, token, post) => {
     .catch((err) => console.log(err));
 };
 
-export const updatePostLikes = (postId, userId, token, post) => {
+export const updatePostLikeNComment = (postId, userId, token, post) => {
   return fetch(`${API}/postlike/${postId}/${userId}`, {
     method: "PUT",
     headers: {
