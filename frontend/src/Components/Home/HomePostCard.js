@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
+import { isAutheticated, getUser, updateUser } from "../../auth/auth";
+import ImageHelper from "../../helper/ImageHelper";
+import { updatePostLikeNComment, getPost } from "../../helper/apicalls";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -14,13 +18,94 @@ import emojiImg from "../../Images/PostCard/emoji.svg";
 //components
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
 
-const HomePostCard = ({ innerWidth, setOptionBtn }) => {
-  const [like, setLike] = useState("false");
-  const [saved, setSaved] = useState("false");
+const HomePostCard = ({ innerWidth, post, HomeRef }) => {
+  const { user, token } = isAutheticated();
+  const [likeCount, setLikeCount] = useState([]);
+  const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
+  const [option, setOption] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState({
+    saved: post._id,
+  });
+  const getCurrentLikes = async (postId) => {
+    await getPost(postId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setLike(data.likes?.includes(user._id));
+        setLikeCount(data.likes);
+      }
+    });
+  };
+
+  const getCurrentUser = async () => {
+    await getUser(token, user._id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setSave(data.saved?.includes(post._id));
+      }
+    });
+  };
+
+  const updateLike = () => {
+    if (!like === true) {
+      setLike(true);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount([...likeCount, user._id]);
+      updatePostLikeNComment(post._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(post._id);
+          }
+        }
+      );
+    } else {
+      setLike(false);
+      let formData = new FormData();
+      formData.set("likes", user._id);
+      setLikeCount(likeCount.filter((l) => l !== user._id));
+      updatePostLikeNComment(post._id, user._id, token, formData).then(
+        (data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            getCurrentLikes(post._id);
+          }
+        }
+      );
+    }
+  };
+
+  const updateSave = () => {
+    if (!save === true) {
+      setSave(true);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+      });
+    } else {
+      setSave(false);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        }
+      });
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    getCurrentLikes(post._id);
+    getCurrentUser();
+  }, []);
 
   return (
     <>
@@ -38,8 +123,16 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
         <div className="post-card-header">
           <img src={userImg} alt="user profile" />
           <div className="post-card-header-innerdiv">
-            <a href="">marvelstudios</a>
-            <button onClick={setOptionBtn}>
+            <Link to={post.postAuthor?.username}>
+              {post.postAuthor?.username}
+            </Link>
+            <button
+              onClick={() => {
+                setOption(!option);
+                disableBodyScroll(HomeRef.current);
+              }}
+              // onClick={setOptionBtn}
+            >
               <img
                 style={{ width: "16px", height: "16px" }}
                 src={optionsImg}
@@ -49,19 +142,28 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
           </div>
         </div>
         <div className="post-card-img">
-          <img src={userImg} alt="post image" />
+          <ImageHelper post={post} />
         </div>
         <div className="post-card-icons">
-          <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <button
               style={{ paddingLeft: "0px" }}
               onClick={() => {
-                setLike(!like);
+                updateLike();
               }}
             >
-              <img src={like ? likeImg : likeImgS} alt="like" />
+              <img src={like ? likeImgS : likeImg} alt="like" />
             </button>
-            <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
+            <Link
+              to={
+                innerWidth < 736 ? `/p/${post._id}/comments` : `/p/${post._id}`
+              }
+            >
               <button>
                 <img src={commentImg} alt="comment" />
               </button>
@@ -71,25 +173,31 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
             </button>
           </div>
           <button
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
             onClick={() => {
-              setSaved(!saved);
+              updateSave();
             }}
           >
-            <img src={saved ? savedImg : savedImgS} alt="save button" />
+            <img src={save ? savedImgS : savedImg} alt="save button" />
           </button>
         </div>
         <div className="post-card-like-v">
           <span>
-            <span>3003389 </span>likes
+            <span>{likeCount.length} </span>likes
           </span>
         </div>
         <div className="post-card-comment-sec">
           <div className="post-card-caption">
-            <span>marvelstudios </span>
-            Prepare to meet your match 👊 Tickets and pre-orders are available
-            now for Marvel Studios' @Black.Widow. Experience it
+            <span>{post.postAuthor?.username} </span>
+            {post.caption}
           </div>
-          <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
+          <Link
+            to={innerWidth < 736 ? `/p/${post._id}/comments` : `/p/${post._id}`}
+          >
             View all 230 comments
           </Link>
           <div className="post-recent-comment">
@@ -117,6 +225,17 @@ const HomePostCard = ({ innerWidth, setOptionBtn }) => {
             </button>
           </form>
         </div>
+        {option ? (
+          <PostOptionModal
+            postObj={post}
+            setCloseModal={() => {
+              setOption(!option);
+              enableBodyScroll(HomeRef.current);
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
