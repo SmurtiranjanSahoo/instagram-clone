@@ -141,7 +141,13 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
         <ImageHelper post={postObj} />
       </div>
       <div className="post-card-icons">
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           <button
             style={{ paddingLeft: "0px" }}
             onClick={() => {
@@ -160,6 +166,12 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
           </button>
         </div>
         <button
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
           onClick={() => {
             updateSave();
           }}
