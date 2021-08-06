@@ -47,8 +47,8 @@ const App = ({ location }) => {
         <PrivateRoute exact path="/stories" component={StoryPlay} />
         <PrivateRoute exact path="/activity" component={Activity} />
         <PrivateRoute exact path="/explore/search" component={ExploreSearch} />
-        <PrivateRoute exact path="/p/comments" component={Comments} />
         <PrivateRoute exact path="/create" component={CreatePost} />
+        <PrivateRoute exact path="/p/:postid/comments" component={Comments} />
         <PrivateRoute exact path="/:profileid" component={Profile} />
 
         <Route exact path="/p/:postid">
