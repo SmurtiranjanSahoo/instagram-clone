@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { getUser, isAutheticated, getAllUsers } from "../auth/auth";
+import { getAllPosts } from "../helper/apicalls";
 
 //components
 import Header from "../Components/Header";
@@ -14,17 +15,18 @@ import PostOptionModal from "../Components/GenericComponents/PostOptionModal/Pos
 import UserAccount from "../Components/Home/UserAccount";
 //images
 import { ReactComponent as HomeS } from "../Images/home-select.svg";
+import { ReactComponent as Loading } from "../Images/spinner.svg";
 import userImg from "../Images/profileimg.jpg";
 
 const Home = () => {
+  const { user, token } = isAutheticated();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  const [option, setOption] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [allUsers, setAllUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const HomeRef = useRef("");
-  const { user, token } = isAutheticated();
-  const a = [1, 1, 1, 1, 1];
 
   const getCurrentUser = async (token, userId) => {
     await getUser(token, userId).then((data) => {
@@ -48,15 +50,57 @@ const Home = () => {
     });
   };
 
+  const loadAllPosts = async () => {
+    setLoading(true);
+    await getUser(token, user._id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setCurrentUser(data);
+        // console.log(data);
+      }
+      getAllPosts(user._id, token).then((data2) => {
+        if (data2.error) {
+          console.log(data2.error);
+        } else {
+          data.followings?.map((user) => {
+            setPosts(data2.filter((data) => data.postAuthor._id === user));
+          });
+        }
+      });
+      setLoading(false);
+    });
+  };
+
   useEffect(() => {
     getCurrentUser(token, user._id);
     loadAllUsers(token, user._id);
+    loadAllPosts();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
+
+  if (loading) {
+    return (
+      <div>
+        {innerWidth < 735 ? <HomeHeader /> : <Header ImgHome={HomeS} />}
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loading width="50px" height="50px" />
+        </div>
+      </div>
+    );
+  }
 
   if (currentUser.followings?.length === 0) {
     return (
@@ -109,14 +153,12 @@ const Home = () => {
           <div className="home-left">
             <StoryContainer innerWidth={innerWidth} />
             <div>
-              {a.map((i) => {
+              {posts.map((post) => {
                 return (
                   <HomePostCard
+                    post={post}
                     innerWidth={innerWidth}
-                    setOptionBtn={() => {
-                      setOption(!option);
-                      disableBodyScroll(HomeRef.current);
-                    }}
+                    HomeRef={HomeRef}
                   />
                 );
               })}
@@ -125,16 +167,7 @@ const Home = () => {
           <HomeRightside />
         </div>
         {/* <Footer /> */}
-        {option ? (
-          <PostOptionModal
-            setCloseModal={() => {
-              setOption(!option);
-              enableBodyScroll(HomeRef.current);
-            }}
-          />
-        ) : (
-          <></>
-        )}
+
         <NavigaitionBottom ImgHome={HomeS} />
       </div>
     );
