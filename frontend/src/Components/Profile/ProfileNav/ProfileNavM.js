@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./ProfileNavM.css";
+import { Link } from "react-router-dom";
+import { isAutheticated } from "../../../auth/auth";
 //svg
 import { ReactComponent as Posts } from "../../../Images/posts-grey.svg";
 import { ReactComponent as Igtv } from "../../../Images/igtv-grey.svg";
@@ -17,7 +18,9 @@ const ProfileNavM = ({
   SelectSaved,
   SelectTagged,
   innerWidth,
+  currentUserId,
 }) => {
+  const { user } = isAutheticated();
   return (
     <div
       className="nav-container"
@@ -45,18 +48,23 @@ const ProfileNavM = ({
       >
         <IgtvImg style={{ width: "24px", height: "24px", fill: SelectIgtv }} />
       </Link>
-      <Link
-        to="/profile/saved"
-        style={{
-          textDecoration: "none",
-          width: 183.75 - (735 - innerWidth) * 0.25,
-        }}
-        className="nav-sec"
-      >
-        <SavedImg
-          style={{ width: "24px", height: "24px", fill: SelectSaved }}
-        />
-      </Link>
+      {currentUserId === user._id ? (
+        <Link
+          to="/profile/saved"
+          style={{
+            textDecoration: "none",
+            width: 183.75 - (735 - innerWidth) * 0.25,
+          }}
+          className="nav-sec"
+        >
+          <SavedImg
+            style={{ width: "24px", height: "24px", fill: SelectSaved }}
+          />
+        </Link>
+      ) : (
+        <></>
+      )}
+
       <Link
         to="/profile/tagged"
         style={{

@@ -1,20 +1,55 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
+import { isAutheticated, updateUser, getUser } from "../../auth/auth";
 //context
 import { userContext } from "../../Context/userContext";
 
 const ProfileInfo = ({ innerWidth, imgWidth }) => {
+  const { user, token } = isAutheticated();
+
   const UserContext = useContext(userContext);
   // console.log(UserContext);
-  const { name, followers, followings, posts, username } =
+  const { name, followers, followings, posts, username, _id } =
     UserContext.currentUser;
-
+  const [follow, setFollow] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState({
+    followings: _id,
+  });
   useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("jwt"));
-    UserContext.getCurrentUser(user.token, user.user._id);
+    // let user = JSON.parse(localStorage.getItem("jwt"));
+    getUser(token, user._id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setFollow(data.followings?.includes(_id));
+      }
+    });
   }, []);
+
+  const updateFollow = () => {
+    if (!follow === true) {
+      setFollow(true);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          console.log(data);
+        }
+      });
+      //Todo Add user to followers
+    } else {
+      setFollow(false);
+      updateUser(user._id, token, updateInfo).then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          console.log(data);
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -59,11 +94,30 @@ const ProfileInfo = ({ innerWidth, imgWidth }) => {
             >
               {username}
             </h2>
-            <span>
-              <Link to="/" style={{ textDecoration: "none", color: "#262626" }}>
-                Edit Profile
-              </Link>
-            </span>
+            {user._id === _id ? (
+              <span>
+                <Link
+                  to="/"
+                  style={{ textDecoration: "none", color: "#262626" }}
+                >
+                  Edit Profile
+                </Link>
+              </span>
+            ) : !follow ? (
+              <button onClick={updateFollow}>Follow</button>
+            ) : (
+              <button
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#262626",
+                  border: "1px solid #dbdbdb",
+                }}
+                onClick={updateFollow}
+              >
+                Unfollow
+              </button>
+            )}
+
             <img src={SettingIcon} alt="gear icon" />
           </div>
           <ul className="profile-info-pff">
