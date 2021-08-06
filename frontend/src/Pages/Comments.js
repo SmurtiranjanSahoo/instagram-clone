@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { getPost } from "../helper/apicalls";
+import { isAutheticated, getUser } from "../auth/auth";
 //components
 import CommentsHeader from "../Components/HeaderNav/CommentsHeader";
 import AddComment from "../Components/GenericComponents/Comments/AddComment/AddComment";
 //image
 import userImg from "../Images/profileimg.jpg";
 const Comments = () => {
+  const { postid } = useParams();
+  const { user, token } = isAutheticated();
+
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -15,6 +23,20 @@ const Comments = () => {
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
+  const getPostdata = async () => {
+    await getPost(postid).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setComments(data.comments);
+        // console.log(JSON.parse(data.comments[1]));
+      }
+    });
+  };
+
+  useEffect(() => {
+    getPostdata();
+  }, []);
   return (
     <div>
       <CommentsHeader innerWidth={innerWidth} />
@@ -53,6 +75,54 @@ const Comments = () => {
               </div>
             </div>
           </div>
+          {comments.map((comment, i) => {
+            comment = JSON.parse(comment);
+            let currentUser = {};
+            const getCurrentUser = async () => {
+              await getUser(token, user._id).then((data) => {
+                if (data.error) {
+                  console.log(data.error);
+                } else {
+                  currentUser = data;
+                  console.log(currentUser.username);
+                }
+              });
+            };
+
+            return (
+              <div
+                className="user-caption"
+                style={{
+                  margin: "0 0 16px 0",
+                  width: "100%",
+                  borderBottom: "1px solid #efefef",
+                  padding: "0 16px 16px 0",
+                }}
+              >
+                <div>
+                  <img src={userImg} alt="user image" />
+                </div>
+                <div
+                  className="user-caption-innerDiv"
+                  style={{ width: "100%" }}
+                >
+                  <span> {console.log(currentUser.username)}</span>
+                  {comment.text}
+                  <div
+                    className="upload-time"
+                    style={{
+                      color: "#8e8e8e",
+                      fontSize: "12px",
+                      fontWeight: 400,
+                      marginTop: "10px",
+                    }}
+                  >
+                    20h
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
