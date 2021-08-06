@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import onClickOutside from "react-onclickoutside";
-import { signout } from "../auth/auth";
+import { signout, isAutheticated } from "../auth/auth";
 // svg
 import { ReactComponent as Home } from "../Images/home.svg";
 import { ReactComponent as Message } from "../Images/message.svg";
@@ -23,6 +23,7 @@ const Header = ({
   ImgExplore = Explore,
   history,
 }) => {
+  const { user } = isAutheticated();
   const [searchtext, setSearchtext] = useState("");
   const [searchIcon, setSearchIcon] = useState("hidden");
   const [showProfileDropD, setShowProfileDropD] = useState(false);
@@ -140,7 +141,7 @@ const Header = ({
           ></div>
           <Link
             style={{ textDecoration: "none", color: "#262626" }}
-            to="/profile"
+            to={user.username}
             className="profile-drowndown-sec profile-drowndown-sec1"
           >
             <Profile style={{ marginRight: "12px" }} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./NavigaitionBottom.css";
 import { Link } from "react-router-dom";
+import { isAutheticated } from "../../auth/auth";
 //images
 import { ReactComponent as Home } from "../../Images/home.svg";
 import { ReactComponent as Like } from "../../Images/like.svg";
@@ -13,6 +14,7 @@ const NavigaitionBottom = ({
   ImgLike = Like,
   ImgSearch = Search,
 }) => {
+  const { user } = isAutheticated();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [photo, setPhoto] = useState("");
 
@@ -44,28 +46,17 @@ const NavigaitionBottom = ({
         style={{ width: innerWidth / 5 }}
         className="navigation-img"
       >
-        {/* <input
-          onClick={() => {
-            console.log("clicked");
-          }}
-          type="file"
-          name="photo"
-          accept="image/*"
-          onChange={(e) => {
-            setPhoto(e.target.files[0]);
-          }}
-        /> */}
         <NewPost />
       </Link>
       <Link
         style={{ width: innerWidth / 5 }}
-        to="/accounts/activity"
+        to="/activity"
         className="navigation-img"
       >
         <ImgLike />
       </Link>
       <Link
-        to="/profile"
+        to={user.username}
         style={{ width: innerWidth / 5 }}
         className="navigation-img header-profile-img"
       >
