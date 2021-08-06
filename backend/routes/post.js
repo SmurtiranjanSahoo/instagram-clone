@@ -9,7 +9,7 @@ const {
   deletePost,
   updatePost,
   getAllPosts,
-  updatePostLikes,
+  updatePostLikeNComment,
 } = require("../controllers/post");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
@@ -30,7 +30,7 @@ router.put(
   "/postlike/:postId/:userId",
   isSignedIn,
   isAuthenticated,
-  updatePostLikes
+  updatePostLikeNComment
 );
 
 //listing all posts

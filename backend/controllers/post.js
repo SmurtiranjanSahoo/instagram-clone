@@ -104,7 +104,7 @@ exports.updatePost = (req, res) => {
   });
 };
 
-exports.updatePostLikes = (req, res) => {
+exports.updatePostLikeNComment = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
@@ -116,26 +116,47 @@ exports.updatePostLikes = (req, res) => {
       });
     }
     let postLike = req.post;
-    if (postLikeOld.likes?.includes(fields.likes)) {
-      postLike
-        .updateOne({
-          $pull: {
-            likes: fields.likes,
-          },
-        })
-        .exec((err, post) => {
-          if (err) {
-            res.status(400).json({
-              error: "Updation of post failed",
-            });
-          }
-          res.json(post);
-        });
+    if (
+      postLikeOld.likes?.includes(fields.likes) ||
+      postLikeOld.comments?.includes(fields.comments)
+    ) {
+      if (fields.comments) {
+        postLike
+          .updateOne({
+            $push: {
+              comments: fields.comments,
+            },
+          })
+          .exec((err, post) => {
+            if (err) {
+              res.status(400).json({
+                error: "Updation of post failed",
+              });
+            }
+            res.json(post);
+          });
+      } else {
+        postLike
+          .updateOne({
+            $pull: {
+              likes: fields.likes,
+            },
+          })
+          .exec((err, post) => {
+            if (err) {
+              res.status(400).json({
+                error: "Updation of post failed",
+              });
+            }
+            res.json(post);
+          });
+      }
     } else {
       postLike
         .updateOne({
           $addToSet: {
-            likes: fields.likes,
+            likes: fields.likes ? fields.likes : postLikeOld.likes,
+            comments: fields.comments ? fields.comments : postLikeOld.comments,
           },
         })
         .exec((err, post) => {
