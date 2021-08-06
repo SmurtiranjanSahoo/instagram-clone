@@ -34,12 +34,18 @@ exports.getUserbyUsername = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  if (req.profile.saved?.includes(req.body.saved)) {
+  if (
+    req.profile.saved?.includes(req.body.saved) ||
+    req.profile.followings?.includes(req.body.followings) ||
+    req.profile.followers?.includes(req.body.followers)
+  ) {
     User.findByIdAndUpdate(
       { _id: req.profile._id },
       {
         $pull: {
           saved: req.body.saved,
+          followings: req.body.followings,
+          followers: req.body.followers,
         },
       },
       { new: true, useFindAndModify: false },
@@ -67,6 +73,12 @@ exports.updateUser = (req, res) => {
         },
         $addToSet: {
           saved: req.body.saved ? req.body.saved : req.profile.saved,
+          followings: req.body.followings
+            ? req.body.followings
+            : req.profile.followings,
+          followers: req.body.followers
+            ? req.body.followers
+            : req.profile.followers,
         },
       },
       { new: true, useFindAndModify: false },
