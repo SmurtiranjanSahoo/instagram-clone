@@ -1,18 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Searchbar.css";
 import { Link } from "react-router-dom";
+import { getUserByUsername, isAutheticated } from "../../../auth/auth";
+
 import { BiSearch } from "react-icons/bi";
 import { MdClear } from "react-icons/md";
 
-const SearchExplore = ({ innerWidth }) => {
+const SearchExplore = ({ innerWidth, setSearchResult }) => {
+  const { user, token } = isAutheticated();
+
   const [searchtext, setSearchtext] = useState("");
   const [searchIcon, setSearchIcon] = useState("hidden");
-
   const inputRef = useRef("");
 
+  const getUserByUName = async (username) => {
+    await getUserByUsername(token, user._id, username).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setSearchResult(data);
+      }
+    });
+  };
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  useEffect(() => {
+    getUserByUName({ username: searchtext });
+  }, [searchtext]);
 
   return (
     <div
