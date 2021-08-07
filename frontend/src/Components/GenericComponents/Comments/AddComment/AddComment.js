@@ -9,21 +9,21 @@ const AddComment = ({ innerWidth }) => {
   const { postid } = useParams();
   const { user, token } = isAutheticated();
   const [comment, setComment] = useState({
-    userid: user._id,
+    user: user._id,
+    username: user.username,
     text: "",
+    time: "",
   });
 
   const addComment = (e) => {
     e.preventDefault();
     if (comment.text) {
       let formData = new FormData();
-      formData.set("comments", JSON.stringify(comment));
       console.log(comment);
+      formData.set("comments", JSON.stringify(comment));
       updatePostLikeNComment(postid, user._id, token, formData).then((data) => {
         if (data.error) {
           console.log(data.error);
-        } else {
-          console.log(data);
         }
         setComment({ ...comment, text: "" });
       });
@@ -47,7 +47,13 @@ const AddComment = ({ innerWidth }) => {
           placeholder="Add a comment..."
           value={comment.text}
           onChange={(e) => {
-            setComment({ ...comment, text: e.target.value });
+            setComment({
+              ...comment,
+              text: e.target.value,
+              time:
+                new Date().toTimeString().slice(0, 5) +
+                new Date().toDateString().slice(3, 10),
+            });
           }}
         />
         <button>Post</button>
