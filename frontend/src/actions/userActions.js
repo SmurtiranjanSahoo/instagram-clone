@@ -106,15 +106,47 @@ export const fetchUserByUsername = (username) => {
 };
 
 export const fetchUserByUsernameBegin = () => ({
-  type: FETCH_USER_BEGIN,
+  type: FETCH_USERBYUSERNAME_BEGIN,
 });
 
 export const fetchUserByUsernameSuccess = (user) => ({
-  type: FETCH_USER_SUCCESS,
+  type: FETCH_USERBYUSERNAME_SUCCESS,
   payload: user,
 });
 
 export const fetchUserByUsernameFailure = (error) => ({
-  type: FETCH_USER_FAILURE,
+  type: FETCH_USERBYUSERNAME_FAILURE,
+  payload: error,
+});
+
+//update user
+export const updateUser = (userformData) => {
+  return (dispatch) => {
+    dispatch(updateUserBegin());
+    const { token, user } = isAutheticated();
+    getUser(user._id, token, userformData)
+      .then((data) => {
+        if (data.error) {
+          dispatch(updateUserFailure(data.error));
+        }
+        dispatch(updateUserSuccess());
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(updateUserFailure(errMsg));
+      });
+  };
+};
+
+export const updateUserBegin = () => ({
+  type: UPDATEUSER_BEGIN,
+});
+
+export const updateUserSuccess = () => ({
+  type: UPDATEUSER_SUCCESS,
+});
+
+export const updateUserFailure = (error) => ({
+  type: UPDATEUSER_FAILURE,
   payload: error,
 });
