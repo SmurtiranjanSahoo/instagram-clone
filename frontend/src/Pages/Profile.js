@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, withRouter, useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchAllPost } from "../actions/postActions";
 import { getUser, getUserByUsername, isAutheticated } from "../auth/auth";
-import { getAllPosts } from "../helper/apicalls";
 //context
 import { userContext } from "../Context/userContext";
 //images
@@ -20,7 +21,8 @@ import PostModal from "../Components/PostModal/PostModal";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 
-const Profile = () => {
+const Profile = ({ fetchAllPost, post }) => {
+  const { isGettingAllPost, allPosts } = post;
   let { profileid } = useParams();
   const { user, token } = isAutheticated();
   const [showPostModal, setShowPostModal] = useState(false);
@@ -33,19 +35,19 @@ const Profile = () => {
 
   var j = 1;
 
-  const loadAllPost = async () => {
-    const { user, token } = isAutheticated();
-    setLoading(true);
+  // const loadAllPost = async () => {
+  //   const { user, token } = isAutheticated();
+  //   setLoading(true);
 
-    await getAllPosts(user._id, token).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setUserPosts(data.filter((data) => data.postAuthor._id === _id));
-      }
-    });
-    setLoading(false);
-  };
+  //   await getAllPosts(user._id, token).then((data) => {
+  //     if (data.error) {
+  //       console.log(data.error);
+  //     } else {
+  //       setUserPosts(data.filter((data) => data.postAuthor._id === _id));
+  //     }
+  //   });
+  //   setLoading(false);
+  // };
 
   const getCurrentUser = async (token, userId) => {
     await getUser(token, userId).then((data) => {
@@ -70,7 +72,7 @@ const Profile = () => {
   useEffect(() => {
     // getCurrentUser(user.token, user.user._id);
     getUserByUName({ username: profileid });
-    loadAllPost();
+    // loadAllPost();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -83,10 +85,11 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    loadAllPost();
-  }, [_id]);
+    // loadAllPost();
+    fetchAllPost();
+  }, []);
 
-  if (loading) {
+  if (isGettingAllPost) {
     return (
       <div>
         {innerWidth < 735 ? (
@@ -156,39 +159,41 @@ const Profile = () => {
                     : "935px",
               }}
             >
-              {userPosts.map((userPost, i) => {
-                if (j === i) {
-                  j = j + 3;
-                  return (
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={{
-                        pathname: `/p/${userPost._id}`,
-                        state: { modal: innerWidth <= 735 ? false : true },
-                      }}
-                      key={i}
-                    >
-                      <ProfilePost
-                        post={userPost}
-                        className={"profile-post-margin"}
-                      />
-                    </Link>
-                  );
-                } else {
-                  return (
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={{
-                        pathname: `/p/${userPost._id}`,
-                        state: { modal: innerWidth <= 735 ? false : true },
-                      }}
-                      key={i}
-                    >
-                      <ProfilePost post={userPost} />
-                    </Link>
-                  );
-                }
-              })}
+              {allPosts
+                .filter((data) => data.postAuthor._id === _id)
+                .map((userPost, i) => {
+                  if (j === i) {
+                    j = j + 3;
+                    return (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={{
+                          pathname: `/p/${userPost._id}`,
+                          state: { modal: innerWidth <= 735 ? false : true },
+                        }}
+                        key={i}
+                      >
+                        <ProfilePost
+                          post={userPost}
+                          className={"profile-post-margin"}
+                        />
+                      </Link>
+                    );
+                  } else {
+                    return (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={{
+                          pathname: `/p/${userPost._id}`,
+                          state: { modal: innerWidth <= 735 ? false : true },
+                        }}
+                        key={i}
+                      >
+                        <ProfilePost post={userPost} />
+                      </Link>
+                    );
+                  }
+                })}
             </div>
           </div>
         </div>
@@ -202,4 +207,15 @@ const Profile = () => {
   );
 };
 
-export default withRouter(Profile);
+const mapStateToProps = (state) => ({
+  post: state.PostReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Profile));
