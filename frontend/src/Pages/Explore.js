@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { getAllPosts } from "../helper/apicalls";
-import { isAutheticated } from "../auth/auth";
-
+import { connect } from "react-redux";
+import { fetchAllPost } from "../actions/postActions";
 //component
 import Header from "../Components/Header";
 import Searchbar from "../Components/HeaderNav/Searchbar/Searchbar";
@@ -15,27 +14,13 @@ import { ReactComponent as ExploreS } from "../Images/explore-select.svg";
 import { ReactComponent as SearchS } from "../Images/Header/searchS.svg";
 import LoadingGif from "../Images/loading.gif";
 
-const Explore = () => {
+const Explore = ({ fetchAllPost, post }) => {
+  const { isGettingAllPost, allPosts } = post;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
   var j = 1;
 
-  const loadAllPost = async () => {
-    const { user, token } = isAutheticated();
-    setLoading(true);
-    await getAllPosts(user._id, token).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setPosts(data);
-      }
-    });
-    setLoading(false);
-  };
-
   useEffect(() => {
-    loadAllPost();
+    fetchAllPost();
 
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
@@ -46,7 +31,7 @@ const Explore = () => {
     };
   }, []);
 
-  if (loading) {
+  if (isGettingAllPost) {
     return (
       <div>
         {innerWidth < 735 ? (
@@ -79,7 +64,7 @@ const Explore = () => {
           width: innerWidth < 975 ? innerWidth : "975px",
         }}
       >
-        {posts.map((post, i) => {
+        {allPosts.map((post, i) => {
           if (j === i) {
             j = j + 3;
             return (
@@ -102,4 +87,15 @@ const Explore = () => {
   );
 };
 
-export default withRouter(Explore);
+const mapStateToProps = (state) => ({
+  post: state.PostReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Explore));
