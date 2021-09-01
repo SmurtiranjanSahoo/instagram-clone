@@ -17,13 +17,14 @@ import {
   getAllPosts,
   getPost,
   deletePost,
+  updatePostLikeNComment,
 } from "../helper/apicalls";
 import { isAutheticated } from "../auth/auth";
 
 //post create
 export const postCreate = (post) => {
   return (dispatch) => {
-    dispatch(postCreateBegin(post));
+    dispatch(postCreateBegin());
     const { user, token } = isAutheticated();
     createPost(user._id, token, post)
       .then((data) => {
@@ -39,9 +40,8 @@ export const postCreate = (post) => {
   };
 };
 
-export const postCreateBegin = (post) => ({
+export const postCreateBegin = () => ({
   type: CREATEPOST_BEGIN,
-  payload: post,
 });
 
 export const postCreateSuccess = () => ({
@@ -120,34 +120,66 @@ export const fetchPostFailure = (error) => ({
   payload: error,
 });
 
-//fetch post
-export const deletePost = (postId) => {
+//delete post
+export const postDelete = (postId) => {
   return (dispatch) => {
-    dispatch(fetchPostBegin());
+    dispatch(postDeleteBegin());
     const { user, token } = isAutheticated();
     deletePost(postId, user._id, token)
       .then((data) => {
         if (data.error) {
-          dispatch(fetchPostFailure(data.error));
+          dispatch(postDeleteFailure(data.error));
         }
-        dispatch(fetchPostSuccess());
+        dispatch(postDeleteSuccess());
       })
       .catch((err) => {
         const errMsg = err.message;
-        dispatch(fetchPostFailure(errMsg));
+        dispatch(postDeleteFailure(errMsg));
       });
   };
 };
 
-export const fetchPostBegin = () => ({
+export const postDeleteBegin = () => ({
   type: DELETE_POST_BEGIN,
 });
 
-export const fetchPostSuccess = () => ({
+export const postDeleteSuccess = () => ({
   type: DELETE_POST_SUCCESS,
 });
 
-export const fetchPostFailure = (error) => ({
+export const postDeleteFailure = (error) => ({
+  type: DELETE_POST_FAILURE,
+  payload: error,
+});
+
+//updatePostLikeNComment
+export const updateLikeNComment = (postId, post) => {
+  return (dispatch) => {
+    dispatch(updateLikeNCommentBegin());
+    const { user, token } = isAutheticated();
+    updatePostLikeNComment(postId, user._id, token, post)
+      .then((data) => {
+        if (data.error) {
+          dispatch(updateLikeNCommentFailure(data.error));
+        }
+        dispatch(updateLikeNCommentSuccess());
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(updateLikeNCommentFailure(errMsg));
+      });
+  };
+};
+
+export const updateLikeNCommentBegin = () => ({
+  type: DELETE_POST_BEGIN,
+});
+
+export const updateLikeNCommentSuccess = () => ({
+  type: DELETE_POST_SUCCESS,
+});
+
+export const updateLikeNCommentFailure = (error) => ({
   type: DELETE_POST_FAILURE,
   payload: error,
 });

@@ -11,6 +11,9 @@ import {
   DELETE_POST_BEGIN,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILURE,
+  UPDATE_LIKECOMMENT_POST_BEGIN,
+  UPDATE_LIKECOMMENT_POST_SUCCESS,
+  UPDATE_LIKECOMMENT_POST_FAILURE,
 } from "../actions/constants/action-types";
 
 const INITIAL_POST_STATE = {
@@ -18,7 +21,7 @@ const INITIAL_POST_STATE = {
   isPostCreating: false,
   isGettingAllPost: false,
   isPostDeleting: false,
-  createPostDetails: {},
+  isPostUpdating: false,
   postDetails: {},
   allPosts: [],
   error: "",
@@ -27,11 +30,7 @@ const INITIAL_POST_STATE = {
 const PostReducer = (state = INITIAL_POST_STATE, action) => {
   switch (action.type) {
     case CREATEPOST_BEGIN:
-      return {
-        ...state,
-        isPostCreating: true,
-        createPostDetails: action.payload,
-      };
+      return { ...state, isPostCreating: true };
     case CREATEPOST_SUCCESS:
       return { ...state, isPostCreating: false };
     case CREATEPOST_FAILURE:
@@ -57,6 +56,13 @@ const PostReducer = (state = INITIAL_POST_STATE, action) => {
       return { ...state, isPostDeleting: false };
     case DELETE_POST_FAILURE:
       return { ...state, isPostDeleting: false, error: action.payload };
+
+    case UPDATE_LIKECOMMENT_POST_BEGIN:
+      return { ...state, isPostUpdating: true };
+    case UPDATE_LIKECOMMENT_POST_SUCCESS:
+      return { ...state, isPostUpdating: false };
+    case UPDATE_LIKECOMMENT_POST_FAILURE:
+      return { ...state, isPostUpdating: false, error: action.payload };
 
     default:
       return state;
