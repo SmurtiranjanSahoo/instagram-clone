@@ -5,8 +5,19 @@ import {
   FETCH_ALLPOST_BEGIN,
   FETCH_ALLPOST_SUCCESS,
   FETCH_ALLPOST_FAILURE,
+  FETCH_POST_BEGIN,
+  FETCH_POST_SUCCESS,
+  FETCH_POST_FAILURE,
+  DELETE_POST_BEGIN,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILURE,
 } from "../actions/constants/action-types";
-import { createPost, getAllPosts } from "../helper/apicalls";
+import {
+  createPost,
+  getAllPosts,
+  getPost,
+  deletePost,
+} from "../helper/apicalls";
 import { isAutheticated } from "../auth/auth";
 
 //post create
@@ -42,7 +53,7 @@ export const postCreateFailure = (error) => ({
   payload: error,
 });
 
-//get all posts
+//fetch all posts
 export const fetchAllPost = () => {
   return (dispatch) => {
     dispatch(fetchAllPostBegin());
@@ -73,5 +84,70 @@ export const fetchAllPostSuccess = (allpost) => ({
 
 export const fetchAllPostFailure = (error) => ({
   type: FETCH_ALLPOST_FAILURE,
+  payload: error,
+});
+
+//fetch post
+export const fetchPost = (postId) => {
+  return (dispatch) => {
+    dispatch(fetchPostBegin());
+    getPost(postId)
+      .then((data) => {
+        if (data.error) {
+          dispatch(fetchPostFailure(data.error));
+        }
+        // console.log(data);
+        dispatch(fetchPostSuccess(data));
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(fetchPostFailure(errMsg));
+      });
+  };
+};
+
+export const fetchPostBegin = () => ({
+  type: FETCH_POST_BEGIN,
+});
+
+export const fetchPostSuccess = (post) => ({
+  type: FETCH_POST_SUCCESS,
+  payload: post,
+});
+
+export const fetchPostFailure = (error) => ({
+  type: FETCH_POST_FAILURE,
+  payload: error,
+});
+
+//fetch post
+export const deletePost = (postId) => {
+  return (dispatch) => {
+    dispatch(fetchPostBegin());
+    const { user, token } = isAutheticated();
+    deletePost(postId, user._id, token)
+      .then((data) => {
+        if (data.error) {
+          dispatch(fetchPostFailure(data.error));
+        }
+        dispatch(fetchPostSuccess());
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(fetchPostFailure(errMsg));
+      });
+  };
+};
+
+export const fetchPostBegin = () => ({
+  type: DELETE_POST_BEGIN,
+});
+
+export const fetchPostSuccess = () => ({
+  type: DELETE_POST_SUCCESS,
+});
+
+export const fetchPostFailure = (error) => ({
+  type: DELETE_POST_FAILURE,
   payload: error,
 });
