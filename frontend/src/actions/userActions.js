@@ -85,3 +85,36 @@ export const fetchAllUserFailure = (error) => ({
   type: FETCH_ALLUSER_FAILURE,
   payload: error,
 });
+
+//fetch user by username
+export const fetchUserByUsername = (username) => {
+  return (dispatch) => {
+    dispatch(fetchUserByUsernameBegin());
+    const { token, user } = isAutheticated();
+    getUser(token, user._id, username)
+      .then((data) => {
+        if (data.error) {
+          dispatch(fetchUserByUsernameFailure(data.error));
+        }
+        dispatch(fetchUserByUsernameSuccess(data));
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(fetchUserByUsernameFailure(errMsg));
+      });
+  };
+};
+
+export const fetchUserByUsernameBegin = () => ({
+  type: FETCH_USER_BEGIN,
+});
+
+export const fetchUserByUsernameSuccess = (user) => ({
+  type: FETCH_USER_SUCCESS,
+  payload: user,
+});
+
+export const fetchUserByUsernameFailure = (error) => ({
+  type: FETCH_USER_FAILURE,
+  payload: error,
+});
