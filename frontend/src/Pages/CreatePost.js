@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { createPost } from "../helper/apicalls";
 import { isAutheticated } from "../auth/auth";
-import CreatePostHeader from "../Components/HeaderNav/CreatePostHeader";
+import { connect } from "react-redux";
+import { postCreate } from "../actions/postActions";
+//svg
 import { ReactComponent as Spinner } from "../Images/spinner.svg";
+//components
+import CreatePostHeader from "../Components/HeaderNav/CreatePostHeader";
 
-const CreatePost = ({ history }) => {
-  const { user, token } = isAutheticated();
+const CreatePost = ({ history, postCreate, post }) => {
+  const { user } = isAutheticated();
   const initialState = {
     postAuthor: user._id,
     photo: "",
     caption: "",
-    loading: false,
-    error: "",
     formData: new FormData(),
-    createdPost: "",
   };
+
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
-  const { caption, loading, formData, photo } = values;
+  const { caption, formData, photo } = values;
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -41,21 +42,8 @@ const CreatePost = ({ history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setValues({ ...values, error: "", loading: true });
-    createPost(user._id, token, formData).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          loading: false,
-          createdPost: data.name,
-          photo: "",
-          caption: "",
-        });
-        history.push("/profile");
-      }
-    });
+    postCreate(formData);
+    history.push(`/${user.username}`);
     // console.log(...formData);
   };
 
@@ -127,7 +115,7 @@ const CreatePost = ({ history }) => {
           )}
         </div>
       </div>
-      {loading ? (
+      {post.isPostCreating ? (
         <div
           style={{
             width: "100%",
@@ -149,4 +137,12 @@ const CreatePost = ({ history }) => {
   );
 };
 
-export default CreatePost;
+const mapStateToProps = (state) => ({
+  post: state.PostReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  postCreate: (post) => dispatch(postCreate(post)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
