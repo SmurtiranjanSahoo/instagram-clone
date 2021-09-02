@@ -91,7 +91,7 @@ export const fetchUserByUsername = (username) => {
   return (dispatch) => {
     dispatch(fetchUserByUsernameBegin());
     const { token, user } = isAutheticated();
-    getUser(token, user._id, username)
+    getUserByUsername(token, user._id, username)
       .then((data) => {
         if (data.error) {
           dispatch(fetchUserByUsernameFailure(data.error));
@@ -120,33 +120,33 @@ export const fetchUserByUsernameFailure = (error) => ({
 });
 
 //update user
-export const updateUser = (userformData) => {
+export const userUpdate = (userformData) => {
   return (dispatch) => {
-    dispatch(updateUserBegin());
+    dispatch(userUpdateBegin());
     const { token, user } = isAutheticated();
-    getUser(user._id, token, userformData)
+    updateUser(user._id, token, userformData)
       .then((data) => {
         if (data.error) {
-          dispatch(updateUserFailure(data.error));
+          dispatch(userUpdateFailure(data.error));
         }
-        dispatch(updateUserSuccess());
+        dispatch(userUpdateSuccess());
       })
       .catch((err) => {
         const errMsg = err.message;
-        dispatch(updateUserFailure(errMsg));
+        dispatch(userUpdateFailure(errMsg));
       });
   };
 };
 
-export const updateUserBegin = () => ({
+export const userUpdateBegin = () => ({
   type: UPDATEUSER_BEGIN,
 });
 
-export const updateUserSuccess = () => ({
+export const userUpdateSuccess = () => ({
   type: UPDATEUSER_SUCCESS,
 });
 
-export const updateUserFailure = (error) => ({
+export const userUpdateFailure = (error) => ({
   type: UPDATEUSER_FAILURE,
   payload: error,
 });
