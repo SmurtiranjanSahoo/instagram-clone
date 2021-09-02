@@ -5,7 +5,7 @@ import { deletePost, getAllPosts } from "../../../helper/apicalls";
 import { useHistory } from "react-router-dom";
 import { enableBodyScroll } from "body-scroll-lock";
 
-const PostOptionModal = ({ setCloseModal, postObj, postMRef }) => {
+const PostOptionModal = ({ setCloseModal, postDetails, postMRef }) => {
   const [loading, setLoading] = useState(false);
 
   const { user, token } = isAutheticated();
@@ -49,10 +49,10 @@ const PostOptionModal = ({ setCloseModal, postObj, postMRef }) => {
         }}
         className="modal"
       >
-        {postObj.postAuthor?._id === user._id ? (
+        {postDetails.postAuthor?._id === user._id ? (
           <button
             onClick={() => {
-              postDelete(postObj._id);
+              postDelete(postDetails._id);
             }}
           >
             Delete
