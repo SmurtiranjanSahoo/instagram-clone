@@ -44,7 +44,7 @@ const PostReducer = (state = INITIAL_POST_STATE, action) => {
       return { ...state, isGettingAllPost: false, error: action.payload };
 
     case FETCH_POST_BEGIN:
-      return { ...state, isPostLoading: true };
+      return { ...state, isPostLoading: true, postDetails: {} };
     case FETCH_POST_SUCCESS:
       return { ...state, isPostLoading: false, postDetails: action.payload };
     case FETCH_POST_FAILURE:
