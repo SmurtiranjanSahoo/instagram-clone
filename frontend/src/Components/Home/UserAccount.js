@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import UserImg from "../../Images/profileimg.jpg";
 
 const UserAccount = ({ userImg = UserImg, user }) => {
@@ -13,27 +14,33 @@ const UserAccount = ({ userImg = UserImg, user }) => {
         padding: "8px 16px",
       }}
     >
-      <img
-        style={{
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          marginRight: "15px",
-          marginLeft: "5px",
-        }}
-        src={userImg}
-        alt="user image"
-      />
-      <div
+      <Link to={`/${user.username}`}>
+        <img
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "50%",
+            marginRight: "15px",
+            marginLeft: "5px",
+          }}
+          src={userImg}
+          alt="user image"
+        />
+      </Link>
+      <Link
+        to={`/${user.username}`}
         style={{
           display: "flex",
           flexDirection: "column",
+          textDecoration: "none",
         }}
       >
-        <p style={{ fontSize: "14px", fontWeight: "600" }}>{user.username}</p>
+        <p style={{ fontSize: "14px", fontWeight: "600", color: "#262626" }}>
+          {user.username}
+        </p>
         <p style={{ fontSize: "14px", color: "#8e8e8e" }}>{user.name}</p>
         <p style={{ fontSize: "12px", color: "#8e8e8e" }}>New Account</p>
-      </div>
+      </Link>
       <button
         style={{
           width: "61.67px",
