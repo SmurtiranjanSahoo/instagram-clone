@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { IoHeartSharp } from "react-icons/all";
 import { RiChat3Fill } from "react-icons/ri";
-import Img from "../../Images/profileimg.jpg";
 import ImageHelper from "../../helper/ImageHelper";
-const ProfilePost = ({
-  className = "profile-post",
-  likecount = "277",
-  commentcount = "80",
-  imgUrl = Img,
-  post,
-}) => {
+const ProfilePost = ({ className = "profile-post", post }) => {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -23,7 +16,7 @@ const ProfilePost = ({
   }, []);
 
   return (
-    <>
+    <Fragment>
       <div
         className={className}
         style={{
@@ -51,17 +44,17 @@ const ProfilePost = ({
             <IoHeartSharp
               style={{ width: "21px", height: "21px", opacity: "1" }}
             />
-            <span style={{ marginLeft: "7px" }}> {likecount} </span>
+            <span style={{ marginLeft: "7px" }}> {post.likes?.length} </span>
           </span>
           <span>
             <RiChat3Fill
               style={{ width: "21px", height: "21px", transform: "scaleX(-1)" }}
             />
-            <span style={{ marginLeft: "7px" }}> {commentcount} </span>
+            <span style={{ marginLeft: "7px" }}> {post.comments?.length} </span>
           </span>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 
