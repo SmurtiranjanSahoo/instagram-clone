@@ -1,10 +1,12 @@
-import React, { useState, Component, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import "./postModal.css";
 import { withRouter, useParams } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { getPost, updatePostLikeNComment } from "../../helper/apicalls";
+import { connect } from "react-redux";
+import { fetchPost, updateLikeNComment } from "../../actions/postActions";
+import { userUpdate, fetchUser } from "../../actions/userActions";
 import ImageHelper from "../../helper/ImageHelper";
-import { isAutheticated, getUser, updateUser } from "../../auth/auth";
+import { isAutheticated } from "../../auth/auth";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -20,18 +22,29 @@ import LoadingGif from "../../Images/loading.gif";
 //components
 import Header from "../Header";
 import PostPage from "../GenericComponents/PostPage";
+import HomePostCard from "../Home/HomePostCard";
 import NavigaitionBottom from "../NavigationBottom/NavigaitionBottom";
 import PostHeader from "../HeaderNav/PostHeader";
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
 
-const PostModal = ({ history, isModal }) => {
-  const { user, token } = isAutheticated();
+const PostModal = ({
+  history,
+  isModal,
+  fetchPost,
+  postState,
+  userState,
+  updateLikeNComment,
+  userUpdate,
+  fetchUser,
+}) => {
+  const { isPostLoading, postDetails } = postState;
+  const { userDetails } = userState;
+  const { user } = isAutheticated();
   let { postid } = useParams();
   const modalRef = createRef();
   const postMRef = createRef();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [option, setOption] = useState(false);
-  const [postObj, setPostObj] = useState("");
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState([]);
   const [save, setSave] = useState(false);
@@ -39,60 +52,20 @@ const PostModal = ({ history, isModal }) => {
     saved: postid,
   });
 
-  // console.log(postid);
-
   const updateWindowDimensions = () => {
     setInnerWidth(window.innerWidth);
-  };
-
-  const getCurrentUser = async () => {
-    await getUser(token, user._id).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setSave(data.saved?.includes(postid));
-      }
-    });
   };
 
   const updateSave = () => {
     if (!save === true) {
       setSave(true);
-      updateUser(user._id, token, updateInfo).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        }
-      });
+      userUpdate(updateInfo);
+      fetchUser(user._id);
     } else {
       setSave(false);
-      updateUser(user._id, token, updateInfo).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        }
-      });
+      userUpdate(updateInfo);
+      fetchUser(user._id);
     }
-  };
-
-  const getCurrentLikes = async (postId) => {
-    await getPost(postId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setLikeCount(data.likes);
-        setLike(data.likes?.includes(user._id));
-      }
-    });
-  };
-
-  const getPostdata = async () => {
-    await getPost(postid).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setPostObj(data);
-        // console.log(data);
-      }
-    });
   };
 
   const updateLike = () => {
@@ -101,36 +74,19 @@ const PostModal = ({ history, isModal }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount([...likeCount, user._id]);
-      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
-        (data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            getCurrentLikes(postObj._id);
-          }
-        }
-      );
+      updateLikeNComment(postDetails._id, formData);
     } else {
       setLike(false);
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount(likeCount.filter((l) => l !== user._id));
-      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
-        (data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            getCurrentLikes(postObj._id);
-          }
-        }
-      );
+      updateLikeNComment(postDetails._id, formData);
     }
   };
 
   useEffect(() => {
-    getPostdata();
-    getCurrentLikes(postid);
-    getCurrentUser();
+    fetchPost(postid);
+    fetchUser(user._id);
 
     if (isModal) {
       disableBodyScroll(modalRef.current);
@@ -141,9 +97,14 @@ const PostModal = ({ history, isModal }) => {
       window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
-  // console.log(postObj);
 
-  if (!postObj && !isModal) {
+  useEffect(() => {
+    setLike(postDetails.likes?.includes(user._id));
+    setLikeCount(postDetails.likes);
+    setSave(userDetails.saved?.includes(postid));
+  }, [postDetails.likes, userDetails.saved]);
+
+  if (!isModal && isPostLoading) {
     return (
       <div>
         {innerWidth < 735 ? <PostHeader innerWidth={innerWidth} /> : <Header />}
@@ -163,7 +124,7 @@ const PostModal = ({ history, isModal }) => {
   }
 
   if (isModal) {
-    if (!postObj) {
+    if (isPostLoading) {
       return (
         <div
           ref={modalRef}
@@ -222,13 +183,13 @@ const PostModal = ({ history, isModal }) => {
           }}
         >
           <div className="post-image">
-            <ImageHelper post={postObj} />
+            <ImageHelper post={postDetails} />
           </div>
           <div className="post-info">
             <div className="post-header">
               <img src={userImg} alt="user profile" />
               <div className="post-header-innerdiv">
-                <a href="/">{postObj.postAuthor?.username}</a>
+                <a href="/">{postDetails.postAuthor?.username}</a>
                 <button
                   onClick={() => {
                     setOption(!option);
@@ -249,8 +210,8 @@ const PostModal = ({ history, isModal }) => {
                   <img src={userImg} alt="user image" />
                 </div>
                 <div className="user-caption-innerDiv">
-                  <span>{postObj.postAuthor?.username} </span>
-                  {postObj.caption}
+                  <span>{postDetails.postAuthor?.username} </span>
+                  {postDetails.caption}
                 </div>
               </div>
             </div>
@@ -283,7 +244,7 @@ const PostModal = ({ history, isModal }) => {
               </div>
               <div className="post-like-v">
                 <span>
-                  <span>{likeCount.length} </span>likes
+                  <span>{likeCount?.length} </span>likes
                 </span>
               </div>
               <div className="post-upload-time">59 MINUTES AGO</div>
@@ -315,16 +276,14 @@ const PostModal = ({ history, isModal }) => {
             <img src={closeBtn} alt="close button" />
           </button>
         </div>
-        {option ? (
+        {option && (
           <PostOptionModal
-            postObj={postObj}
+            postDetails={postDetails}
             postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
             }}
           />
-        ) : (
-          <></>
         )}
       </div>
     );
@@ -333,28 +292,24 @@ const PostModal = ({ history, isModal }) => {
       <div>
         <Header />
         <PostHeader innerWidth={innerWidth} />
-        <div ref={postMRef} style={{ margin: "44px 0" }}>
-          <PostPage
-            postObj={postObj}
-            setOptionBtn={() => {
-              setOption(!option);
-              disableBodyScroll(postMRef);
-            }}
+        <div ref={postMRef} style={{ margin: "44px 0 60px" }}>
+          <HomePostCard
+            post={postDetails}
             innerWidth={innerWidth}
+            HomeRef={postMRef}
+            postPageWidth={736}
           />
         </div>
         <NavigaitionBottom />
-        {option ? (
+        {option && (
           <PostOptionModal
-            postObj={postObj}
+            postDetails={postDetails}
             postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(postMRef);
             }}
           />
-        ) : (
-          <></>
         )}
       </div>
     ) : (
@@ -370,13 +325,13 @@ const PostModal = ({ history, isModal }) => {
         >
           <div className="post-no-modal-container">
             <div className="post-image">
-              <ImageHelper post={postObj} />
+              <ImageHelper post={postDetails} />
             </div>
             <div className="post-info">
               <div className="post-header">
                 <img src={userImg} alt="user profile" />
                 <div className="post-header-innerdiv">
-                  <a href="">{postObj.postAuthor?.username}</a>
+                  <a href="">{postDetails.postAuthor?.username}</a>
                   <button
                     onClick={() => {
                       setOption(!option);
@@ -397,8 +352,8 @@ const PostModal = ({ history, isModal }) => {
                     <img src={userImg} alt="user image" />
                   </div>
                   <div className="user-caption-innerDiv">
-                    <span>{postObj.postAuthor?.username} </span>
-                    {postObj.caption}
+                    <span>{postDetails.postAuthor?.username} </span>
+                    {postDetails.caption}
                   </div>
                 </div>
               </div>
@@ -431,7 +386,7 @@ const PostModal = ({ history, isModal }) => {
                 </div>
                 <div className="post-like-v">
                   <span>
-                    <span>{likeCount.length} </span>likes
+                    <span>{likeCount?.length} </span>likes
                   </span>
                 </div>
                 <div className="post-upload-time">59 MINUTES AGO</div>
@@ -458,24 +413,38 @@ const PostModal = ({ history, isModal }) => {
             </div>
           </div>
         </div>
-        {option ? (
+        {option && (
           <PostOptionModal
-            postObj={postObj}
+            postDetails={postDetails}
             postMRef={postMRef}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(postMRef);
             }}
           />
-        ) : (
-          <></>
         )}
       </div>
     );
   }
 };
 
-export default withRouter(PostModal);
+const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
+  userState: state.UserReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPost: (postId) => dispatch(fetchPost(postId)),
+  updateLikeNComment: (postId, post) =>
+    dispatch(updateLikeNComment(postId, post)),
+  userUpdate: (user) => dispatch(userUpdate(user)),
+  fetchUser: (userId) => dispatch(fetchUser(userId)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(PostModal));
 
 //*class COMPONENT
 // class PostModal extends Component {
