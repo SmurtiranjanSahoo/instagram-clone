@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-
-import { isAutheticated, getUser, updateUser } from "../../auth/auth";
+import { connect } from "react-redux";
+import { updateLikeNComment } from "../../actions/postActions";
+import { userUpdate, fetchUser } from "../../actions/userActions";
+import { isAutheticated } from "../../auth/auth";
 import ImageHelper from "../../helper/ImageHelper";
-import { updatePostLikeNComment, getPost } from "../../helper/apicalls";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -18,8 +19,18 @@ import emojiImg from "../../Images/PostCard/emoji.svg";
 //components
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
 
-const HomePostCard = ({ innerWidth, post, HomeRef }) => {
-  const { user, token } = isAutheticated();
+const HomePostCard = ({
+  innerWidth,
+  postPageWidth = 600,
+  post,
+  HomeRef,
+  updateLikeNComment,
+  userUpdate,
+  userState,
+  fetchUser,
+}) => {
+  const { user } = isAutheticated();
+  const { userDetails } = userState;
   const [likeCount, setLikeCount] = useState([]);
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
@@ -27,26 +38,6 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
   const [updateInfo, setUpdateInfo] = useState({
     saved: post._id,
   });
-  const getCurrentLikes = async (postId) => {
-    await getPost(postId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setLike(data.likes?.includes(user._id));
-        setLikeCount(data.likes);
-      }
-    });
-  };
-
-  const getCurrentUser = async () => {
-    await getUser(token, user._id).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setSave(data.saved?.includes(post._id));
-      }
-    });
-  };
 
   const updateLike = () => {
     if (!like === true) {
@@ -54,47 +45,25 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount([...likeCount, user._id]);
-      updatePostLikeNComment(post._id, user._id, token, formData).then(
-        (data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            getCurrentLikes(post._id);
-          }
-        }
-      );
+      updateLikeNComment(post._id, formData);
     } else {
       setLike(false);
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount(likeCount.filter((l) => l !== user._id));
-      updatePostLikeNComment(post._id, user._id, token, formData).then(
-        (data) => {
-          if (data.error) {
-            console.log(data.error);
-          } else {
-            getCurrentLikes(post._id);
-          }
-        }
-      );
+      updateLikeNComment(post._id, formData);
     }
   };
 
   const updateSave = () => {
     if (!save === true) {
       setSave(true);
-      updateUser(user._id, token, updateInfo).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        }
-      });
+      userUpdate(updateInfo);
+      fetchUser(user._id);
     } else {
       setSave(false);
-      updateUser(user._id, token, updateInfo).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        }
-      });
+      userUpdate(updateInfo);
+      fetchUser(user._id);
     }
   };
 
@@ -103,25 +72,28 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
   };
 
   useEffect(() => {
-    getCurrentLikes(post._id);
-    getCurrentUser();
+    setLike(post.likes?.includes(user._id));
+    setLikeCount(post.likes);
+    setSave(userDetails.saved?.includes(post._id));
   }, []);
 
   return (
-    <>
+    <Fragment>
       <div
         className="post-card-container"
         style={{
           width:
             innerWidth < 1000
-              ? innerWidth < 600
+              ? innerWidth < postPageWidth
                 ? innerWidth
                 : "600px"
               : "614px",
         }}
       >
         <div className="post-card-header">
-          <img src={userImg} alt="user profile" />
+          <Link to={post.postAuthor?.username}>
+            <img src={userImg} alt="user profile" />
+          </Link>
           <div className="post-card-header-innerdiv">
             <Link to={post.postAuthor?.username}>
               {post.postAuthor?.username}
@@ -131,7 +103,6 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
                 setOption(!option);
                 disableBodyScroll(HomeRef.current);
               }}
-              // onClick={setOptionBtn}
             >
               <img
                 style={{ width: "16px", height: "16px" }}
@@ -195,17 +166,41 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
             <span>{post.postAuthor?.username} </span>
             {post.caption}
           </div>
-          <Link
-            to={innerWidth < 736 ? `/p/${post._id}/comments` : `/p/${post._id}`}
-          >
-            View all 230 comments
-          </Link>
-          <div className="post-recent-comment">
-            <span>tamuna_samadashvili </span>
-            Wonderful 🙌
-          </div>
+          {post.comments?.length > 1 && (
+            <Link
+              to={
+                innerWidth < 736 ? `/p/${post._id}/comments` : `/p/${post._id}`
+              }
+            >
+              View all {post.comments?.length} comments
+            </Link>
+          )}
+          {post.comments?.length > 1 && (
+            <div className="post-recent-comment">
+              <Link
+                to={`/${
+                  JSON.parse(post.comments[post.comments?.length - 1])?.username
+                }`}
+                style={{
+                  color: "#262626",
+                  fontWeight: "600",
+                  marginRight: "5px",
+                }}
+              >
+                {JSON.parse(post.comments[post.comments?.length - 1])?.username}
+              </Link>
+              {JSON.parse(post.comments[post.comments?.length - 1])?.text}
+            </div>
+          )}
         </div>
-        <div className="post-card-upload-time">59 MINUTES AGO</div>
+        <div className="post-card-upload-time">
+          {post.createdAt
+            ?.slice(2, 10)
+            ?.split("-")
+            ?.reverse()
+            ?.toString()
+            ?.replaceAll(",", "-")}
+        </div>
         <div className="post-card-add-comment">
           <form onSubmit={handleSubmit}>
             <button className="post-card-add-comment-button">
@@ -225,20 +220,29 @@ const HomePostCard = ({ innerWidth, post, HomeRef }) => {
             </button>
           </form>
         </div>
-        {option ? (
+        {option && (
           <PostOptionModal
-            postObj={post}
+            postDetails={post}
             setCloseModal={() => {
               setOption(!option);
               enableBodyScroll(HomeRef.current);
             }}
           />
-        ) : (
-          <></>
         )}
       </div>
-    </>
+    </Fragment>
   );
 };
 
-export default HomePostCard;
+const mapStateToProps = (state) => ({
+  userState: state.UserReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateLikeNComment: (postId, post) =>
+    dispatch(updateLikeNComment(postId, post)),
+  userUpdate: (user) => dispatch(userUpdate(user)),
+  fetchUser: (userId) => dispatch(fetchUser(userId)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePostCard);
