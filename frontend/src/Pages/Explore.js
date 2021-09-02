@@ -30,8 +30,7 @@ const Explore = ({ fetchAllPost, post }) => {
       window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
-
-  if (isGettingAllPost) {
+  if (allPosts.length === 0) {
     return (
       <div>
         {innerWidth < 735 ? (
