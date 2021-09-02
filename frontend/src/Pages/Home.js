@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { getUser, isAutheticated, getAllUsers } from "../auth/auth";
-import { getAllPosts } from "../helper/apicalls";
-
+import { connect } from "react-redux";
+import { fetchAllPost } from "../actions/postActions";
+import { fetchUser, fetchAllUser } from "../actions/userActions";
+import { isAutheticated } from "../auth/auth";
 //components
 import Header from "../Components/Header";
 import HomeHeader from "../Components/HeaderNav/HomeHeader";
@@ -18,64 +19,23 @@ import { ReactComponent as HomeS } from "../Images/home-select.svg";
 import { ReactComponent as Loading } from "../Images/spinner.svg";
 import userImg from "../Images/profileimg.jpg";
 
-const Home = () => {
-  const { user, token } = isAutheticated();
+const Home = ({
+  fetchAllPost,
+  postState,
+  fetchUser,
+  userState,
+  fetchAllUser,
+}) => {
+  const { user } = isAutheticated();
+  const { allPosts } = postState;
+  const { userDetails, allUsers } = userState;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-  const [currentUser, setCurrentUser] = useState("");
-  const [allUsers, setAllUsers] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
   const HomeRef = useRef("");
 
-  const getCurrentUser = async (token, userId) => {
-    await getUser(token, userId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setCurrentUser(data);
-        // console.log(data);
-      }
-    });
-  };
-
-  const loadAllUsers = async (token, userId) => {
-    await getAllUsers(token, userId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setAllUsers(data);
-        // console.log(data);
-      }
-    });
-  };
-
-  const loadAllPosts = async () => {
-    setLoading(true);
-    await getUser(token, user._id).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setCurrentUser(data);
-        // console.log(data);
-      }
-      getAllPosts(user._id, token).then((data2) => {
-        if (data2.error) {
-          console.log(data2.error);
-        } else {
-          data.followings?.map((user) => {
-            setPosts(data2.filter((data) => data.postAuthor._id === user));
-          });
-        }
-      });
-      setLoading(false);
-    });
-  };
-
   useEffect(() => {
-    getCurrentUser(token, user._id);
-    loadAllUsers(token, user._id);
-    loadAllPosts();
+    fetchAllPost();
+    fetchUser(user._id);
+    fetchAllUser();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -83,7 +43,7 @@ const Home = () => {
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
-  if (loading) {
+  if (allPosts.length === 0) {
     return (
       <div>
         {innerWidth < 735 ? <HomeHeader /> : <Header ImgHome={HomeS} />}
@@ -102,7 +62,7 @@ const Home = () => {
     );
   }
 
-  if (currentUser.followings?.length === 0) {
+  if (userDetails.followings?.length === 0) {
     return (
       <div style={{ width: "100%", overflowX: "hidden" }}>
         <Header ImgHome={HomeS} />
@@ -135,9 +95,11 @@ const Home = () => {
             }}
             className="account-suggestion-container"
           >
-            {allUsers.map((user, i) => {
-              return <UserAccount key={i} user={user} />;
-            })}
+            {allUsers
+              .filter((data) => data._id !== user._id)
+              .map((user, i) => {
+                return <UserAccount key={i} user={user} />;
+              })}
           </div>
         </div>
 
@@ -153,25 +115,38 @@ const Home = () => {
           <div className="home-left">
             <StoryContainer innerWidth={innerWidth} />
             <div>
-              {posts.map((post) => {
-                return (
-                  <HomePostCard
-                    post={post}
-                    innerWidth={innerWidth}
-                    HomeRef={HomeRef}
-                  />
-                );
-              })}
+              {userDetails.followings?.map((user) =>
+                allPosts
+                  .filter((data) => data.postAuthor._id === user)
+                  .map((post, i) => (
+                    <HomePostCard
+                      key={i}
+                      post={post}
+                      innerWidth={innerWidth}
+                      HomeRef={HomeRef}
+                    />
+                  ))
+              )}
             </div>
           </div>
           <HomeRightside />
         </div>
         {/* <Footer /> */}
-
         <NavigaitionBottom ImgHome={HomeS} />
       </div>
     );
   }
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
+  userState: state.UserReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchUser: (userId) => dispatch(fetchUser(userId)),
+  fetchAllUser: () => dispatch(fetchAllUser()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
