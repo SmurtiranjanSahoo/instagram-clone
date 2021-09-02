@@ -16,17 +16,17 @@ import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 import LoadingGif from "../../Images/loading.gif";
 
-const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
+const PostPage = ({ innerWidth, setOptionBtn, postDetails }) => {
   const { user, token } = isAutheticated();
   const [likeCount, setLikeCount] = useState([]);
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({
-    saved: postObj._id,
+    saved: postDetails._id,
   });
 
   useEffect(() => {
-    getCurrentLikes(postObj._id);
+    getCurrentLikes(postDetails._id);
     getCurrentUser();
   }, []);
 
@@ -35,7 +35,7 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        setSave(data.saved?.includes(postObj._id));
+        setSave(data.saved?.includes(postDetails._id));
       }
     });
   };
@@ -57,12 +57,12 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount([...likeCount, user._id]);
-      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+      updatePostLikeNComment(postDetails._id, user._id, token, formData).then(
         (data) => {
           if (data.error) {
             console.log(data.error);
           } else {
-            getCurrentLikes(postObj._id);
+            getCurrentLikes(postDetails._id);
           }
         }
       );
@@ -71,12 +71,12 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       let formData = new FormData();
       formData.set("likes", user._id);
       setLikeCount(likeCount.filter((l) => l !== user._id));
-      updatePostLikeNComment(postObj._id, user._id, token, formData).then(
+      updatePostLikeNComment(postDetails._id, user._id, token, formData).then(
         (data) => {
           if (data.error) {
             console.log(data.error);
           } else {
-            getCurrentLikes(postObj._id);
+            getCurrentLikes(postDetails._id);
           }
         }
       );
@@ -101,7 +101,7 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
     }
   };
 
-  if (!postObj) {
+  if (!postDetails) {
     return (
       <div
         style={{
@@ -131,7 +131,7 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       <div className="post-card-header">
         <img src={userImg} alt="user profile" />
         <div className="post-card-header-innerdiv" style={{ width: "100%" }}>
-          <a href="">{postObj.postAuthor?.username}</a>
+          <a href="">{postDetails.postAuthor?.username}</a>
           <button onClick={setOptionBtn}>
             <img
               style={{ width: "16px", height: "16px" }}
@@ -142,7 +142,7 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
         </div>
       </div>
       <div className="post-card-img">
-        <ImageHelper post={postObj} />
+        <ImageHelper post={postDetails} />
       </div>
       <div className="post-card-icons">
         <div
@@ -190,8 +190,8 @@ const PostPage = ({ innerWidth, setOptionBtn, postObj }) => {
       </div>
       <div className="post-card-comment-sec">
         <div className="post-card-caption">
-          <span>{postObj.postAuthor?.username} </span>
-          {postObj.caption}
+          <span>{postDetails.postAuthor?.username} </span>
+          {postDetails.caption}
         </div>
         <Link to={innerWidth < 736 ? "/p/comments" : "/p/1"}>
           View all 230 comments
