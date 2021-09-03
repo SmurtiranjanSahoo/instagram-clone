@@ -1,10 +1,13 @@
 import React from "react";
-
+import { isAutheticated } from "../../auth/auth";
 //images
 import { ReactComponent as GearImg } from "../../Images/Header/gear.svg";
 import { ReactComponent as PeopleImg } from "../../Images/Header/people.svg";
+import { ReactComponent as BackImg } from "../../Images/Header/back.svg";
 
 const ProfileHeader = ({ innerWidth, username }) => {
+  const { user } = isAutheticated();
+
   return (
     <div className="header-wrapper-m">
       <div
@@ -15,7 +18,17 @@ const ProfileHeader = ({ innerWidth, username }) => {
         }}
       >
         <div style={{ height: "24px" }}>
-          <GearImg />
+          {user.username === username ? (
+            <GearImg />
+          ) : (
+            <div
+              onClick={() => {
+                window.history.back();
+              }}
+            >
+              <BackImg style={{ transform: "rotate(-90deg)" }} />
+            </div>
+          )}
         </div>
         <h1
           style={{
@@ -28,9 +41,13 @@ const ProfileHeader = ({ innerWidth, username }) => {
         >
           {username}
         </h1>
-        <div style={{ height: "24px" }}>
-          <PeopleImg />
-        </div>
+        {user.username === username ? (
+          <div style={{ height: "24px" }}>
+            <PeopleImg />
+          </div>
+        ) : (
+          <span></span>
+        )}
       </div>
     </div>
   );
