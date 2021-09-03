@@ -18,6 +18,7 @@ const INITIAL_USER_STATE = {
   isGettingAllUser: false,
   isUserUpdating: false,
   userDetails: {},
+  userUsernameDetails: {},
   allUsers: [],
   error: "",
 };
@@ -41,7 +42,11 @@ const UserReducer = (state = INITIAL_USER_STATE, action) => {
     case FETCH_USERBYUSERNAME_BEGIN:
       return { ...state, isUserLoading: true };
     case FETCH_USERBYUSERNAME_SUCCESS:
-      return { ...state, isUserLoading: false, userDetails: action.payload };
+      return {
+        ...state,
+        isUserLoading: false,
+        userUsernameDetails: action.payload,
+      };
     case FETCH_USERBYUSERNAME_FAILURE:
       return { ...state, isUserLoading: false, error: action.payload };
 
