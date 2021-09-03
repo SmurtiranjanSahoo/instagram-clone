@@ -11,7 +11,6 @@ import Profile from "./Pages/Profile";
 import PageNotFound from "./Pages/PageNotFound";
 import ProfileIgtv from "./Pages/ProfileIgtv";
 import ProfileSaved from "./Pages/ProfileSaved";
-import ProfileTagged from "./Pages/ProfileTagged";
 import DirectInbox from "./Pages/DirectInbox";
 import Explore from "./Pages/Explore";
 import StoryPlay from "./Pages/StoryPlay";
@@ -21,6 +20,7 @@ import Comments from "./Pages/Comments";
 import ExploreSearch from "./Pages/ExploreSearch";
 import CreatePost from "./Pages/CreatePost";
 import AccountEdit from "./Pages/AccountEdit";
+import ProfileFeed from "./Pages/ProfileFeed";
 
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
@@ -40,9 +40,13 @@ const App = ({ location }) => {
         <PrivateRoute exact path="/" component={Home} />
         <Route exact path="/accounts/login" component={Login} />
         <Route exact path="/accounts/emailsignup" component={Signup} />
-        <PrivateRoute exact path="/profile/channel" component={ProfileIgtv} />
-        <PrivateRoute exact path="/profile/saved" component={ProfileSaved} />
-        <PrivateRoute exact path="/profile/tagged" component={ProfileTagged} />
+        <PrivateRoute
+          exact
+          path="/:profileid/channel"
+          component={ProfileIgtv}
+        />
+        <PrivateRoute exact path="/:profileid/saved" component={ProfileSaved} />
+        <PrivateRoute exact path="/:profileid/feed" component={ProfileFeed} />
         <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
         <PrivateRoute exact path="/explore" component={Explore} />
         <PrivateRoute exact path="/stories" component={StoryPlay} />
