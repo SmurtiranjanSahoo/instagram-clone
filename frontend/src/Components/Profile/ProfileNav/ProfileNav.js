@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { isAutheticated } from "../../../auth/auth";
 //svg
 import postsImg from "../../../Images/posts-grey.svg";
 import igtvImg from "../../../Images/igtv-grey.svg";
@@ -25,6 +26,8 @@ const ProfileNav = ({
   marginTagged,
 }) => {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const { profileid } = useParams();
+  const { user } = isAutheticated();
 
   useEffect(() => {
     const updateWindowDimensions = () => {
@@ -44,7 +47,7 @@ const ProfileNav = ({
       }}
     >
       <Link
-        to="/profile"
+        to={`/${profileid}`}
         style={{
           textDecoration: "none",
           color: textPosts,
@@ -59,7 +62,7 @@ const ProfileNav = ({
         </span>
       </Link>
       <Link
-        to="/profile/channel"
+        to={`/${profileid}/channel`}
         style={{
           textDecoration: "none",
           color: textIgtv,
@@ -78,33 +81,35 @@ const ProfileNav = ({
           <span>IGTV</span>
         </span>
       </Link>
+      {profileid === user.username && (
+        <Link
+          to={`/${profileid}/saved`}
+          style={{
+            textDecoration: "none",
+            color: textSaved,
+            borderTop: borderSaved,
+            marginTop: marginSaved,
+          }}
+          className="profile-nav-sec"
+        >
+          <span>
+            <img
+              className="profile-nav-img"
+              style={{
+                width: "12px",
+                height: "12px",
+                fill: "#8e8e8e",
+                marginRight: "6px",
+              }}
+              src={imgSaved}
+              alt="posts"
+            />
+            <span>SAVED</span>
+          </span>
+        </Link>
+      )}
       <Link
-        to="/profile/saved"
-        style={{
-          textDecoration: "none",
-          color: textSaved,
-          borderTop: borderSaved,
-          marginTop: marginSaved,
-        }}
-        className="profile-nav-sec"
-      >
-        <span>
-          <img
-            className="profile-nav-img"
-            style={{
-              width: "12px",
-              height: "12px",
-              fill: "#8e8e8e",
-              marginRight: "6px",
-            }}
-            src={imgSaved}
-            alt="posts"
-          />
-          <span>SAVED</span>
-        </span>
-      </Link>
-      <Link
-        to="/profile/tagged"
+        to={`/${profileid}/feed`}
         style={{
           textDecoration: "none",
           color: textTagged,

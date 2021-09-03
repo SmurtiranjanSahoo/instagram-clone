@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./ProfileNavM.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { isAutheticated } from "../../../auth/auth";
 //svg
 import { ReactComponent as Posts } from "../../../Images/posts-grey.svg";
 import { ReactComponent as Igtv } from "../../../Images/igtv-grey.svg";
 import { ReactComponent as Saved } from "../../../Images/savedM.svg";
-import { ReactComponent as Tagged } from "../../../Images/tagged-grey.svg";
+import { BsChevronExpand } from "react-icons/bs";
 
 const ProfileNavM = ({
   PostsImg = Posts,
   IgtvImg = Igtv,
   SavedImg = Saved,
-  TaggedImg = Tagged,
   SelectPost,
   SelectIgtv,
   SelectSaved,
@@ -21,6 +20,8 @@ const ProfileNavM = ({
   currentUserId,
 }) => {
   const { user } = isAutheticated();
+  const { profileid } = useParams();
+
   return (
     <div
       className="nav-container"
@@ -29,7 +30,7 @@ const ProfileNavM = ({
       }}
     >
       <Link
-        to="/profile"
+        to={`/${profileid}`}
         style={{
           textDecoration: "none",
           width: 183.75 - (735 - innerWidth) * 0.25,
@@ -39,7 +40,24 @@ const ProfileNavM = ({
         <PostsImg style={{ width: "24px", height: "24px", fill: SelectPost }} />
       </Link>
       <Link
-        to="/profile/channel"
+        to={`/${profileid}/feed`}
+        style={{
+          textDecoration: "none",
+          width: 183.75 - (735 - innerWidth) * 0.25,
+        }}
+        className="nav-sec"
+      >
+        <BsChevronExpand
+          style={{
+            width: "30px",
+            height: "30px",
+            fill: SelectTagged ? SelectTagged : "#8e8e8e",
+          }}
+        />
+      </Link>
+
+      <Link
+        to={`/${profileid}/channel`}
         style={{
           textDecoration: "none",
           width: 183.75 - (735 - innerWidth) * 0.25,
@@ -48,9 +66,10 @@ const ProfileNavM = ({
       >
         <IgtvImg style={{ width: "24px", height: "24px", fill: SelectIgtv }} />
       </Link>
-      {currentUserId === user._id ? (
+
+      {currentUserId === user._id && (
         <Link
-          to="/profile/saved"
+          to={`/${profileid}/saved`}
           style={{
             textDecoration: "none",
             width: 183.75 - (735 - innerWidth) * 0.25,
@@ -61,22 +80,7 @@ const ProfileNavM = ({
             style={{ width: "24px", height: "24px", fill: SelectSaved }}
           />
         </Link>
-      ) : (
-        <></>
       )}
-
-      <Link
-        to="/profile/tagged"
-        style={{
-          textDecoration: "none",
-          width: 183.75 - (735 - innerWidth) * 0.25,
-        }}
-        className="nav-sec"
-      >
-        <TaggedImg
-          style={{ width: "24px", height: "24px", fill: SelectTagged }}
-        />
-      </Link>
     </div>
   );
 };
