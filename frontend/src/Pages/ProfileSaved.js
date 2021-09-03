@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchAllPost } from "../actions/postActions";
 //components
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
@@ -15,10 +17,15 @@ import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 //svg
 import savedImgS from "../Images/saved.svg";
 
-const ProfileSaved = () => {
+const ProfileSaved = ({ fetchAllPost, postState, userState }) => {
+  const { isGettingAllPost, allPosts } = postState;
+  const { userUsernameDetails, userDetails } = userState;
+  const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  var j = 1;
 
   useEffect(() => {
+    fetchAllPost();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -29,7 +36,10 @@ const ProfileSaved = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
-      <ProfileHeader innerWidth={innerWidth} />
+      <ProfileHeader
+        username={userUsernameDetails.username}
+        innerWidth={innerWidth}
+      />
       <div className="profile-wrapper" style={{ overflowY: "hidden" }}>
         <div
           className="profile-container"
@@ -43,14 +53,23 @@ const ProfileSaved = () => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
-          <FollowInfo innerWidth={innerWidth} />
+          <FollowInfo
+            innerWidth={innerWidth}
+            followers={userUsernameDetails.followers?.length}
+            following={userUsernameDetails.followings?.length}
+            posts={userUsernameDetails.posts?.length}
+          />
           <ProfileNav
             imgSaved={savedImgS}
             textSaved="#262626"
             borderSaved="1px solid #000"
             marginSaved="-1px"
           />
-          <ProfileNavM innerWidth={innerWidth} SelectSaved="#0095f6" />
+          <ProfileNavM
+            currentUserId={userUsernameDetails._id}
+            innerWidth={innerWidth}
+            SelectSaved="#0095f6"
+          />
           <div
             className="profile-saved-text"
             style={{
@@ -75,24 +94,62 @@ const ProfileSaved = () => {
                   : "935px",
             }}
           >
-            <ProfilePost />
-            <ProfilePost className={"profile-post-margin"} />
-            <ProfilePost />
-            <ProfilePost />
-            <ProfilePost className={"profile-post-margin"} />
-            <ProfilePost />
-            <ProfilePost />
-            <ProfilePost className={"profile-post-margin"} />
-            <ProfilePost />
-            <ProfilePost />
-            <ProfilePost className={"profile-post-margin"} />
+            {allPosts
+              .filter((data) => userDetails.saved?.includes(data._id))
+              .map((userPost, i) => {
+                if (j === i) {
+                  j = j + 3;
+                  return (
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={{
+                        pathname: `/p/${userPost._id}`,
+                        state: { modal: innerWidth <= 735 ? false : true },
+                      }}
+                      key={i}
+                    >
+                      <ProfilePost
+                        post={userPost}
+                        className={"profile-post-margin"}
+                      />
+                    </Link>
+                  );
+                } else {
+                  return (
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={{
+                        pathname: `/p/${userPost._id}`,
+                        state: { modal: innerWidth <= 735 ? false : true },
+                      }}
+                      key={i}
+                    >
+                      <ProfilePost post={userPost} />
+                    </Link>
+                  );
+                }
+              })}
           </div>
         </div>
       </div>
       <Footer />
       <NavigaitionBottom />
+
+      {showPostModal && <PostModal />}
     </div>
   );
 };
 
-export default ProfileSaved;
+const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
+  userState: state.UserReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProfileSaved));
