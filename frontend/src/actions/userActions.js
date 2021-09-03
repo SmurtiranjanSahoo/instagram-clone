@@ -96,7 +96,7 @@ export const fetchUserByUsername = (username) => {
         if (data.error) {
           dispatch(fetchUserByUsernameFailure(data.error));
         }
-        dispatch(fetchUserByUsernameSuccess(data));
+        dispatch(fetchUserByUsernameSuccess(data[0]));
       })
       .catch((err) => {
         const errMsg = err.message;
