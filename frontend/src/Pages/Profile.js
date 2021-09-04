@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, withRouter, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
-import { isAutheticated } from "../auth/auth";
+import { fetchUserByUsername } from "../actions/userActions";
 //images
 import postsImgS from "../Images/posts.svg";
 import LoadingGif from "../Images/loading.gif";
@@ -19,19 +19,22 @@ import PostModal from "../Components/PostModal/PostModal";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 
-const Profile = ({ fetchAllPost, postState, userState }) => {
-  const { isGettingAllPost, allPosts } = postState;
-  const { userUsernameDetails, userDetails } = userState;
+const Profile = ({
+  fetchAllPost,
+  postState,
+  userState,
+  fetchUserByUsername,
+}) => {
+  const { allPosts } = postState;
+  const { userUsernameDetails } = userState;
   let { profileid } = useParams();
-  const { user, token } = isAutheticated();
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
-
   var j = 1;
 
   useEffect(() => {
     fetchAllPost();
-
+    fetchUserByUsername({ username: profileid });
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -40,8 +43,12 @@ const Profile = ({ fetchAllPost, postState, userState }) => {
       window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
+  useEffect(() => {
+    fetchUserByUsername({ username: profileid });
+    fetchAllPost();
+  }, [profileid]);
 
-  if (allPosts.length === 0 || !userUsernameDetails.username === profileid) {
+  if (allPosts.length === 0 || userUsernameDetails.username !== profileid) {
     return (
       <div
         style={{
@@ -160,6 +167,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchUserByUsername: (id) => dispatch(fetchUserByUsername(id)),
 });
 
 export default connect(
