@@ -38,7 +38,10 @@ const ProfileFeed = ({ fetchAllPost, postState, userState }) => {
   return (
     <div ref={FeedRef} style={{ overflowX: "hidden" }}>
       <Header />
-      <ProfileHeader innerWidth={innerWidth} />
+      <ProfileHeader
+        username={userUsernameDetails.username}
+        innerWidth={innerWidth}
+      />
       <div className="profile-wrapper" style={{ overflowY: "hidden" }}>
         <div
           className="profile-container"
@@ -52,14 +55,23 @@ const ProfileFeed = ({ fetchAllPost, postState, userState }) => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
-          <FollowInfo innerWidth={innerWidth} />
+          <FollowInfo
+            followers={userUsernameDetails.followers?.length}
+            following={userUsernameDetails.followings?.length}
+            posts={userUsernameDetails.posts?.length}
+            innerWidth={innerWidth}
+          />
           <ProfileNav
             imgTagged={taggedImgS}
             textTagged="#262626"
             borderTagged="1px solid #000"
             marginTagged="-1px"
           />
-          <ProfileNavM innerWidth={innerWidth} SelectTagged="#0095f6" />
+          <ProfileNavM
+            currentUserId={userUsernameDetails._id}
+            innerWidth={innerWidth}
+            SelectTagged="#0095f6"
+          />
           {innerWidth < 736 && (
             <div>
               {allPosts

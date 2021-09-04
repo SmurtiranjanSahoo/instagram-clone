@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-
+import { connect } from "react-redux";
+//components
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProfileInfo from "../Components/Profile/ProfileInfo";
 import ProfileHighlight from "../Components/Profile/ProfileHighlight";
 import ProfileNav from "../Components/Profile/ProfileNav/ProfileNav";
 import ProfileNavM from "../Components/Profile/ProfileNav/ProfileNavM";
-import ProfilePost from "../Components/Profile/ProfilePost";
 import FollowInfo from "../Components/Profile/FollowInfo/FollowInfo";
-import PostModal from "../Components/PostModal/PostModal";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 import igtvImgS from "../Images/igtv.svg";
 
-const ProfileIgtv = () => {
+const ProfileIgtv = ({ userState }) => {
+  const { userUsernameDetails } = userState;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -27,7 +27,10 @@ const ProfileIgtv = () => {
   return (
     <div style={{ overflowX: "hidden" }}>
       <Header />
-      <ProfileHeader innerWidth={innerWidth} />
+      <ProfileHeader
+        username={userUsernameDetails.username}
+        innerWidth={innerWidth}
+      />
       <div className="profile-wrapper">
         <div
           className="profile-container"
@@ -41,14 +44,23 @@ const ProfileIgtv = () => {
             <ProfileHighlight text="Me" />
             <ProfileHighlight text="Thoughts" />
           </div>
-          <FollowInfo innerWidth={innerWidth} />
+          <FollowInfo
+            followers={userUsernameDetails.followers?.length}
+            following={userUsernameDetails.followings?.length}
+            posts={userUsernameDetails.posts?.length}
+            innerWidth={innerWidth}
+          />
           <ProfileNav
             imgIgtv={igtvImgS}
             textIgtv="#262626"
             borderIgtv="1px solid #000"
             marginIgtv="-1px"
           />
-          <ProfileNavM innerWidth={innerWidth} SelectIgtv="#0095f6" />
+          <ProfileNavM
+            currentUserId={userUsernameDetails._id}
+            innerWidth={innerWidth}
+            SelectIgtv="#0095f6"
+          />
           <div
             style={{
               width:
@@ -70,4 +82,8 @@ const ProfileIgtv = () => {
   );
 };
 
-export default ProfileIgtv;
+const mapStateToProps = (state) => ({
+  userState: state.UserReducer,
+});
+
+export default connect(mapStateToProps)(ProfileIgtv);
