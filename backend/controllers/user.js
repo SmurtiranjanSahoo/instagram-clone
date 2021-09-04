@@ -70,6 +70,8 @@ exports.updateUser = (req, res) => {
           username: req.body.username
             ? req.body.username
             : req.profile.username,
+          website: req.body.website ? req.body.website : req.profile.website,
+          bio: req.body.bio ? req.body.bio : req.profile.bio,
         },
         $addToSet: {
           saved: req.body.saved ? req.body.saved : req.profile.saved,
