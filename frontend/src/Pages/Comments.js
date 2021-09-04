@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
+import { connect } from "react-redux";
+import { fetchPost } from "../actions/postActions";
 import { getPost } from "../helper/apicalls";
-import { isAutheticated, getUser } from "../auth/auth";
 //components
 import CommentsHeader from "../Components/HeaderNav/CommentsHeader";
 import AddComment from "../Components/GenericComponents/Comments/AddComment/AddComment";
 import Comment from "../Components/GenericComponents/Comments/Comment";
 //image
 import userImg from "../Images/profileimg.jpg";
-const Comments = () => {
-  const { postid } = useParams();
-  const { user, token } = isAutheticated();
+import LoadingGif from "../Images/loading.gif";
 
-  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+const Comments = ({ postState, fetchPost }) => {
+  const { postDetails } = postState;
+  const { postid } = useParams();
   const [comments, setComments] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
-  const [postObj, setPostObj] = useState({});
-  const [profileLink, setProfileLink] = useState("");
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   useEffect(() => {
+    fetchPost(postid);
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -27,22 +26,42 @@ const Comments = () => {
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
-  const getPostdata = async () => {
+  const getComments = async () => {
     await getPost(postid).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
         setComments(data.comments);
-        setPostObj(data);
-        setProfileLink(`/${data.postAuthor?.username}`);
-        // console.log(JSON.parse(data.comments[1]));
       }
     });
   };
-  // console.log(postObj);
+
   useEffect(() => {
-    getPostdata();
+    getComments();
   }, [comments]);
+
+  if (Object.keys(postDetails).length === 0) {
+    return (
+      <div>
+        <CommentsHeader innerWidth={innerWidth} />
+        <div style={{ marginTop: "44px" }}>
+          <AddComment innerWidth={innerWidth} />
+        </div>
+        <div
+          style={{
+            height: "80vh",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img width="50px" height="50px" src={LoadingGif} alt="loading" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <CommentsHeader innerWidth={innerWidth} />
@@ -61,9 +80,14 @@ const Comments = () => {
               padding: "0 16px 16px 0",
             }}
           >
-            <div>
+            <Link
+              style={{
+                textDecoration: "none",
+              }}
+              to={`/${postDetails.postAuthor?.username}`}
+            >
               <img src={userImg} alt="user image" />
-            </div>
+            </Link>
             <div className="user-caption-innerDiv" style={{ width: "100%" }}>
               <Link
                 style={{
@@ -71,11 +95,11 @@ const Comments = () => {
                   color: "#262626",
                   fontWeight: "600",
                 }}
-                to={profileLink}
+                to={`/${postDetails.postAuthor?.username}`}
               >
-                {postObj.postAuthor?.username}{" "}
+                {postDetails.postAuthor?.username}{" "}
               </Link>
-              {postObj.caption}
+              {postDetails.caption}
               <div
                 className="upload-time"
                 style={{
@@ -85,7 +109,7 @@ const Comments = () => {
                   marginTop: "10px",
                 }}
               >
-                {postObj.createdAt
+                {postDetails.createdAt
                   ?.slice(2, 10)
                   ?.split("-")
                   ?.reverse()
@@ -107,4 +131,12 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPost: (id) => dispatch(fetchPost(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);
