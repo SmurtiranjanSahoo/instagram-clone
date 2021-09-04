@@ -56,7 +56,7 @@ const NavigaitionBottom = ({
         <ImgLike />
       </Link>
       <Link
-        to={user.username}
+        to={`/${user.username}`}
         style={{ width: innerWidth / 5 }}
         className="navigation-img header-profile-img"
       >
