@@ -30,7 +30,7 @@
   justify-content: space-between;
 }
 .input input {
-  width: 95%;
+  width: 90%;
   background: none;
   border: none;
   outline: none;
@@ -40,7 +40,8 @@
     Ubuntu;
 }
 .input button {
-  margin-top: 0;
+  width: 10%;
+  margin: 0 0 0 10px;
   display: flex;
   align-items: center;
   justify-content: flex-end;

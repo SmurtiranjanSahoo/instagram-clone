@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "./AddComment.css";
-import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { updateLikeNComment, fetchPost } from "../../../../actions/postActions";
+import { useParams, Link } from "react-router-dom";
 import { isAutheticated } from "../../../../auth/auth";
-import { updatePostLikeNComment } from "../../../../helper/apicalls";
 import profileImg from "../../../../Images/profileimg.jpg";
 
-const AddComment = ({ innerWidth }) => {
+const AddComment = ({ innerWidth, updateLikeNComment }) => {
   const { postid } = useParams();
-  const { user, token } = isAutheticated();
+  const { user } = isAutheticated();
   const [comment, setComment] = useState({
     user: user._id,
     username: user.username,
@@ -19,22 +20,17 @@ const AddComment = ({ innerWidth }) => {
     e.preventDefault();
     if (comment.text) {
       let formData = new FormData();
-      console.log(comment);
       formData.set("comments", JSON.stringify(comment));
-      updatePostLikeNComment(postid, user._id, token, formData).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        }
-        setComment({ ...comment, text: "" });
-      });
+      updateLikeNComment(postid, formData);
+      setComment({ ...comment, text: "" });
     }
   };
 
   return (
     <div className="comment-wrapper">
-      <div className="img">
+      <Link to={`/${user.username}`} className="img">
         <img src={profileImg} alt="profile image" />
-      </div>
+      </Link>
       <form
         onSubmit={addComment}
         style={{
@@ -62,4 +58,12 @@ const AddComment = ({ innerWidth }) => {
   );
 };
 
-export default AddComment;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateLikeNComment: (postId, comment) =>
+    dispatch(updateLikeNComment(postId, comment)),
+  fetchPost: (id) => dispatch(fetchPost(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment);
