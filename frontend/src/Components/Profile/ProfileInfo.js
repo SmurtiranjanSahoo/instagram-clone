@@ -6,7 +6,7 @@ import {
   fetchUserByUsername,
   userUpdate,
 } from "../../actions/userActions";
-import { isAutheticated, updateUser, getUser } from "../../auth/auth";
+import { isAutheticated } from "../../auth/auth";
 //icon
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
@@ -161,9 +161,32 @@ const ProfileInfo = ({
             ? userDetails.name
             : userUsernameDetails.name}
         </h1>
-        <span>Video Creator</span>
-        <div className="profile-bio"></div>
-        <a href="">youtube.com/trtechlesson</a>
+        <span>Artist</span>
+        <div className="profile-bio">
+          {user.username === profileid
+            ? userDetails?.bio
+            : userUsernameDetails?.bio}
+        </div>
+        <a
+          target="_blank"
+          href={
+            user.username === profileid
+              ? userDetails.website
+                ? userDetails.website
+                : "https://youtube.com/trtechlesson"
+              : userUsernameDetails.website
+              ? userUsernameDetails.website
+              : "https://youtube.com/trtechlesson"
+          }
+        >
+          {user.username === profileid
+            ? userDetails.website
+              ? userDetails.website
+              : "https://youtube.com/trtechlesson"
+            : userUsernameDetails.website
+            ? userUsernameDetails.website
+            : "https://youtube.com/trtechlesson"}
+        </a>
       </div>
     </div>
   );
