@@ -18,10 +18,16 @@ const userSchema = new Schema(
       trim: true,
       unique: true,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     bio: {
       type: String,
       trim: true,
       maxlength: 200,
+      default:
+        "Default bio generated for this account by Smurtiranjan Sahoo, the creator of this app.",
     },
     username: {
       type: String,
@@ -38,6 +44,7 @@ const userSchema = new Schema(
     website: {
       type: String,
       trim: true,
+      default: "https://youtube.com/trtechlesson",
     },
     photo: {
       data: Buffer,
