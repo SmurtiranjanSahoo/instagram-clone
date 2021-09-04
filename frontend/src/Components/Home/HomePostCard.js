@@ -91,11 +91,11 @@ const HomePostCard = ({
         }}
       >
         <div className="post-card-header">
-          <Link to={post.postAuthor?.username}>
+          <Link to={`/${post.postAuthor?.username}`}>
             <img src={userImg} alt="user profile" />
           </Link>
           <div className="post-card-header-innerdiv">
-            <Link to={post.postAuthor?.username}>
+            <Link to={`/${post.postAuthor?.username}`}>
               {post.postAuthor?.username}
             </Link>
             <button
