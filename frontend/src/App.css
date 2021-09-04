@@ -469,6 +469,7 @@ hr {
   display: flex;
   margin-bottom: 50px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 .highlight-wrapper::-webkit-scrollbar {
   display: none;
@@ -1141,6 +1142,11 @@ hr {
     width: 568px;
   }
 }
+@media screen and (max-width: 935px) {
+  .account-edit-wrapper {
+    width: 100%;
+  }
+}
 @media screen and (max-width: 735px) {
   body {
     background-color: #ffffff;
@@ -1276,7 +1282,7 @@ hr {
     display: none;
   }
   .profile-name-m {
-    height: 81px;
+    height: fit-content;
     width: 100%;
     display: unset;
     display: flex;
@@ -1299,6 +1305,10 @@ hr {
     line-height: 20px;
     color: #00376b;
     text-decoration: none;
+  }
+  .profile-bio {
+    font-size: 14px;
+    margin: 5px 0;
   }
   /* highlight container */
   .highlight-wrapper {
@@ -1353,8 +1363,61 @@ hr {
     margin: 0;
     margin-left: 20px;
   }
-  .profile-post-likecount {
+  .profile-post-likecount,
+  .accout-editnav {
     display: none;
+  }
+  /* account edit */
+  .account-edit-wrapper {
+    border: none;
+    margin-top: 40px;
+  }
+  .edit-profile-img {
+    width: 94px;
+  }
+  .editname-wrapper,
+  .edit-username-wrapper,
+  .edit-website-wrapper,
+  .edit-bio-wrapper {
+    flex-direction: column;
+  }
+  .editname-wrapper {
+    height: 124px;
+  }
+  .edit-username-wrapper {
+    height: 104px;
+  }
+  .edit-website-wrapper {
+    height: 56px;
+  }
+  .edit-bio-wrapper {
+    height: 78px;
+  }
+  .editname-label,
+  .edit-username-label,
+  .edit-website-label,
+  .edit-bio-label {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    padding: 0;
+    padding-left: 20px;
+  }
+  .editname,
+  .edit-username,
+  .edit-website,
+  .edit-bio {
+    margin-left: 20px;
+  }
+
+  .account-edit form > button {
+    margin: 30px 20px;
+  }
+  .editname input,
+  .edit-username input,
+  .edit-website input,
+  .edit-bio textarea {
+    width: 100%;
   }
 }
 
