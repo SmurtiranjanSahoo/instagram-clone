@@ -4,18 +4,21 @@ import { connect } from "react-redux";
 import { postCreate } from "../actions/postActions";
 //svg
 import { ReactComponent as Spinner } from "../Images/spinner.svg";
+import ProfileImg from "../Images/profileimg.jpg";
 //components
 import CreatePostHeader from "../Components/HeaderNav/CreatePostHeader";
+import UserPhotoHelper from "../helper/UserPhotoHelper";
 
-const CreatePost = ({ history, postCreate, post }) => {
+const CreatePost = ({ history, postCreate, postState, userState }) => {
   const { user } = isAutheticated();
+  const { userDetails } = userState;
+
   const initialState = {
     postAuthor: user._id,
     photo: "",
     caption: "",
     formData: new FormData(),
   };
-
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -44,7 +47,6 @@ const CreatePost = ({ history, postCreate, post }) => {
     e.preventDefault();
     postCreate(formData);
     history.push(`/${user.username}`);
-    // console.log(...formData);
   };
 
   return (
@@ -66,16 +68,14 @@ const CreatePost = ({ history, postCreate, post }) => {
         }}
       >
         <div>
-          <img
-            style={{
-              width: "30px",
-              height: "30px",
-              borderRadius: "50%",
-              marginRight: "5px",
-            }}
-            src="https://avatars.githubusercontent.com/u/43810530?v=4"
-            alt=""
-          />
+          {userDetails?.photo ? (
+            <UserPhotoHelper
+              user={userDetails}
+              className="createpost-user-img"
+            />
+          ) : (
+            <img className="createpost-user-img" src={ProfileImg} alt="" />
+          )}
         </div>
         <div style={{ width: "calc(100% - 83px )" }}>
           <input
@@ -115,7 +115,7 @@ const CreatePost = ({ history, postCreate, post }) => {
           )}
         </div>
       </div>
-      {post.isPostCreating ? (
+      {postState.isPostCreating && (
         <div
           style={{
             width: "100%",
@@ -130,15 +130,14 @@ const CreatePost = ({ history, postCreate, post }) => {
         >
           <Spinner width="50px" height="50px" />
         </div>
-      ) : (
-        <></>
       )}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  post: state.PostReducer,
+  postState: state.PostReducer,
+  userState: state.UserReducer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
