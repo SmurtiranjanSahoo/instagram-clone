@@ -7,6 +7,8 @@ const {
   updateUser,
   getAllUsers,
   getUserbyUsername,
+  updateUserProfilePhoto,
+  photo,
 } = require("../controllers/user");
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 
@@ -22,5 +24,13 @@ router.post(
 router.get("/users/:userId", isSignedIn, isAuthenticated, getAllUsers);
 
 router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
+router.put(
+  "/userphoto/:userId",
+  isSignedIn,
+  isAuthenticated,
+  updateUserProfilePhoto
+);
+
+router.get("/user/photo/:userId", photo);
 
 module.exports = router;

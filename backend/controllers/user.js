@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const formidable = require("formidable");
+const fs = require("fs");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -98,6 +100,42 @@ exports.updateUser = (req, res) => {
   }
 };
 
+exports.updateUserProfilePhoto = (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+
+  form.parse(req, (err, fields, file) => {
+    if (err) {
+      return res.status(400).json({
+        error: "problem with image",
+      });
+    }
+
+    let user = req.profile;
+
+    //handle file here
+    if (file.photo) {
+      if (file.photo.size > 3000000) {
+        return res.status(400).json({
+          error: "File size too big!",
+        });
+      }
+      user.photo.data = fs.readFileSync(file.photo.path);
+      user.photo.contentType = file.photo.type;
+    }
+
+    //save to the DB
+    user.save((err, user) => {
+      if (err) {
+        res.status(400).json({
+          error: "Saving user photo in DB failed",
+        });
+      }
+      res.json(user);
+    });
+  });
+};
+
 exports.getAllUsers = (req, res) => {
   User.find().exec((err, users) => {
     if (err) {
@@ -108,4 +146,13 @@ exports.getAllUsers = (req, res) => {
     }
     res.json(users);
   });
+};
+
+// middleware
+exports.photo = (req, res, next) => {
+  if (req.profile.photo.data) {
+    res.set("Content-Type", req.profile.photo.contentType);
+    return res.send(req.profile.photo.data);
+  }
+  next();
 };
