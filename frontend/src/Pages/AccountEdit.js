@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { userUpdate, fetchUser } from "../actions/userActions";
+import { userUpdate, fetchUser, userPhotoUpdate } from "../actions/userActions";
 import { isAutheticated } from "../auth/auth";
+//images
+import userImg from "../Images/profileimg.jpg";
 //components
 import Header from "../Components/Header";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
-import UserImg from "../Images/profileimg.jpg";
+import UserPhotoHelper from "../helper/UserPhotoHelper";
 
-const AccountEdit = ({ userUpdate, fetchUser, userState }) => {
+const AccountEdit = ({
+  userUpdate,
+  fetchUser,
+  userState,
+  userPhotoUpdate,
+  history,
+}) => {
   const { userDetails } = userState;
   const { user } = isAutheticated();
 
@@ -18,6 +26,10 @@ const AccountEdit = ({ userUpdate, fetchUser, userState }) => {
     bio: "",
   };
 
+  const [photo, setPhoto] = useState({
+    photo: "",
+    formData: new FormData(),
+  });
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -26,6 +38,14 @@ const AccountEdit = ({ userUpdate, fetchUser, userState }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     userUpdate(values);
+    userPhotoUpdate(photo.formData);
+    fetchUser(user._id);
+    history.push(`/${userDetails.username}`);
+  };
+
+  const handleChange = (name) => (event) => {
+    setPhoto({ ...photo, photo: event.target.files[0] });
+    photo.formData.set(name, event.target.files[0]);
   };
 
   useEffect(() => {
@@ -74,11 +94,34 @@ const AccountEdit = ({ userUpdate, fetchUser, userState }) => {
           <form onSubmit={handleSubmit} className="account-edit-form">
             <div className="edit-profile-img-wrapper">
               <div className="edit-profile-img">
-                <img src={UserImg} alt="user img" />
+                {photo.photo ? (
+                  <img
+                    src={URL.createObjectURL(photo.photo)}
+                    alt="user photo"
+                    className="edit-profile-img-img"
+                  />
+                ) : userDetails?.photo ? (
+                  <UserPhotoHelper
+                    className="edit-profile-img-img"
+                    user={userDetails}
+                  />
+                ) : (
+                  <img
+                    src={userImg}
+                    className="edit-profile-img-img"
+                    alt="user photo"
+                  />
+                )}
               </div>
               <div className="edit-img-text">
                 <h1>{userDetails.username}</h1>
-                <p>Change Profile Photo</p>
+                <input
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleChange("photo")}
+                />
+                {/* <p>Change Profile Photo</p> */}
               </div>
             </div>
             <div className="editname-wrapper">
@@ -155,6 +198,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchUser: (id) => dispatch(fetchUser(id)),
   userUpdate: (user) => dispatch(userUpdate(user)),
+  userPhotoUpdate: (user) => dispatch(userPhotoUpdate(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountEdit);
