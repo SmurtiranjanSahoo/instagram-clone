@@ -48,7 +48,7 @@ const Profile = ({
     fetchAllPost();
   }, [profileid]);
 
-  if (allPosts.length === 0 || userUsernameDetails.username !== profileid) {
+  if (allPosts.length === 0 || userUsernameDetails?.username !== profileid) {
     return (
       <div
         style={{

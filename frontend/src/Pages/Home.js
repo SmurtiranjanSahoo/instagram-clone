@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
 import { fetchUser, fetchAllUser } from "../actions/userActions";
@@ -17,7 +16,6 @@ import UserAccount from "../Components/Home/UserAccount";
 //images
 import { ReactComponent as HomeS } from "../Images/home-select.svg";
 import { ReactComponent as Loading } from "../Images/spinner.svg";
-import userImg from "../Images/profileimg.jpg";
 
 const Home = ({
   fetchAllPost,
