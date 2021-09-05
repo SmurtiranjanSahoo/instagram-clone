@@ -11,6 +11,9 @@ import {
   UPDATEUSER_BEGIN,
   UPDATEUSER_SUCCESS,
   UPDATEUSER_FAILURE,
+  UPDATEUSER_PHOTO_BEGIN,
+  UPDATEUSER_PHOTO_SUCCESS,
+  UPDATEUSER_PHOTO_FAILURE,
 } from "../actions/constants/action-types";
 
 const INITIAL_USER_STATE = {
@@ -51,11 +54,18 @@ const UserReducer = (state = INITIAL_USER_STATE, action) => {
       return { ...state, isUserLoading: false, error: action.payload };
 
     case UPDATEUSER_BEGIN:
-      return { ...state, isGettingAllUser: true };
+      return { ...state, isUserUpdating: true };
     case UPDATEUSER_SUCCESS:
-      return { ...state, isGettingAllUser: false };
+      return { ...state, isUserUpdating: false };
     case UPDATEUSER_FAILURE:
-      return { ...state, isGettingAllUser: false, error: action.payload };
+      return { ...state, isUserUpdating: false, error: action.payload };
+
+    case UPDATEUSER_PHOTO_BEGIN:
+      return { ...state, isUserUpdating: true };
+    case UPDATEUSER_PHOTO_SUCCESS:
+      return { ...state, isUserUpdating: false, userDetails: action.payload };
+    case UPDATEUSER_PHOTO_FAILURE:
+      return { ...state, isUserUpdating: false, error: action.payload };
 
     default:
       return state;
