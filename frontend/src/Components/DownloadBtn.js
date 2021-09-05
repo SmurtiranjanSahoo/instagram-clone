@@ -4,7 +4,6 @@ const DownloadBtn = () => {
   return (
     <div
       style={{
-        width: "350px",
         height: "102px",
         margin: "20px 0",
       }}
