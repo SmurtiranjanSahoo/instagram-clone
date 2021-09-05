@@ -1,45 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./PostOptionModal.css";
+import { connect } from "react-redux";
+import { fetchAllPost, postDelete } from "../../../actions/postActions";
 import { isAutheticated } from "../../../auth/auth";
-import { deletePost, getAllPosts } from "../../../helper/apicalls";
 import { useHistory } from "react-router-dom";
 import { enableBodyScroll } from "body-scroll-lock";
 
-const PostOptionModal = ({ setCloseModal, postDetails, postMRef }) => {
-  const [loading, setLoading] = useState(false);
-
-  const { user, token } = isAutheticated();
+const PostOptionModal = ({
+  setCloseModal,
+  postDetails,
+  postMRef,
+  fetchAllPost,
+  postDelete,
+}) => {
+  const { user } = isAutheticated();
   const history = useHistory();
 
-  const loadAllPost = async () => {
-    const { user, token } = isAutheticated();
-
-    await getAllPosts(user._id, token).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        console.log(data);
-      }
-    });
-  };
-
-  const postDelete = (postId) => {
-    setLoading(true);
-    deletePost(postId, user._id, token).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        loadAllPost();
-        setLoading(false);
-      }
-    });
-    history.goBack();
+  const deletePost = (postId) => {
+    postDelete(postId);
     enableBodyScroll(postMRef);
+    setCloseModal();
+    history.goBack();
+    fetchAllPost();
+    console.log("deleted");
   };
-  //Todo bug profile page not refresh after del
-  // useEffect(() => {
-  //   loadAllPost()
-  // }, [])
 
   return (
     <div className="modal-wrapper">
@@ -52,7 +36,7 @@ const PostOptionModal = ({ setCloseModal, postDetails, postMRef }) => {
         {postDetails.postAuthor?._id === user._id ? (
           <button
             onClick={() => {
-              postDelete(postDetails._id);
+              deletePost(postDetails._id);
             }}
           >
             Delete
@@ -76,4 +60,15 @@ const PostOptionModal = ({ setCloseModal, postDetails, postMRef }) => {
   );
 };
 
-export default PostOptionModal;
+const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
+  userState: state.UserReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+  postDelete: (id) => dispatch(postDelete(id)),
+  // fetchUserByUsername: (id) => dispatch(fetchUserByUsername(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostOptionModal);

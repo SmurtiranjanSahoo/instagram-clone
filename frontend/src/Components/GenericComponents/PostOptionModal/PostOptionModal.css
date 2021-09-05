@@ -26,10 +26,9 @@
   animation-play-state: running;
   animation-name: IGCoreModalShow;
 }
+
 .modal button:nth-child(1) {
   border: none;
-}
-.modal button:nth-child(1) {
   color: #ed4956;
   font-weight: 700;
 }
@@ -64,5 +63,8 @@
 @media screen and (max-width: 736px) {
   .modal {
     width: 260px;
+  }
+  .modal button {
+    margin: 0;
   }
 }
