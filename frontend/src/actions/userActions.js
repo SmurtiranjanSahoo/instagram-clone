@@ -11,6 +11,9 @@ import {
   UPDATEUSER_BEGIN,
   UPDATEUSER_SUCCESS,
   UPDATEUSER_FAILURE,
+  UPDATEUSER_PHOTO_BEGIN,
+  UPDATEUSER_PHOTO_SUCCESS,
+  UPDATEUSER_PHOTO_FAILURE,
 } from "../actions/constants/action-types";
 import {
   isAutheticated,
@@ -18,6 +21,7 @@ import {
   getAllUsers,
   getUserByUsername,
   updateUser,
+  updateUserPhoto,
 } from "../auth/auth";
 
 //fetch user
@@ -148,5 +152,39 @@ export const userUpdateSuccess = () => ({
 
 export const userUpdateFailure = (error) => ({
   type: UPDATEUSER_FAILURE,
+  payload: error,
+});
+
+//update user photo
+export const userPhotoUpdate = (userformData) => {
+  return (dispatch) => {
+    dispatch(userPhotoUpdateBegin());
+    const { token, user } = isAutheticated();
+    updateUserPhoto(user._id, token, userformData)
+      .then((data) => {
+        if (data.error) {
+          dispatch(userPhotoUpdateFailure(data.error));
+        }
+        // console.log(data);
+        dispatch(userPhotoUpdateSuccess(data));
+      })
+      .catch((err) => {
+        const errMsg = err.message;
+        dispatch(userPhotoUpdateFailure(errMsg));
+      });
+  };
+};
+
+export const userPhotoUpdateBegin = () => ({
+  type: UPDATEUSER_PHOTO_BEGIN,
+});
+
+export const userPhotoUpdateSuccess = (user) => ({
+  type: UPDATEUSER_PHOTO_SUCCESS,
+  payload: user,
+});
+
+export const userPhotoUpdateFailure = (error) => ({
+  type: UPDATEUSER_PHOTO_FAILURE,
   payload: error,
 });
