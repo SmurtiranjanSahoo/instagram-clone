@@ -62,7 +62,9 @@ body {
 }
 .login-wrapper-main {
   min-height: calc(100% - 110px);
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #fafafa;
@@ -186,6 +188,7 @@ input:not(:focus):valid ~ .floating-label {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  align-items: center;
   border-radius: 2px;
 }
 .signup-text1 {
@@ -395,7 +398,7 @@ hr {
   display: flex;
   justify-content: center;
 }
-.profile-img img {
+.profile-img-img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -1017,7 +1020,7 @@ hr {
   align-items: center;
   justify-content: flex-end;
 }
-.edit-profile-img img {
+.edit-profile-img-img {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -1107,6 +1110,20 @@ hr {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
     Ubuntu;
   margin: 20px 0 0 194px;
+}
+
+.explore-searchresult-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-left: 5px;
+}
+.createpost-user-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 999px) {
@@ -1418,6 +1435,28 @@ hr {
   .edit-website input,
   .edit-bio textarea {
     width: 100%;
+  }
+
+  /* login signup */
+  .signup-signin-wrapper {
+    width: 100%;
+  }
+  .login-card-1,
+  .login-card-2 {
+    width: 100%;
+    background: none;
+    border: none;
+  }
+  .login-form {
+    width: 100%;
+  }
+  .signup-card-1 {
+    width: 100%;
+    border: none;
+    background: none;
+  }
+  .signup-text1 {
+    margin: -15px 0px 10px;
   }
 }
 
