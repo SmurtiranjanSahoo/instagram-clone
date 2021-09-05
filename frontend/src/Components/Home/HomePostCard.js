@@ -18,6 +18,7 @@ import savedImgS from "../../Images/PostCard/savedS.svg";
 import emojiImg from "../../Images/PostCard/emoji.svg";
 //components
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
 
 const HomePostCard = ({
   innerWidth,
@@ -92,7 +93,11 @@ const HomePostCard = ({
       >
         <div className="post-card-header">
           <Link to={`/${post.postAuthor?.username}`}>
-            <img src={userImg} alt="user profile" />
+            {post.postAuthor?.photo ? (
+              <UserPhotoHelper user={post.postAuthor} />
+            ) : (
+              <img src={userImg} alt="user profile" />
+            )}
           </Link>
           <div className="post-card-header-innerdiv">
             <Link to={`/${post.postAuthor?.username}`}>
