@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import UserImg from "../../Images/profileimg.jpg";
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
 
 const SearchResult = ({ userImg = UserImg, user }) => {
   let profileLink = `/${user.username}`;
@@ -17,17 +18,15 @@ const SearchResult = ({ userImg = UserImg, user }) => {
         textDecoration: "none",
       }}
     >
-      <img
-        style={{
-          width: "44px",
-          height: "44px",
-          borderRadius: "50%",
-          marginRight: "15px",
-          marginLeft: "5px",
-        }}
-        src={userImg}
-        alt="user image"
-      />
+      {user?.photo ? (
+        <UserPhotoHelper user={user} className="explore-searchresult-img" />
+      ) : (
+        <img
+          className="explore-searchresult-img"
+          src={userImg}
+          alt="user image"
+        />
+      )}
       <div
         style={{
           display: "flex",
