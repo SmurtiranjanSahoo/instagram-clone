@@ -1,9 +1,14 @@
 import React from "react";
 import "./AddStory.css";
+import { connect } from "react-redux";
+//images
 import ProfileImg from "../../../Images/profileimg.jpg";
 import { ReactComponent as StoryAdd } from "../../../Images/storyAdd.svg";
+//components
+import UserPhotoHelper from "../../../helper/UserPhotoHelper";
 
-const AddStory = ({ img = ProfileImg }) => {
+const AddStory = ({ userState }) => {
+  const { userDetails } = userState;
   return (
     <div className="container">
       <div
@@ -17,7 +22,11 @@ const AddStory = ({ img = ProfileImg }) => {
           alignItems: "center",
         }}
       >
-        <img src={img} alt="" />
+        {userDetails?.photo ? (
+          <UserPhotoHelper user={userDetails} />
+        ) : (
+          <img src={ProfileImg} alt="" />
+        )}
         <div className="icon">
           <StoryAdd />
         </div>
@@ -27,4 +36,8 @@ const AddStory = ({ img = ProfileImg }) => {
   );
 };
 
-export default AddStory;
+const mapStateToProps = (state) => ({
+  userState: state.UserReducer,
+});
+
+export default connect(mapStateToProps)(AddStory);
