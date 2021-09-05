@@ -10,6 +10,8 @@ import { isAutheticated } from "../../auth/auth";
 //icon
 import SettingIcon from "../../Images/settings.svg";
 import ProfileImg from "../../Images/profileimg.jpg";
+//components
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
 
 const ProfileInfo = ({
   innerWidth,
@@ -69,7 +71,20 @@ const ProfileInfo = ({
           }}
           className="profile-img"
         >
-          <img src={ProfileImg} alt="profile image" />
+          {user.username === profileid ? (
+            userDetails?.photo ? (
+              <UserPhotoHelper className="profile-img-img" user={userDetails} />
+            ) : (
+              <img src={ProfileImg} alt="profile image" />
+            )
+          ) : userUsernameDetails?.photo ? (
+            <UserPhotoHelper
+              className="profile-img-img"
+              user={userUsernameDetails}
+            />
+          ) : (
+            <img src={ProfileImg} alt="profile image" />
+          )}
         </div>
         <section
           className="profile-info"
