@@ -12,7 +12,7 @@ import StoryContainer from "../Components/Home/StoryContainer";
 import HomePostCard from "../Components/Home/HomePostCard";
 import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom";
 import PostOptionModal from "../Components/GenericComponents/PostOptionModal/PostOptionModal";
-import UserAccount from "../Components/Home/UserAccount";
+import UserAccount from "../Components/Home/UserAccount/UserAccount";
 //images
 import { ReactComponent as HomeS } from "../Images/home-select.svg";
 import { ReactComponent as Loading } from "../Images/spinner.svg";
