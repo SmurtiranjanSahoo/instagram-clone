@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
+import { fetchAllUser } from "../actions/userActions";
 //images
 import taggedImgS from "../Images/tagged.svg";
 //component
@@ -17,15 +18,16 @@ import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom"
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 import HomePostCard from "../Components/Home/HomePostCard";
 
-const ProfileFeed = ({ fetchAllPost, postState, userState }) => {
+const ProfileFeed = ({ fetchAllPost, postState, userState, fetchAllUser }) => {
   const { allPosts } = postState;
-  const { userUsernameDetails } = userState;
+  const { userUsernameDetails, allUsers } = userState;
 
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const FeedRef = useRef();
   useEffect(() => {
     fetchAllPost();
+    fetchAllUser();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -56,9 +58,17 @@ const ProfileFeed = ({ fetchAllPost, postState, userState }) => {
             <ProfileHighlight text="Thoughts" />
           </div>
           <FollowInfo
-            followers={userUsernameDetails.followers?.length}
+            followers={
+              allUsers.filter((data) =>
+                data.followings?.includes(userUsernameDetails._id)
+              ).length
+            }
             following={userUsernameDetails.followings?.length}
-            posts={userUsernameDetails.posts?.length}
+            posts={
+              allPosts.filter(
+                (data) => data.postAuthor._id === userUsernameDetails._id
+              ).length
+            }
             innerWidth={innerWidth}
           />
           <ProfileNav
@@ -94,7 +104,7 @@ const ProfileFeed = ({ fetchAllPost, postState, userState }) => {
       <NavigaitionBottom />
       <Footer />
 
-      {showPostModal ? <PostModal /> : <></>}
+      {showPostModal && <PostModal />}
     </div>
   );
 };
@@ -106,6 +116,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchAllUser: () => dispatch(fetchAllUser()),
 });
 
 export default connect(

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { fetchAllUser } from "../actions/userActions";
+import { fetchAllPost } from "../actions/postActions";
+import { isAutheticated } from "../auth/auth";
+
 //components
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
@@ -12,11 +16,15 @@ import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom"
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 import igtvImgS from "../Images/igtv.svg";
 
-const ProfileIgtv = ({ userState }) => {
-  const { userUsernameDetails } = userState;
+const ProfileIgtv = ({ userState, fetchAllUser, fetchAllPost, postState }) => {
+  const { userUsernameDetails, allUsers } = userState;
+  const { allPosts } = postState;
+  const { user } = isAutheticated();
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   useEffect(() => {
+    fetchAllUser();
+    fetchAllPost();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -45,9 +53,17 @@ const ProfileIgtv = ({ userState }) => {
             <ProfileHighlight text="Thoughts" />
           </div>
           <FollowInfo
-            followers={userUsernameDetails.followers?.length}
+            followers={
+              allUsers.filter((data) =>
+                data.followings?.includes(userUsernameDetails._id)
+              ).length
+            }
             following={userUsernameDetails.followings?.length}
-            posts={userUsernameDetails.posts?.length}
+            posts={
+              allPosts.filter(
+                (data) => data.postAuthor._id === userUsernameDetails._id
+              ).length
+            }
             innerWidth={innerWidth}
           />
           <ProfileNav
@@ -72,7 +88,8 @@ const ProfileIgtv = ({ userState }) => {
             }}
             className="profile-igtv"
           >
-            <h2>Videos</h2> <button>Upload</button>
+            <h2>Videos</h2>
+            {user._id === userUsernameDetails._id && <button>Upload</button>}
           </div>
         </div>
       </div>
@@ -83,7 +100,13 @@ const ProfileIgtv = ({ userState }) => {
 };
 
 const mapStateToProps = (state) => ({
+  postState: state.PostReducer,
   userState: state.UserReducer,
 });
 
-export default connect(mapStateToProps)(ProfileIgtv);
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchAllUser: () => dispatch(fetchAllUser()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileIgtv);

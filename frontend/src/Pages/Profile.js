@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, withRouter, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
-import { fetchUserByUsername } from "../actions/userActions";
+import { fetchUserByUsername, fetchAllUser } from "../actions/userActions";
 //images
 import postsImgS from "../Images/posts.svg";
 import LoadingGif from "../Images/loading.gif";
@@ -24,9 +24,10 @@ const Profile = ({
   postState,
   userState,
   fetchUserByUsername,
+  fetchAllUser,
 }) => {
   const { allPosts } = postState;
-  const { userUsernameDetails } = userState;
+  const { userUsernameDetails, allUsers } = userState;
   let { profileid } = useParams();
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -34,6 +35,7 @@ const Profile = ({
 
   useEffect(() => {
     fetchAllPost();
+    fetchAllUser();
     fetchUserByUsername({ username: profileid });
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
@@ -86,9 +88,17 @@ const Profile = ({
             <ProfileHighlight text="Thoughts" />
           </div>
           <FollowInfo
-            followers={userUsernameDetails.followers?.length}
+            followers={
+              allUsers.filter((data) =>
+                data.followings?.includes(userUsernameDetails._id)
+              ).length
+            }
             following={userUsernameDetails.followings?.length}
-            posts={userUsernameDetails.posts?.length}
+            posts={
+              allPosts.filter(
+                (data) => data.postAuthor._id === userUsernameDetails._id
+              ).length
+            }
             innerWidth={innerWidth}
           />
           <ProfileNav
@@ -168,6 +178,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchAllPost: () => dispatch(fetchAllPost()),
   fetchUserByUsername: (id) => dispatch(fetchUserByUsername(id)),
+  fetchAllUser: () => dispatch(fetchAllUser()),
 });
 
 export default connect(
