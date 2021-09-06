@@ -184,7 +184,8 @@ const HomePostCard = ({
             <div className="post-recent-comment">
               <Link
                 to={`/${
-                  JSON.parse(post.comments[post.comments?.length - 1])?.username
+                  post.comments[post.comments?.length - 1].commentAuthor
+                    .username
                 }`}
                 style={{
                   color: "#262626",
@@ -192,9 +193,15 @@ const HomePostCard = ({
                   marginRight: "5px",
                 }}
               >
-                {JSON.parse(post.comments[post.comments?.length - 1])?.username}
+                {
+                  post.comments[post.comments?.length - 1].commentAuthor
+                    .username
+                }
               </Link>
-              {JSON.parse(post.comments[post.comments?.length - 1])?.text}
+              {
+                JSON.parse(post.comments[post.comments?.length - 1].comment)
+                  ?.text
+              }
             </div>
           )}
         </div>
