@@ -22,10 +22,20 @@ const postSchema = new Schema(
       type: Array,
       default: [],
     },
-    comments: {
-      type: Array,
-      default: [],
-    },
+    comments: [
+      {
+        commentAuthor: {
+          type: ObjectId,
+          ref: "User",
+          required: true,
+        },
+        comment: {
+          type: String,
+          trim: true,
+          maxlength: 200,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

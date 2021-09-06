@@ -5,7 +5,7 @@ const fs = require("fs");
 
 exports.getPostById = (req, res, next, id) => {
   Post.findById(id)
-    .populate("postAuthor")
+    .populate("postAuthor comments.commentAuthor")
     .exec((err, post) => {
       if (err) {
         return res.status(400).json({
@@ -109,6 +109,7 @@ exports.updatePostLikeNComment = (req, res) => {
   form.keepExtensions = true;
 
   const postLikeOld = req.post;
+
   form.parse(req, (err, fields, file) => {
     if (err) {
       return res.status(400).json({
@@ -116,47 +117,31 @@ exports.updatePostLikeNComment = (req, res) => {
       });
     }
     let postLike = req.post;
-    if (
-      postLikeOld.likes?.includes(fields.likes) ||
-      postLikeOld.comments?.includes(fields.comments)
-    ) {
-      if (fields.comments) {
-        postLike
-          .updateOne({
-            $push: {
-              comments: fields.comments,
-            },
-          })
-          .exec((err, post) => {
-            if (err) {
-              res.status(400).json({
-                error: "Updation of post failed",
-              });
-            }
-            res.json(post);
-          });
-      } else {
-        postLike
-          .updateOne({
-            $pull: {
-              likes: fields.likes,
-            },
-          })
-          .exec((err, post) => {
-            if (err) {
-              res.status(400).json({
-                error: "Updation of post failed",
-              });
-            }
-            res.json(post);
-          });
-      }
+
+    if (postLikeOld.likes?.includes(fields.likes)) {
+      postLike
+        .updateOne({
+          $pull: {
+            likes: fields.likes,
+          },
+        })
+        .exec((err, post) => {
+          if (err) {
+            res.status(400).json({
+              error: "Updation of post failed",
+            });
+          }
+          res.json(post);
+        });
     } else {
       postLike
         .updateOne({
           $addToSet: {
             likes: fields.likes ? fields.likes : postLikeOld.likes,
-            comments: fields.comments ? fields.comments : postLikeOld.comments,
+            comments: {
+              comment: fields.comment,
+              commentAuthor: fields.user,
+            },
           },
         })
         .exec((err, post) => {
@@ -174,7 +159,7 @@ exports.updatePostLikeNComment = (req, res) => {
 exports.getAllPosts = (req, res) => {
   Post.find()
     .select("-photo")
-    .populate("postAuthor")
+    .populate("postAuthor comments.commentAuthor")
     .exec((err, posts) => {
       if (err) {
         console.log(err);
