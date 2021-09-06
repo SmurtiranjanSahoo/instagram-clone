@@ -42,12 +42,7 @@ const PostOptionModal = ({
             Delete
           </button>
         ) : (
-          <>
-            <button>Report</button>
-            <button style={{ color: "#ed4956", fontWeight: "700" }}>
-              Unfollow
-            </button>
-          </>
+          <button>Report</button>
         )}
 
         <button>Go to post</button>
@@ -68,7 +63,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchAllPost: () => dispatch(fetchAllPost()),
   postDelete: (id) => dispatch(postDelete(id)),
-  // fetchUserByUsername: (id) => dispatch(fetchUserByUsername(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostOptionModal);
