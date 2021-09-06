@@ -8,8 +8,9 @@ import FbLogo from "../Images/facebook logo_icon.svg";
 //components
 import DownloadBtn from "../Components/DownloadBtn";
 import Footer from "../Components/Footer";
+import Toast from "../Components/Toast/Toast";
 
-const Signup = () => {
+const Signup = ({ history }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -18,8 +19,9 @@ const Signup = () => {
     error: "",
     success: false,
   });
+  const [toast, setToast] = useState(false);
 
-  const { name, email, username, password, error, success } = values;
+  const { name, email, username, password, error } = values;
 
   const handleChange = (val) => (e) => {
     setValues({ ...values, error: false, [val]: e.target.value });
@@ -31,6 +33,10 @@ const Signup = () => {
     signup({ name, email, username, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
+        setToast(true);
+        setTimeout(() => {
+          setToast(false);
+        }, 3000);
       } else {
         setValues({
           ...values,
@@ -41,6 +47,11 @@ const Signup = () => {
           error: "",
           success: true,
         });
+        setToast(true);
+        setTimeout(() => {
+          setToast(false);
+          history.push("/accounts/login");
+        }, 3000);
       }
     });
   };
@@ -158,6 +169,10 @@ const Signup = () => {
         <DownloadBtn />
       </div>
       <Footer />
+      <Toast
+        message={error ? error : "Account created! Now Login"}
+        Toast={toast}
+      />
     </div>
   );
 };

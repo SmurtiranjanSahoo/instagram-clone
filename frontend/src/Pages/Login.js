@@ -7,29 +7,35 @@ import FbLogo from "../Images/fb-icon.png";
 //componets
 import DownloadBtn from "../Components/DownloadBtn";
 import Footer from "../Components/Footer";
+import Toast from "../Components/Toast/Toast";
 
 const Login = () => {
   const [values, setValues] = useState({
-    email: "test1@gmail.com",
-    password: "test1@gmail.com",
+    email: "",
+    password: "",
     error: "",
     loading: false,
     didRedirect: false,
   });
+  const [toast, setToast] = useState(false);
 
   const { email, password, error, loading, didRedirect } = values;
   const { user } = isAutheticated();
 
   const handleChange = (val) => (event) => {
-    setValues({ ...values, error: false, [val]: event.target.value });
+    setValues({ ...values, [val]: event.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setValues({ ...values, error: false, loading: true });
+    setValues({ ...values, loading: true });
     signin({ email, password }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
+        setToast(true);
+        setTimeout(() => {
+          setToast(false);
+        }, 3000);
       } else {
         authenticate(data, () => {
           setValues({
@@ -127,6 +133,7 @@ const Login = () => {
         <DownloadBtn />
       </div>
       {performRedirect()}
+      <Toast message={error} Toast={toast} />
       <Footer />
     </div>
   );
