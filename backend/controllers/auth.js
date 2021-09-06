@@ -13,7 +13,17 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
   user.save((err, user) => {
     if (err) {
-      // console.log(err);
+      if (err.keyValue) {
+        if (err.keyValue.username) {
+          return res.status(400).json({
+            error: `username ${err.keyValue.username} already exists`,
+          });
+        } else if (err.keyValue.email) {
+          return res
+            .status(400)
+            .json({ error: `${err.keyValue.email} already exists` });
+        }
+      }
       return res.status(400).json({ error: "Not able to save user in DB" });
     }
     res.json({
@@ -34,7 +44,7 @@ exports.signin = (req, res) => {
 
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
-      return res.status(400).json({ error: "User email doesnot exist" });
+      return res.status(400).json({ error: "User email doesn't exist" });
     }
 
     if (!user.authenticate(password)) {
@@ -47,18 +57,7 @@ exports.signin = (req, res) => {
     res.cookie("token", token, { expire: new Date() + 1000 });
 
     //send response to frontend
-    const {
-      _id,
-      name,
-      email,
-      username,
-      posts,
-      saved,
-      tagged,
-      followers,
-      followings,
-      highlights,
-    } = user;
+    const { _id, name, email, username } = user;
     // console.log(user);
     return res.json({
       token,
@@ -67,12 +66,6 @@ exports.signin = (req, res) => {
         name,
         email,
         username,
-        posts,
-        saved,
-        tagged,
-        followers,
-        followings,
-        highlights,
       },
     });
   });
