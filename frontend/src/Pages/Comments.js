@@ -7,18 +7,21 @@ import { getPost } from "../helper/apicalls";
 import CommentsHeader from "../Components/HeaderNav/CommentsHeader";
 import AddComment from "../Components/GenericComponents/Comments/AddComment/AddComment";
 import Comment from "../Components/GenericComponents/Comments/Comment";
+import UserPhotoHelper from "../helper/UserPhotoHelper";
 //image
 import userImg from "../Images/profileimg.jpg";
 import LoadingGif from "../Images/loading.gif";
 
-const Comments = ({ postState, fetchPost }) => {
+const Comments = ({ postState, fetchPost, userState }) => {
   const { postDetails } = postState;
+  const { userDetails } = userState;
   const { postid } = useParams();
   const [comments, setComments] = useState([]);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     fetchPost(postid);
+    getComments();
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -86,7 +89,11 @@ const Comments = ({ postState, fetchPost }) => {
               }}
               to={`/${postDetails.postAuthor?.username}`}
             >
-              <img src={userImg} alt="user image" />
+              {userDetails?.photo ? (
+                <UserPhotoHelper className="img-img" user={userDetails} />
+              ) : (
+                <img src={userImg} alt="user image" />
+              )}
             </Link>
             <div className="user-caption-innerDiv" style={{ width: "100%" }}>
               <Link
@@ -122,7 +129,6 @@ const Comments = ({ postState, fetchPost }) => {
             .slice(0)
             .reverse()
             .map((comment, i) => {
-              comment = JSON.parse(comment);
               return <Comment key={i} comment={comment} />;
             })}
         </div>
@@ -133,6 +139,7 @@ const Comments = ({ postState, fetchPost }) => {
 
 const mapStateToProps = (state) => ({
   postState: state.PostReducer,
+  userState: state.UserReducer,
 });
 
 const mapDispatchToProps = (dispatch) => ({

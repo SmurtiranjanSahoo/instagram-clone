@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import userImg from "../../../Images/profileimg.jpg";
+import UserPhotoHelper from "../../../helper/UserPhotoHelper";
 
 const Comment = ({ comment }) => {
   return (
@@ -19,9 +20,13 @@ const Comment = ({ comment }) => {
           color: "#262626",
           fontWeight: "600",
         }}
-        to={`/${comment.username}`}
+        to={`/${comment.commentAuthor?.username}`}
       >
-        <img src={userImg} alt="user image" />
+        {comment.commentAuthor?.photo ? (
+          <UserPhotoHelper className="img-img" user={comment.commentAuthor} />
+        ) : (
+          <img src={userImg} alt="user image" />
+        )}
       </Link>
       <div className="user-caption-innerDiv" style={{ width: "100%" }}>
         <Link
@@ -30,11 +35,11 @@ const Comment = ({ comment }) => {
             color: "#262626",
             fontWeight: "600",
           }}
-          to={`/${comment.username}`}
+          to={`/${comment.commentAuthor?.username}`}
         >
-          {comment.username}{" "}
+          {comment.commentAuthor?.username}{" "}
         </Link>
-        {comment.text}
+        {JSON.parse(comment.comment).text}
         <div
           className="upload-time"
           style={{
@@ -44,7 +49,7 @@ const Comment = ({ comment }) => {
             marginTop: "10px",
           }}
         >
-          {comment.time}
+          {JSON.parse(comment.comment).time}
         </div>
       </div>
     </div>
