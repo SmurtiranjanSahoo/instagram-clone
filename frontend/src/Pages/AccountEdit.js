@@ -8,6 +8,7 @@ import userImg from "../Images/profileimg.jpg";
 import Header from "../Components/Header";
 import ProfileHeader from "../Components/HeaderNav/ProfileHeader";
 import UserPhotoHelper from "../helper/UserPhotoHelper";
+import Toast from "../Components/Toast/Toast";
 
 const AccountEdit = ({
   userUpdate,
@@ -32,6 +33,7 @@ const AccountEdit = ({
   });
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [toast, setToast] = useState(false);
 
   const { name, username, website, bio } = values;
 
@@ -40,7 +42,11 @@ const AccountEdit = ({
     userUpdate(values);
     userPhotoUpdate(photo.formData);
     fetchUser(user._id);
-    history.push(`/${userDetails.username}`);
+    setToast(true);
+    setTimeout(() => {
+      setToast(false);
+      history.push(`/${userDetails.username}`);
+    }, 3000);
   };
 
   const handleChange = (name) => (event) => {
@@ -76,6 +82,7 @@ const AccountEdit = ({
     <div>
       <Header />
       <ProfileHeader username="Edit Profile" innerWidth={innerWidth} />
+      <Toast message="Profile Saved!" Toast={toast} />
 
       <div className="account-edit-wrapper">
         <div className="accout-editnav">
