@@ -33,7 +33,9 @@ const SearchResult = ({ userImg = UserImg, user }) => {
           flexDirection: "column",
         }}
       >
-        <p style={{ fontSize: "14px", fontWeight: "600" }}>{user.username}</p>
+        <p style={{ fontSize: "14px", fontWeight: "600", color: "#262626" }}>
+          {user.username}
+        </p>
         <p style={{ fontSize: "14px", color: "#8e8e8e" }}>{user.name}</p>
       </div>
     </Link>

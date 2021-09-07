@@ -89,8 +89,11 @@ const Comments = ({ postState, fetchPost, userState }) => {
               }}
               to={`/${postDetails.postAuthor?.username}`}
             >
-              {userDetails?.photo ? (
-                <UserPhotoHelper className="img-img" user={userDetails} />
+              {postDetails.postAuthor?.photo ? (
+                <UserPhotoHelper
+                  className="img-img"
+                  user={postDetails.postAuthor}
+                />
               ) : (
                 <img src={userImg} alt="user image" />
               )}
