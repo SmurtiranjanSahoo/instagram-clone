@@ -11,6 +11,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
+const storyRoutes = require("./routes/story");
 
 //DB Connection
 mongoose
@@ -32,6 +33,8 @@ app.use(cors());
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", postRoutes);
+app.use("/api", storyRoutes);
+
 app.get("/", (req, res) => {
   res.json({
     message: "Its Working",
