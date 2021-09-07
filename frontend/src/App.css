@@ -1125,6 +1125,9 @@ hr {
   border-radius: 50%;
   margin-right: 5px;
 }
+.createstory-wapper {
+  display: none;
+}
 
 @media screen and (max-width: 999px) {
   .home-wrapper {
@@ -1458,6 +1461,59 @@ hr {
   .signup-text1 {
     margin: -15px 0px 10px;
   }
+  /* create story */
+  .createstory-wapper {
+    width: 100%;
+    height: 100vh;
+    background-color: #262626;
+    display: flex;
+    justify-content: center;
+  }
+  .createstory-container {
+    height: 100%;
+    width: 425px;
+    position: relative;
+  }
+  .createstory-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .createstory-top-buttons {
+    width: 100%;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.6) 10%,
+      rgba(0, 0, 0, 0)
+    );
+    position: absolute;
+  }
+  .createstory-bottom-button {
+    background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 10%,
+      rgba(0, 0, 0, 0)
+    );
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .createstory-bottom-button button {
+    color: #ffffff;
+    width: 150px;
+    height: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -1473,6 +1529,11 @@ hr {
   }
   .post-card-container {
     border: none;
+  }
+}
+@media screen and (max-width: 425px) {
+  .createstory-container {
+    width: 100%;
   }
 }
 

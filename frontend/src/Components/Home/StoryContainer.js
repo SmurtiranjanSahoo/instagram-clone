@@ -1,21 +1,90 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, Fragment } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  fetchAllStory,
+  setCreateStoryDetails,
+  clearCreatedStoryDetails,
+  storyDelete,
+} from "../../actions/storyActions";
+import { isAutheticated } from "../../auth/auth";
+//components
 import StoryHome from "./StoryHome";
 import AddStory from "./AddStory/AddStory";
+//image
 import StoryNavImg from "../../Images/story-nav.png";
-import { Link } from "react-router-dom";
+import { ReactComponent as Loading } from "../../Images/spinner.svg";
 
-const StoryContainer = ({ innerWidth }) => {
+const StoryContainer = ({
+  innerWidth,
+  fetchAllStory,
+  storyState,
+  setCreateStoryDetails,
+  clearCreatedStoryDetails,
+  storyDelete,
+}) => {
+  const {
+    allStories,
+    isGettingAllStory,
+    createStoryDetails,
+    createdStoryDetails,
+  } = storyState;
+  const { user } = isAutheticated();
   const [prevBtn, setPrevBtn] = useState("hidden");
   const [nextBtn, setNextBtn] = useState("visible");
-
   const storyWrapper = useRef("");
-  // console.log(storyWrapper.current);
+  const YourStory = () => {
+    for (let i = 0; i < allStories.length; i++) {
+      if (allStories[i].storyAuthor?._id === user._id) {
+        return (
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/stories/${allStories[i]._id}`}
+          >
+            <StoryHome story={allStories[i]} />
+          </Link>
+        );
+      }
+    }
+    return (
+      <label for="image">
+        <input
+          type="file"
+          name="image"
+          id="image"
+          style={{
+            display: "none",
+          }}
+          multiple="false"
+          onChange={(e) => {
+            setCreateStoryDetails({
+              storyAuthor: user._id,
+              photo: e.target.files[0],
+            });
+          }}
+        />
+        <AddStory />
+      </label>
+    );
+  };
 
-  const arr = [2, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 66, 6, 6, 3, 33, 3, 3, 3, 3, 3];
-  var j = 1;
+  if (Object.keys(createdStoryDetails).length !== 0) {
+    setTimeout(() => {
+      storyDelete(createdStoryDetails._id);
+      clearCreatedStoryDetails();
+    }, 86400000);
+  }
+
+  useEffect(() => {
+    fetchAllStory();
+  }, [allStories]);
+
+  if (createStoryDetails.photo) {
+    return <Redirect to="/create/story" />;
+  }
 
   return (
-    <>
+    <Fragment>
       <div
         ref={storyWrapper}
         className="story-wrapper"
@@ -31,25 +100,39 @@ const StoryContainer = ({ innerWidth }) => {
         <div className="story-wrapper-li">
           <li></li>
         </div>
-        <AddStory />
 
-        {arr.map((x, i) => {
-          if (j === i) {
-            j = j + 3;
+        {YourStory()}
+
+        {allStories
+          .filter((story) => story.storyAuthor?._id !== user._id)
+          .map((story, i) => {
             return (
-              <Link style={{ textDecoration: "none" }} to="/stories">
-                <StoryHome username="smurtiranjan_sahoo" />
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/stories/${story._id}`}
+                key={i}
+              >
+                <StoryHome story={story} />
               </Link>
             );
-          } else {
-            return (
-              <Link style={{ textDecoration: "none" }} to="/stories">
-                <StoryHome username="trtechlesson" />
-              </Link>
-            );
-          }
-        })}
+          })}
+        {allStories.length === 0 && (
+          <div
+            style={{
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: "0",
+            }}
+          >
+            <Loading width="50px" height="50px" />
+          </div>
+        )}
       </div>
+
       <div
         style={{ visibility: prevBtn }}
         className="story-wrapper-button-prev"
@@ -57,7 +140,6 @@ const StoryContainer = ({ innerWidth }) => {
         <button
           onClick={() => {
             storyWrapper.current.scrollBy(-400, 0);
-            // console.log(storyWrapper.current.scrollLeft - 400);
             if (storyWrapper.current.scrollLeft - 400 <= 0) {
               setPrevBtn("hidden");
             }
@@ -91,7 +173,6 @@ const StoryContainer = ({ innerWidth }) => {
             let x = 400;
 
             storyWrapper.current.scrollBy(x, 0);
-            // console.log(storyWrapper.current.scrollLeft);
             if (x !== 0) {
               setPrevBtn("visible");
             } else {
@@ -106,11 +187,6 @@ const StoryContainer = ({ innerWidth }) => {
             } else {
               setNextBtn("visible");
             }
-            // console.log(
-            //   storyWrapper.current.scrollWidth -
-            //     storyWrapper.current.clientWidth
-            // );
-            // console.log(storyWrapper.current.scrollLeft + 400);
           }}
           className="story-next"
         >
@@ -124,8 +200,19 @@ const StoryContainer = ({ innerWidth }) => {
           />
         </button>
       </div>
-    </>
+    </Fragment>
   );
 };
 
-export default StoryContainer;
+const mapStateToProps = (state) => ({
+  storyState: state.StoryReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchAllStory: () => dispatch(fetchAllStory()),
+  clearCreatedStoryDetails: () => dispatch(clearCreatedStoryDetails()),
+  setCreateStoryDetails: (story) => dispatch(setCreateStoryDetails(story)),
+  storyDelete: (story) => dispatch(storyDelete(story)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoryContainer);

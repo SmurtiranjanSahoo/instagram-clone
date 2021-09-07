@@ -1,13 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../Components/StoryPlay/StoryPlay.css";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-
+import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
 //components
 import StoryPlayMain from "../Components/StoryPlay/StoryPlayMain";
 // images
 import closeBtn from "../Images/PostModal/closeBtn.svg";
 
-const StoryPlay = ({ history }) => {
+const StoryPlay = ({ history, storyState }) => {
+  const { storyid } = useParams();
+  const { isStoryLoading } = storyState;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
   const handle = useFullScreenHandle();
@@ -19,6 +22,12 @@ const StoryPlay = ({ history }) => {
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
+
+  // if (storyid && !isStoryLoading) {
+  //   setTimeout(() => {
+  //     history.push("/");
+  //   }, 8000);
+  // }
 
   return (
     <FullScreen handle={handle}>
@@ -55,4 +64,7 @@ const StoryPlay = ({ history }) => {
   );
 };
 
-export default StoryPlay;
+const mapStateToProps = (state) => ({
+  storyState: state.StoryReducer,
+});
+export default connect(mapStateToProps)(StoryPlay);

@@ -1,7 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
+
 import ProfileImg from "../../Images/profileimg.jpg";
 
-const StoryHome = ({ username, img = ProfileImg }) => {
+const StoryHome = ({ story, userDetails }) => {
   return (
     <div className="story-container">
       <div className="story-outline">
@@ -16,12 +19,24 @@ const StoryHome = ({ username, img = ProfileImg }) => {
             alignItems: "center",
           }}
         >
-          <img src={img} alt="" />
+          {story.storyAuthor?.photo ? (
+            <UserPhotoHelper user={story.storyAuthor} />
+          ) : (
+            <img src={ProfileImg} alt="user img" />
+          )}
         </div>
       </div>
-      <div className="story-username">{username}</div>
+      <div className="story-username">
+        {story.storyAuthor.username !== userDetails.username
+          ? story.storyAuthor.username
+          : "Your Story"}
+      </div>
     </div>
   );
 };
 
-export default StoryHome;
+const mapStateToProps = (state) => ({
+  userDetails: state.UserReducer.userDetails,
+});
+
+export default connect(mapStateToProps)(StoryHome);

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { useParams, Link } from "react-router-dom";
+import { fetchStory } from "../../actions/storyActions";
 //images
 import optionsImg from "../../Images/StoryPlay/option.svg";
 import muteImg from "../../Images/StoryPlay/mute.svg";
@@ -7,10 +10,38 @@ import playImg from "../../Images/StoryPlay/play.svg";
 import unmuteImg from "../../Images/StoryPlay/soundplay.svg";
 import userImg from "../../Images/profileimg.jpg";
 import { ReactComponent as ShareImg } from "../../Images/share.svg";
+import { ReactComponent as Loading } from "../../Images/spinner.svg";
+import { MdClose } from "react-icons/md";
 
-const StoryPlayMain = ({ innerWidth }) => {
+//components
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
+import StoryPhotoHelper from "../../helper/StoryPhotoHelper";
+
+const StoryPlayMain = ({ innerWidth, fetchStory, storyState }) => {
+  const { storyid } = useParams();
+  const { storyDetails, isStoryLoading } = storyState;
   const [pause, setPause] = useState(false);
   const [unmute, setUnmute] = useState(false);
+
+  useEffect(() => {
+    fetchStory(storyid);
+  }, [storyid]);
+
+  if (Object.keys(storyDetails).length === 0) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Loading width="50px" height="50px" />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -28,8 +59,13 @@ const StoryPlayMain = ({ innerWidth }) => {
         height: innerWidth < 425 ? "100%" : "600px",
       }}
     >
+      <StoryPhotoHelper story={storyDetails} />
       <div className="story-header">
-        <img src={userImg} alt="user profile" />
+        {storyDetails.storyAuthor?.photo ? (
+          <UserPhotoHelper user={storyDetails.storyAuthor} />
+        ) : (
+          <img src={userImg} alt="user profile" />
+        )}
         <div className="story-header-innerdiv">
           <div
             style={{
@@ -38,12 +74,14 @@ const StoryPlayMain = ({ innerWidth }) => {
               alignItems: "center",
             }}
           >
-            <a href="">marvelstudios</a>
-            <time>6h</time>
+            <Link to={`/${storyDetails.storyAuthor?.username}`}>
+              {storyDetails.storyAuthor?.username}
+            </Link>
+            {/* <time>6h</time> */}
           </div>
 
           <div className="story-header-buttons">
-            <button
+            {/* <button
               onClick={() => setPause(!pause)}
               className="story-header-playbutton"
             >
@@ -62,22 +100,23 @@ const StoryPlayMain = ({ innerWidth }) => {
                 src={unmute ? unmuteImg : muteImg}
                 alt="play"
               />
-            </button>
-            <button className="story-header-optionbutton">
-              <img
+            </button> */}
+            <Link to="/" className="story-header-optionbutton">
+              {/* <img
                 style={{ width: "24px", height: "24px" }}
                 src={optionsImg}
                 alt="option"
-              />
-            </button>
+              /> */}
+              <MdClose style={{ width: "30px", height: "30px" }} />
+            </Link>
           </div>
         </div>
       </div>
       <div className="story-reply-sec">
-        <div className="reply-input">
+        {/* <div className="reply-input">
           <input type="text" placeholder="Send Message" />
           <button>Send</button>
-        </div>
+        </div> */}
         <button>
           <ShareImg style={{ fill: "#dbdbdb" }} />
         </button>
@@ -86,4 +125,12 @@ const StoryPlayMain = ({ innerWidth }) => {
   );
 };
 
-export default StoryPlayMain;
+const mapStateToProps = (state) => ({
+  storyState: state.StoryReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchStory: (id) => dispatch(fetchStory(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StoryPlayMain);

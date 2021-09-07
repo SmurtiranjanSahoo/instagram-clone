@@ -21,6 +21,7 @@ import ExploreSearch from "./Pages/ExploreSearch";
 import CreatePost from "./Pages/CreatePost";
 import AccountEdit from "./Pages/AccountEdit";
 import ProfileFeed from "./Pages/ProfileFeed";
+import CreateStory from "./Pages/CreateStory";
 
 const App = ({ location }) => {
   const [previousLocation, setPreviousLocation] = useState(location);
@@ -49,7 +50,8 @@ const App = ({ location }) => {
         <PrivateRoute exact path="/:profileid/feed" component={ProfileFeed} />
         <PrivateRoute exact path="/direct/inbox" component={DirectInbox} />
         <PrivateRoute exact path="/explore" component={Explore} />
-        <PrivateRoute exact path="/stories" component={StoryPlay} />
+        <PrivateRoute exact path="/stories/:storyid" component={StoryPlay} />
+        <PrivateRoute exact path="/create/story" component={CreateStory} />
         <PrivateRoute exact path="/activity" component={Activity} />
         <PrivateRoute exact path="/explore/search" component={ExploreSearch} />
         <PrivateRoute exact path="/create" component={CreatePost} />
