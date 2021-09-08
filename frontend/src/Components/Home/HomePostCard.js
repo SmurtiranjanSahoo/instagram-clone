@@ -184,8 +184,8 @@ const HomePostCard = ({
             <div className="post-recent-comment">
               <Link
                 to={`/${
-                  post.comments[post.comments?.length - 1].commentAuthor
-                    .username
+                  post.comments[post.comments?.length - 1]?.commentAuthor
+                    ?.username
                 }`}
                 style={{
                   color: "#262626",
@@ -195,7 +195,7 @@ const HomePostCard = ({
               >
                 {
                   post.comments[post.comments?.length - 1].commentAuthor
-                    .username
+                    ?.username
                 }
               </Link>
               {
