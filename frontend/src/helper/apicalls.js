@@ -20,7 +20,6 @@ export const createPost = (userId, token, post) => {
 export const getAllPosts = (userId, token) => {
   return fetch(`${API}/posts/${userId}`, {
     method: "GET",
-    mode: "no-cors",
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
