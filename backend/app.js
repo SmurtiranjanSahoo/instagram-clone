@@ -27,15 +27,7 @@ mongoose
 // middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-const corsConfig = {
-  origin: ["https://instagram-tr.vercel.app", "http://localhost:3000"],
-  credential: true,
-  optionsSuccessStatus: 200,
-  allowedHeaders: ["Content-Type"],
-};
-app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
+app.use(cors());
 
 // My Routes
 app.use("/api", authRoutes);
