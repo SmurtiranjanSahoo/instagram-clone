@@ -1,6 +1,7 @@
+import axios from "axios";
 import { API } from "../backend";
 
-//Story
+//post
 export const createPost = (userId, token, post) => {
   return fetch(`${API}/post/create/${userId}`, {
     method: "POST",
@@ -19,9 +20,10 @@ export const createPost = (userId, token, post) => {
 export const getAllPosts = (userId, token) => {
   return fetch(`${API}/posts/${userId}`, {
     method: "GET",
-    mode: "cors",
     headers: {
       Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
   })
     .then((response) => {
@@ -103,7 +105,6 @@ export const createStory = (userId, token, story) => {
 export const getAllStories = (userId, token) => {
   return fetch(`${API}/stories/${userId}`, {
     method: "GET",
-    mode: "cors",
     headers: {
       Authorization: `Bearer ${token}`,
     },
