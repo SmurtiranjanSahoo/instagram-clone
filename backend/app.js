@@ -27,7 +27,14 @@ mongoose
 // middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+
+const corsConfig = {
+  origin: "*",
+  credential: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 
 // My Routes
 app.use("/api", authRoutes);
