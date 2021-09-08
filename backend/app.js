@@ -28,7 +28,7 @@ mongoose
 app.use(bodyParser.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: ["https://instagram-tr.vercel.app", "http://localhost:3000"],
+  origin: "*",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
