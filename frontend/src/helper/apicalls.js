@@ -102,6 +102,7 @@ export const createStory = (userId, token, story) => {
 export const getAllStories = (userId, token) => {
   return fetch(`${API}/stories/${userId}`, {
     method: "GET",
+    mode: "cors",
     headers: {
       Authorization: `Bearer ${token}`,
     },
