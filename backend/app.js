@@ -31,7 +31,7 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: "https://instagram-tr.vercel.app",
+  origin: process.env.ORIGIN,
   credentials: true,
   optionsSucessStatus: 204,
 };
