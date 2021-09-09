@@ -25,22 +25,19 @@ mongoose
   });
 
 // middlewares
-app.use(bodyParser.json());
-app.use(cookieParser());
-
 const allowedOrigins = [
   "http://localhost:3000",
   "https://instagram-tr.vercel.app",
 ];
+
 const corsOptions = {
   origin: "https://instagram-tr.vercel.app",
-  methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSucessStatus: 204,
 };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
+app.use(bodyParser.json());
+app.use(cookieParser());
 // My Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
