@@ -33,13 +33,7 @@ const allowedOrigins = [
   "https://instagram-tr.vercel.app",
 ];
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Origin not allowed by CORS"));
-    }
-  },
+  origin: "https://instagram-tr.vercel.app",
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
