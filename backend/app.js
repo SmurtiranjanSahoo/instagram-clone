@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 // My Routes
 const authRoutes = require("./routes/auth");
@@ -25,19 +26,27 @@ mongoose
   });
 
 // middlewares
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://instagram-tr.vercel.app",
-];
-
 const corsOptions = {
   origin: process.env.ORIGIN,
   credentials: true,
   optionsSucessStatus: 204,
 };
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", process.env.ORIGIN);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 // My Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
