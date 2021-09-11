@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
     "body-scroll-lock": "^4.0.0-beta.0",
+    "browser-image-compression": "^1.0.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-full-screen": "^1.0.2",
