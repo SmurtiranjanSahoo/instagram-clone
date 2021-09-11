@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { connect } from "react-redux";
 import { updateLikeNComment } from "../../actions/postActions";
@@ -32,6 +32,7 @@ const HomePostCard = ({
 }) => {
   const { user } = isAutheticated();
   const { userDetails } = userState;
+  const history = useHistory();
   const [likeCount, setLikeCount] = useState([]);
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
@@ -39,6 +40,31 @@ const HomePostCard = ({
   const [updateInfo, setUpdateInfo] = useState({
     saved: post._id,
   });
+  const [comment, setComment] = useState({
+    user: user._id,
+    comment: {
+      text: "",
+      time: "",
+    },
+  });
+
+  const addComment = (e) => {
+    e.preventDefault();
+    if (comment.comment.text) {
+      let formData = new FormData();
+      formData.set("user", comment.user);
+      formData.set("comment", JSON.stringify(comment.comment));
+      updateLikeNComment(post._id, formData);
+      history.push(`/p/${post._id}`);
+      setComment({
+        ...comment,
+        comment: {
+          text: "",
+          time: "",
+        },
+      });
+    }
+  };
 
   const updateLike = () => {
     if (!like === true) {
@@ -66,10 +92,6 @@ const HomePostCard = ({
       userUpdate(updateInfo);
       fetchUser(user._id);
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
   };
 
   useEffect(() => {
@@ -214,11 +236,26 @@ const HomePostCard = ({
             ?.replaceAll(",", "-")}
         </div>
         <div className="post-card-add-comment">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={addComment}>
             <button className="post-card-add-comment-button">
               <img src={emojiImg} alt="emoji" />
             </button>
-            <input type="text" placeholder="Add a comment..." />
+            <input
+              type="text"
+              placeholder="Add a comment..."
+              value={comment.comment.text}
+              onChange={(e) => {
+                setComment({
+                  ...comment,
+                  comment: {
+                    text: e.target.value,
+                    time:
+                      new Date().toTimeString().slice(0, 5) +
+                      new Date().toDateString().slice(3, 10),
+                  },
+                });
+              }}
+            />
             <button
               style={{
                 color: "#0095f6",
