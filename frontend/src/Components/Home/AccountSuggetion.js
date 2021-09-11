@@ -1,10 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
+import userImg from "../../Images/profileimg.jpg";
 
-const AccountSuggetion = ({
-  userImg,
-  username,
-  suggestionMessage = "New to Instagram",
-}) => {
+const AccountSuggetion = ({ user, suggestionMessage = "New to Instagram" }) => {
   return (
     <div
       style={{
@@ -15,39 +14,46 @@ const AccountSuggetion = ({
         alignItems: "center",
       }}
     >
-      <img
-        style={{
-          width: "32px",
-          height: "32px",
-          borderRadius: "50%",
-          marginRight: "15px",
-          marginLeft: "5px",
-        }}
-        src={userImg}
-        alt="user image"
-      />
-      <div
+      <Link to={`/${user.username}`}>
+        {user?.photo ? (
+          <UserPhotoHelper className="accountsuggestion-img" user={user} />
+        ) : (
+          <img
+            className="accountsuggestion-img"
+            src={userImg}
+            alt="User image"
+          />
+        )}
+      </Link>
+      <Link
+        to={`/${user.username}`}
         style={{
           display: "flex",
           flexDirection: "column",
+          textDecoration: "none",
         }}
       >
-        <p style={{ fontSize: "14px", fontWeight: "600" }}>{username}</p>
+        <p style={{ fontSize: "14px", fontWeight: "600", color: "#262626" }}>
+          {user.username}
+        </p>
         <p style={{ fontSize: "12px", color: "#8e8e8e" }}>
           {suggestionMessage}
         </p>
-      </div>
-      <h5
+      </Link>
+      <Link
+        to={`/${user.username}`}
         style={{
           fontSize: "12px",
           color: "#0095f6",
           marginLeft: "auto",
           marginTop: "auto",
           marginBottom: "auto",
+          textDecoration: "none",
+          fontWeight: "600",
         }}
       >
         Follow
-      </h5>
+      </Link>
     </div>
   );
 };
