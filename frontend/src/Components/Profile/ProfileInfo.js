@@ -5,7 +5,9 @@ import {
   fetchUser,
   fetchUserByUsername,
   userUpdate,
+  fetchAllUser,
 } from "../../actions/userActions";
+import { fetchAllPost } from "../../actions/postActions";
 import { isAutheticated } from "../../auth/auth";
 //icon
 import SettingIcon from "../../Images/settings.svg";
@@ -17,13 +19,17 @@ const ProfileInfo = ({
   innerWidth,
   imgWidth,
   userState,
+  postState,
   fetchUser,
   fetchUserByUsername,
   userUpdate,
+  fetchAllUser,
+  fetchAllPost,
 }) => {
   const { profileid } = useParams();
   const { user } = isAutheticated();
-  const { userDetails, userUsernameDetails } = userState;
+  const { userDetails, userUsernameDetails, allUsers } = userState;
+  const { allPosts } = postState;
 
   const [follow, setFollow] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({
@@ -44,6 +50,8 @@ const ProfileInfo = ({
   useEffect(() => {
     fetchUserByUsername({ username: profileid });
     fetchUser(user._id);
+    fetchAllUser();
+    fetchAllPost();
     setFollow(userDetails.followings?.includes(userUsernameDetails._id));
   }, [profileid, userDetails.followings]);
 
@@ -134,17 +142,21 @@ const ProfileInfo = ({
           <ul className="profile-info-pff">
             <span style={{ marginRight: "40px" }}>
               <span style={{ fontWeight: "600" }}>
-                {user.username === profileid
-                  ? userDetails.posts?.length
-                  : userUsernameDetails.posts?.length}
+                {
+                  allPosts.filter(
+                    (data) => data.postAuthor._id === userUsernameDetails._id
+                  ).length
+                }
               </span>{" "}
               posts
             </span>
             <span style={{ marginRight: "40px" }}>
               <span style={{ fontWeight: "600" }}>
-                {user.username === profileid
-                  ? userDetails.followers?.length
-                  : userUsernameDetails.followers?.length}
+                {
+                  allUsers.filter((data) =>
+                    data.followings?.includes(userUsernameDetails._id)
+                  ).length
+                }
               </span>{" "}
               followers
             </span>
@@ -209,12 +221,15 @@ const ProfileInfo = ({
 
 const mapStateToProps = (state) => ({
   userState: state.UserReducer,
+  postState: state.PostReducer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchUserByUsername: (username) => dispatch(fetchUserByUsername(username)),
   fetchUser: (id) => dispatch(fetchUser(id)),
   userUpdate: (user) => dispatch(userUpdate(user)),
+  fetchAllUser: () => dispatch(fetchAllUser()),
+  fetchAllPost: () => dispatch(fetchAllPost()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfo);
