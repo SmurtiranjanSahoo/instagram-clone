@@ -10,6 +10,7 @@ import ProfileImg from "../Images/profileimg.jpg";
 //components
 import CreatePostHeader from "../Components/HeaderNav/CreatePostHeader";
 import UserPhotoHelper from "../helper/UserPhotoHelper";
+import Toast from "../Components/Toast/Toast";
 
 const CreatePost = ({ history, postCreate, postState, userState }) => {
   const { user } = isAutheticated();
@@ -23,6 +24,7 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
   };
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [toast, setToast] = useState(false);
 
   const { caption, formData, photo } = values;
 
@@ -61,8 +63,15 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    postCreate(formData);
-    history.push(`/${user.username}`);
+    if (photo) {
+      postCreate(formData);
+      history.push(`/${user.username}`);
+    } else {
+      setToast(true);
+      setTimeout(() => {
+        setToast(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -149,6 +158,7 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
           <Spinner width="50px" height="50px" />
         </div>
       )}
+      <Toast message="Select Photo!" Toast={toast} />
     </div>
   );
 };
