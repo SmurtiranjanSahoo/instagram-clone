@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import imageCompression from "browser-image-compression";
+
 import { isAutheticated } from "../auth/auth";
 import { connect } from "react-redux";
 import { postCreate } from "../actions/postActions";
@@ -32,14 +34,28 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
+  function handleImageUpload(event) {
+    var imageFile = event.target.files[0];
+    var options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    imageCompression(imageFile, options)
+      .then(function (compressedFile) {
+        setValues({ ...values, photo: compressedFile });
+        formData.set("photo", compressedFile);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }
+
   const handleChange = (name) => (event) => {
-    const value = name === "photo" ? event.target.files[0] : event.target.value;
-    name === "photo"
-      ? setValues({ ...values, photo: value })
-      : setValues({ ...values, photo: "" });
+    const value = event.target.value;
+    setValues({ ...values, photo: "" });
     formData.set(name, value);
     formData.set("postAuthor", user._id);
-
     setValues({ ...values, [name]: value });
   };
 
@@ -82,7 +98,9 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
             type="file"
             name="photo"
             accept="image/*"
-            onChange={handleChange("photo")}
+            onChange={(e) => {
+              handleImageUpload(e);
+            }}
           />
           <textarea
             className="createPost-input"
