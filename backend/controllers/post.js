@@ -133,15 +133,29 @@ exports.updatePostLikeNComment = (req, res) => {
           }
           res.json(post);
         });
+    } else if (fields.comment) {
+      postLike
+        .updateOne({
+          $push: {
+            comments: {
+              comment: fields.comment,
+              commentAuthor: fields.user,
+            },
+          },
+        })
+        .exec((err, post) => {
+          if (err) {
+            res.status(400).json({
+              error: "Updation of post failed",
+            });
+          }
+          res.json(post);
+        });
     } else {
       postLike
         .updateOne({
           $addToSet: {
             likes: fields.likes ? fields.likes : postLikeOld.likes,
-            comments: {
-              comment: fields.comment,
-              commentAuthor: fields.user,
-            },
           },
         })
         .exec((err, post) => {
