@@ -1,12 +1,13 @@
 import React, { useState, createRef, useEffect } from "react";
 import "./postModal.css";
-import { withRouter, useParams } from "react-router-dom";
+import { withRouter, useParams, Link } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { connect } from "react-redux";
 import { fetchPost, updateLikeNComment } from "../../actions/postActions";
 import { userUpdate, fetchUser } from "../../actions/userActions";
 import ImageHelper from "../../helper/ImageHelper";
 import { isAutheticated } from "../../auth/auth";
+import { getPost } from "../../helper/apicalls";
 //images
 import userImg from "../../Images/profileimg.jpg";
 import optionsImg from "../../Images/PostCard/options.svg";
@@ -26,6 +27,8 @@ import HomePostCard from "../Home/HomePostCard";
 import NavigaitionBottom from "../NavigationBottom/NavigaitionBottom";
 import PostHeader from "../HeaderNav/PostHeader";
 import PostOptionModal from "../GenericComponents/PostOptionModal/PostOptionModal";
+import Comment from "../GenericComponents/Comments/Comment";
+import UserPhotoHelper from "../../helper/UserPhotoHelper";
 
 const PostModal = ({
   history,
@@ -48,9 +51,48 @@ const PostModal = ({
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState([]);
   const [save, setSave] = useState(false);
+  const [comments, setComments] = useState([]);
   const [updateInfo, setUpdateInfo] = useState({
     saved: postid,
   });
+  const [comment, setComment] = useState({
+    user: user._id,
+    comment: {
+      text: "",
+      time: "",
+    },
+  });
+
+  const addComment = (e) => {
+    e.preventDefault();
+    if (comment.comment.text) {
+      let formData = new FormData();
+      formData.set("user", comment.user);
+      formData.set("comment", JSON.stringify(comment.comment));
+      updateLikeNComment(postid, formData);
+      setComment({
+        ...comment,
+        comment: {
+          text: "",
+          time: "",
+        },
+      });
+    }
+  };
+
+  const getComments = async () => {
+    await getPost(postid).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setComments(data.comments);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getComments();
+  }, [comments]);
 
   const updateWindowDimensions = () => {
     setInnerWidth(window.innerWidth);
@@ -187,7 +229,16 @@ const PostModal = ({
           </div>
           <div className="post-info">
             <div className="post-header">
-              <img src={userImg} alt="user profile" />
+              <Link to={`/${postDetails.postAuthor?.username}`} className="img">
+                {postDetails.postAuthor?.photo ? (
+                  <UserPhotoHelper
+                    className="img-img"
+                    user={postDetails.postAuthor}
+                  />
+                ) : (
+                  <img src={userImg} alt="user image" />
+                )}
+              </Link>
               <div className="post-header-innerdiv">
                 <a href="/">{postDetails.postAuthor?.username}</a>
                 <button
@@ -206,14 +257,28 @@ const PostModal = ({
             </div>
             <div className="post-comment-container">
               <div className="user-caption">
-                <div>
-                  <img src={userImg} alt="user image" />
-                </div>
+                <Link
+                  to={`/${postDetails.postAuthor?.username}`}
+                  className="img"
+                >
+                  {postDetails.postAuthor?.photo ? (
+                    <UserPhotoHelper user={postDetails.postAuthor} />
+                  ) : (
+                    <img src={userImg} alt="user image" />
+                  )}
+                </Link>
+
                 <div className="user-caption-innerDiv">
                   <span>{postDetails.postAuthor?.username} </span>
                   {postDetails.caption}
                 </div>
               </div>
+              {comments
+                .slice(0)
+                .reverse()
+                .map((comment, i) => {
+                  return <Comment key={i} comment={comment} />;
+                })}
             </div>
             <div className="keep-in-bottom">
               <div className="post-icons">
@@ -247,13 +312,35 @@ const PostModal = ({
                   <span>{likeCount?.length} </span>likes
                 </span>
               </div>
-              <div className="post-upload-time">59 MINUTES AGO</div>
+              <div className="post-upload-time">
+                {postDetails.createdAt
+                  ?.slice(2, 10)
+                  ?.split("-")
+                  ?.reverse()
+                  ?.toString()
+                  ?.replaceAll(",", "-")}
+              </div>
               <div className="post-add-comment">
-                <form>
+                <form onSubmit={addComment}>
                   <button className="post-add-comment-button">
                     <img src={emojiImg} alt="emoji" />
                   </button>
-                  <input type="text" placeholder="Add a comment..." />
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={comment.comment.text}
+                    onChange={(e) => {
+                      setComment({
+                        ...comment,
+                        comment: {
+                          text: e.target.value,
+                          time:
+                            new Date().toTimeString().slice(0, 5) +
+                            new Date().toDateString().slice(3, 10),
+                        },
+                      });
+                    }}
+                  />
                   <button
                     style={{
                       color: "#0095f6",
@@ -329,9 +416,23 @@ const PostModal = ({
             </div>
             <div className="post-info">
               <div className="post-header">
-                <img src={userImg} alt="user profile" />
+                <Link
+                  to={`/${postDetails.postAuthor?.username}`}
+                  className="img"
+                >
+                  {postDetails.postAuthor?.photo ? (
+                    <UserPhotoHelper
+                      className="img-img"
+                      user={postDetails.postAuthor}
+                    />
+                  ) : (
+                    <img src={userImg} alt="user image" />
+                  )}
+                </Link>
                 <div className="post-header-innerdiv">
-                  <a href="">{postDetails.postAuthor?.username}</a>
+                  <Link to={`/${postDetails.postAuthor?.username}`}>
+                    {postDetails.postAuthor?.username}
+                  </Link>
                   <button
                     onClick={() => {
                       setOption(!option);
@@ -348,14 +449,28 @@ const PostModal = ({
               </div>
               <div className="post-comment-container">
                 <div className="user-caption">
-                  <div>
-                    <img src={userImg} alt="user image" />
-                  </div>
+                  <Link
+                    to={`/${postDetails.postAuthor?.username}`}
+                    className="img"
+                  >
+                    {postDetails.postAuthor?.photo ? (
+                      <UserPhotoHelper user={postDetails.postAuthor} />
+                    ) : (
+                      <img src={userImg} alt="user image" />
+                    )}
+                  </Link>
+
                   <div className="user-caption-innerDiv">
                     <span>{postDetails.postAuthor?.username} </span>
                     {postDetails.caption}
                   </div>
                 </div>
+                {comments
+                  .slice(0)
+                  .reverse()
+                  .map((comment, i) => {
+                    return <Comment key={i} comment={comment} />;
+                  })}
               </div>
               <div className="keep-in-bottom">
                 <div className="post-icons">
@@ -389,13 +504,35 @@ const PostModal = ({
                     <span>{likeCount?.length} </span>likes
                   </span>
                 </div>
-                <div className="post-upload-time">59 MINUTES AGO</div>
+                <div className="post-upload-time">
+                  {postDetails.createdAt
+                    ?.slice(2, 10)
+                    ?.split("-")
+                    ?.reverse()
+                    ?.toString()
+                    ?.replaceAll(",", "-")}
+                </div>
                 <div className="post-add-comment">
-                  <form>
+                  <form onSubmit={addComment}>
                     <button className="post-add-comment-button">
                       <img src={emojiImg} alt="emoji" />
                     </button>
-                    <input type="text" placeholder="Add a comment..." />
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      value={comment.comment.text}
+                      onChange={(e) => {
+                        setComment({
+                          ...comment,
+                          comment: {
+                            text: e.target.value,
+                            time:
+                              new Date().toTimeString().slice(0, 5) +
+                              new Date().toDateString().slice(3, 10),
+                          },
+                        });
+                      }}
+                    />
                     <button
                       style={{
                         color: "#0095f6",

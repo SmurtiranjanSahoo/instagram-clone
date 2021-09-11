@@ -52,6 +52,9 @@
   align-items: center;
   border-bottom: 1px solid #e7e7e7;
 }
+.post-header a {
+  width: 32px;
+}
 .post-header img,
 .user-caption img {
   width: 32px;
@@ -85,8 +88,8 @@
 }
 .post-comment-container {
   width: 100%;
-  height: 300px;
-  padding: 16px 0 16px 16px;
+  height: calc(100% - 224px);
+  padding: 16px 0 0 16px;
   overflow-y: auto;
 }
 .post-comment-container::-webkit-scrollbar {
@@ -98,15 +101,24 @@
   font-size: 14px;
   color: #262626;
   display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.user-caption {
+  margin-bottom: 32px;
 }
 .user-caption span,
 .post-recent-comment span {
   font-weight: 500;
 }
+.user-caption a {
+  width: 32px;
+}
 
 .user-caption-innerDiv {
   margin-left: 14px;
 }
+
 .post-icons {
   width: 100%;
   height: 40px;
@@ -198,6 +210,7 @@
 .keep-in-bottom {
   position: absolute;
   bottom: 0;
+  background-color: #ffffff;
 }
 
 .post-no-modal-wrapper {
