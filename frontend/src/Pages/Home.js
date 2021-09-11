@@ -41,6 +41,10 @@ const Home = ({
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
+  useEffect(() => {
+    fetchAllPost();
+  }, [allPosts]);
+
   if (allPosts.length === 0) {
     return (
       <div>
