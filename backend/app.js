@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const path = require("path");
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
@@ -37,15 +37,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.ORIGIN);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  next();
+// app.use("/", (req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", process.env.ORIGIN);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//   res.header("Access-Control-Allow-Credentials", true);
+//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+//   next();
+// });
+
+// CORS & Preflight request
+app.use((req, res, next) => {
+  console.log(req.path);
+  if (req.path !== "/" && !req.path.includes(".")) {
+    res.set({
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Allow-Origin": process.env.ORIGIN,
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "Access-Control-Allow-Methods": "PUT,POST,GET,DELETE,OPTIONS",
+      "Content-Type": "application/json; charset=utf-8",
+    });
+  }
+  req.method === "OPTIONS" ? res.status(204).end() : next();
 });
 
 // My Routes
