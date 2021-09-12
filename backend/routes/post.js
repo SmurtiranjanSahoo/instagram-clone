@@ -34,6 +34,6 @@ router.put(
 );
 
 //listing all posts
-router.get("/posts/:userId", isSignedIn, isAuthenticated, getAllPosts);
+router.get("/posts", getAllPosts);
 
 module.exports = router;
