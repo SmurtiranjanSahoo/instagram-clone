@@ -12,7 +12,7 @@ Instagram Clone with working features
 8. Grid and List view for posts in profile tab
 9. See all saved Posts in profile tab
 10. Add and Delete Story 
-11. Follow/Unfollow Other Users
+11. Follow/Unfollow other users
 
 ## Tech Used
 1. React JS
