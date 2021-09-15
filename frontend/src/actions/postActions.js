@@ -11,6 +11,7 @@ import {
   DELETE_POST_BEGIN,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILURE,
+  FETCH_TOTALPOST_COUNT,
 } from "../actions/constants/action-types";
 import {
   createPost,
@@ -54,17 +55,18 @@ export const postCreateFailure = (error) => ({
 });
 
 //fetch all posts
-export const fetchAllPost = () => {
+export const fetchAllPost = (pageN) => {
   return (dispatch) => {
     dispatch(fetchAllPostBegin());
     const { user, token } = isAutheticated();
-    getAllPosts(user._id, token)
+    getAllPosts(user._id, token, pageN)
       .then((data) => {
         if (data.error) {
           dispatch(fetchAllPostFailure(data.error));
         }
         // console.log(data);
-        dispatch(fetchAllPostSuccess(data));
+        dispatch(fetchAllPostSuccess(data.posts));
+        dispatch(fetchTotalPostCount(data.totalPostCount));
       })
       .catch((err) => {
         const errMsg = err.message;
@@ -82,6 +84,10 @@ export const fetchAllPostSuccess = (allpost) => ({
   payload: allpost,
 });
 
+export const fetchTotalPostCount = (count) => ({
+  type: FETCH_TOTALPOST_COUNT,
+  payload: count,
+});
 export const fetchAllPostFailure = (error) => ({
   type: FETCH_ALLPOST_FAILURE,
   payload: error,

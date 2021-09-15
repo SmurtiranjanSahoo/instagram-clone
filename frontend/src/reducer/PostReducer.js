@@ -14,6 +14,7 @@ import {
   UPDATE_LIKECOMMENT_POST_BEGIN,
   UPDATE_LIKECOMMENT_POST_SUCCESS,
   UPDATE_LIKECOMMENT_POST_FAILURE,
+  FETCH_TOTALPOST_COUNT,
 } from "../actions/constants/action-types";
 
 const INITIAL_POST_STATE = {
@@ -24,6 +25,7 @@ const INITIAL_POST_STATE = {
   isPostUpdating: false,
   postDetails: {},
   allPosts: [],
+  totalPost: "",
   error: "",
 };
 
@@ -39,9 +41,15 @@ const PostReducer = (state = INITIAL_POST_STATE, action) => {
     case FETCH_ALLPOST_BEGIN:
       return { ...state, isGettingAllPost: true };
     case FETCH_ALLPOST_SUCCESS:
-      return { ...state, isGettingAllPost: false, allPosts: action.payload };
+      return {
+        ...state,
+        isGettingAllPost: false,
+        allPosts: [...state.allPosts, ...action.payload],
+      };
     case FETCH_ALLPOST_FAILURE:
       return { ...state, isGettingAllPost: false, error: action.payload };
+    case FETCH_TOTALPOST_COUNT:
+      return { ...state, totalPost: action.payload };
 
     case FETCH_POST_BEGIN:
       return { ...state, isPostLoading: true, postDetails: {} };
