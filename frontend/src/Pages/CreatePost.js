@@ -25,6 +25,7 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
   const [values, setValues] = useState(initialState);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [toast, setToast] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const { caption, formData, photo } = values;
 
@@ -64,9 +65,18 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (photo) {
+      if (caption.length > 200) {
+        setMessage("Caption length shouldn't excceed 200 char");
+        setToast(true);
+        setTimeout(() => {
+          setToast(false);
+        }, 3000);
+        return;
+      }
       postCreate(formData);
       history.push(`/${user.username}`);
     } else {
+      setMessage("Select Photo!");
       setToast(true);
       setTimeout(() => {
         setToast(false);
@@ -158,7 +168,7 @@ const CreatePost = ({ history, postCreate, postState, userState }) => {
           <Spinner width="50px" height="50px" />
         </div>
       )}
-      <Toast message="Select Photo!" Toast={toast} />
+      <Toast message={message} Toast={toast} />
     </div>
   );
 };
