@@ -17,8 +17,8 @@ export const createPost = (userId, token, post) => {
     .catch((err) => console.log(err));
 };
 
-export const getAllPosts = (userId, token) => {
-  return fetch(`${API}/posts/${userId}`, {
+export const getAllPosts = (userId, token, pageN) => {
+  return fetch(`${API}/posts/${userId}?page=${pageN}&limit=3`, {
     method: "GET",
     headers: {
       Accept: "application/json",
