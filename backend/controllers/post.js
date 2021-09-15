@@ -170,8 +170,15 @@ exports.updatePostLikeNComment = (req, res) => {
   });
 };
 
-exports.getAllPosts = (req, res) => {
+exports.getAllPosts = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  const skipIndex = (page - 1) * limit;
+  const totalPostCount = await Post.countDocuments({}).exec();
+
   Post.find()
+    .limit(limit)
+    .skip(skipIndex)
     .select("-photo")
     .populate("postAuthor comments.commentAuthor")
     .exec((err, posts) => {
@@ -181,7 +188,7 @@ exports.getAllPosts = (req, res) => {
           error: "NO post FOUND",
         });
       }
-      res.json(posts);
+      res.json({ posts, totalPostCount });
     });
 };
 
