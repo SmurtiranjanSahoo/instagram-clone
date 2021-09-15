@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
@@ -12,16 +12,31 @@ import NavigaitionBottom from "../Components/NavigationBottom/NavigaitionBottom"
 //images
 import { ReactComponent as ExploreS } from "../Images/explore-select.svg";
 import { ReactComponent as SearchS } from "../Images/Header/searchS.svg";
+import { ReactComponent as Loading } from "../Images/spinner.svg";
 import LoadingGif from "../Images/loading.gif";
 
 const Explore = ({ fetchAllPost, post }) => {
-  const { isGettingAllPost, allPosts } = post;
+  const { isGettingAllPost, allPosts, totalPost } = post;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [pageNum, setPageNum] = useState(1);
+  const observer = useRef();
   var j = 1;
 
-  useEffect(() => {
-    fetchAllPost();
+  const lastElementRef = useCallback(
+    (node) => {
+      if (isGettingAllPost) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNum((prevPageNum) => prevPageNum + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isGettingAllPost]
+  );
 
+  useEffect(() => {
     const updateWindowDimensions = () => {
       setInnerWidth(window.innerWidth);
     };
@@ -30,6 +45,13 @@ const Explore = ({ fetchAllPost, post }) => {
       window.removeEventListener("resize", updateWindowDimensions);
     };
   }, []);
+
+  useEffect(() => {
+    if (totalPost > allPosts.length || totalPost == 0) {
+      fetchAllPost(pageNum);
+    }
+  }, [pageNum]);
+
   if (allPosts.length === 0) {
     return (
       <div>
@@ -67,19 +89,20 @@ const Explore = ({ fetchAllPost, post }) => {
           if (j === i) {
             j = j + 3;
             return (
-              <Link key={i} to={"/p/" + post._id}>
+              <Link ref={lastElementRef} key={i} to={"/p/" + post._id}>
                 <ProfilePost post={post} className={"profile-post-margin"} />
               </Link>
             );
           } else {
             return (
-              <Link key={i} to={"/p/" + post._id}>
+              <Link ref={lastElementRef} key={i} to={"/p/" + post._id}>
                 <ProfilePost post={post} />
               </Link>
             );
           }
         })}
       </div>
+      {isGettingAllPost && <Loading width="50px" height="50px" />}
       <Footer />
       <NavigaitionBottom ImgSearch={SearchS} />
     </div>
@@ -91,7 +114,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchAllPost: (pageN) => dispatch(fetchAllPost(pageN)),
 });
 
 export default connect(
