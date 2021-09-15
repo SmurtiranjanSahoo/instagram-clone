@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
 import { fetchUser, fetchAllUser } from "../actions/userActions";
@@ -25,13 +25,28 @@ const Home = ({
   fetchAllUser,
 }) => {
   const { user } = isAutheticated();
-  const { allPosts } = postState;
+  const { allPosts, isGettingAllPost, totalPost } = postState;
   const { userDetails, allUsers } = userState;
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [pageNum, setPageNum] = useState(1);
   const HomeRef = useRef("");
+  const observer = useRef();
+
+  const lastElementRef = useCallback(
+    (node) => {
+      if (isGettingAllPost) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNum((prevPageNum) => prevPageNum + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isGettingAllPost]
+  );
 
   useEffect(() => {
-    fetchAllPost();
     fetchUser(user._id);
     fetchAllUser();
     const updateWindowDimensions = () => {
@@ -42,8 +57,12 @@ const Home = ({
   }, []);
 
   useEffect(() => {
-    fetchAllPost();
-  }, [allPosts]);
+    if (totalPost > allPosts.length || totalPost == 0) {
+      fetchAllPost(pageNum);
+    }
+  }, [pageNum]);
+
+  // console.log(allPosts);
 
   if (allPosts.length === 0) {
     return (
@@ -121,14 +140,16 @@ const Home = ({
                 allPosts
                   .filter((data) => data.postAuthor._id === user)
                   .map((post, i) => (
-                    <HomePostCard
-                      key={i}
-                      post={post}
-                      innerWidth={innerWidth}
-                      HomeRef={HomeRef}
-                    />
+                    <div key={i} ref={lastElementRef}>
+                      <HomePostCard
+                        post={post}
+                        innerWidth={innerWidth}
+                        HomeRef={HomeRef}
+                      />
+                    </div>
                   ))
               )}
+              {isGettingAllPost && <Loading width="50px" height="50px" />}
             </div>
           </div>
           <HomeRightside />
@@ -146,7 +167,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchAllPost: (pageN) => dispatch(fetchAllPost(pageN)),
   fetchUser: (userId) => dispatch(fetchUser(userId)),
   fetchAllUser: () => dispatch(fetchAllUser()),
 });
