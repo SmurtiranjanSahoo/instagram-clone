@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, withRouter, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllPost } from "../actions/postActions";
@@ -6,6 +6,7 @@ import { fetchUserByUsername, fetchAllUser } from "../actions/userActions";
 //images
 import postsImgS from "../Images/posts.svg";
 import LoadingGif from "../Images/loading.gif";
+import { ReactComponent as Loading } from "../Images/spinner.svg";
 //component
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
@@ -26,15 +27,30 @@ const Profile = ({
   fetchUserByUsername,
   fetchAllUser,
 }) => {
-  const { allPosts } = postState;
+  const { allPosts, isGettingAllPost, totalPost } = postState;
   const { userUsernameDetails, allUsers } = userState;
   let { profileid } = useParams();
   const [showPostModal, setShowPostModal] = useState(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [pageNum, setPageNum] = useState(1);
+  const observer = useRef();
   var j = 1;
 
+  const lastElementRef = useCallback(
+    (node) => {
+      if (isGettingAllPost) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNum((prevPageNum) => prevPageNum + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isGettingAllPost]
+  );
+
   useEffect(() => {
-    fetchAllPost();
     fetchAllUser();
     fetchUserByUsername({ username: profileid });
     const updateWindowDimensions = () => {
@@ -47,8 +63,14 @@ const Profile = ({
   }, []);
   useEffect(() => {
     fetchUserByUsername({ username: profileid });
-    fetchAllPost();
   }, [profileid]);
+
+  useEffect(() => {
+    if (totalPost > allPosts.length || totalPost == 0) {
+      console.log(totalPost);
+      fetchAllPost(pageNum);
+    }
+  }, [pageNum]);
 
   if (allPosts.length === 0 || userUsernameDetails?.username !== profileid) {
     return (
@@ -130,6 +152,7 @@ const Profile = ({
                   j = j + 3;
                   return (
                     <Link
+                      ref={lastElementRef}
                       style={{ textDecoration: "none" }}
                       to={{
                         pathname: `/p/${userPost._id}`,
@@ -146,6 +169,7 @@ const Profile = ({
                 } else {
                   return (
                     <Link
+                      ref={lastElementRef}
                       style={{ textDecoration: "none" }}
                       to={{
                         pathname: `/p/${userPost._id}`,
@@ -159,6 +183,7 @@ const Profile = ({
                 }
               })}
           </div>
+          {isGettingAllPost && <Loading width="50px" height="50px" />}
         </div>
       </div>
 
@@ -176,7 +201,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAllPost: () => dispatch(fetchAllPost()),
+  fetchAllPost: (pageNum) => dispatch(fetchAllPost(pageNum)),
   fetchUserByUsername: (id) => dispatch(fetchUserByUsername(id)),
   fetchAllUser: () => dispatch(fetchAllUser()),
 });

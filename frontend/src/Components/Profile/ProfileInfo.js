@@ -7,7 +7,6 @@ import {
   userUpdate,
   fetchAllUser,
 } from "../../actions/userActions";
-import { fetchAllPost } from "../../actions/postActions";
 import { isAutheticated } from "../../auth/auth";
 //icon
 import SettingIcon from "../../Images/settings.svg";
@@ -24,7 +23,6 @@ const ProfileInfo = ({
   fetchUserByUsername,
   userUpdate,
   fetchAllUser,
-  fetchAllPost,
 }) => {
   const { profileid } = useParams();
   const { user } = isAutheticated();
@@ -51,7 +49,6 @@ const ProfileInfo = ({
     fetchUserByUsername({ username: profileid });
     fetchUser(user._id);
     fetchAllUser();
-    fetchAllPost();
     setFollow(userDetails.followings?.includes(userUsernameDetails._id));
   }, [profileid, userDetails.followings]);
 
@@ -229,7 +226,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUser: (id) => dispatch(fetchUser(id)),
   userUpdate: (user) => dispatch(userUpdate(user)),
   fetchAllUser: () => dispatch(fetchAllUser()),
-  fetchAllPost: () => dispatch(fetchAllPost()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileInfo);
