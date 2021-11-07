@@ -1,7 +1,7 @@
 # instagram-clone
 Instagram Clone with working features
 
-# Demo credentials :
+## Demo credentials :
 Email : test2@gmail.com <br/>
 Pwd : test2@gmail.com
 
