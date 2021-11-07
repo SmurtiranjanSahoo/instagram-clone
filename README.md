@@ -2,7 +2,7 @@
 Instagram Clone with working features
 
 # Demo credentials :
-Email : test2@gmail.com
+Email : test2@gmail.com <br/>
 Pwd : test2@gmail.com
 
 ## Features :
