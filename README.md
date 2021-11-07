@@ -1,6 +1,10 @@
 # instagram-clone
 Instagram Clone with working features
 
+# Demo credentials :
+Email : test2@gmail.com
+Pwd : test2@gmail.com
+
 ## Features :
 1. Login and Signup - Used Jwt for authentication and Express Validator for validation
 2. Create and Delete Post - Used Formidable for post creation
